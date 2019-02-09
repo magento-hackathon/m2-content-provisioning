@@ -13,11 +13,17 @@ interface ContentEntryInterface
     const CONTENT = 'content';
     const STORES = 'stores';
     const IS_MAINTAINED = 'is_maintained';
+    const KEY = 'key';
 
     /**
      * @return string
      */
     public function getType(): string;
+
+    /**
+     * @return string
+     */
+    public function getKey(): string;
 
     /**
      * @return string
@@ -43,6 +49,11 @@ interface ContentEntryInterface
      * @param string $type
      */
     public function setType(string $type): void;
+
+    /**
+     * @param string $key
+     */
+    public function setKey(string $key): void;
 
     /**
      * @param string $identifier

@@ -68,7 +68,9 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $identifier = $this->getAttributeValue($node, 'identifier');
             try {
                 $stores = $this->extractStores($node);
-                $output[$this->buildKey($identifier, $stores, $nodeKey)] = [
+                $key = $this->buildKey($identifier, $stores, $nodeKey);
+                $output[$key] = [
+                    ContentEntryInterface::KEY => $key,
                     ContentEntryInterface::IDENTIFIER => $identifier,
                     ContentEntryInterface::TYPE => $nodeKey,
                     ContentEntryInterface::IS_MAINTAINED =>

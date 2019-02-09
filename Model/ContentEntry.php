@@ -19,6 +19,14 @@ class ContentEntry extends DataObject implements ContentEntryInterface
     /**
      * @return string
      */
+    public function getKey(): string
+    {
+        return (string)$this->getData(ContentEntryInterface::KEY);
+    }
+
+    /**
+     * @return string
+     */
     public function getIdentifier(): string
     {
         return (string)$this->getData(ContentEntryInterface::IDENTIFIER);
@@ -54,6 +62,14 @@ class ContentEntry extends DataObject implements ContentEntryInterface
     public function setType(string $type): void
     {
         $this->setData(ContentEntryInterface::TYPE, $type);
+    }
+
+    /**
+     * @param string $key
+     */
+    public function setKey(string $key): void
+    {
+        $this->setData(ContentEntryInterface::KEY, $key);
     }
 
     /**

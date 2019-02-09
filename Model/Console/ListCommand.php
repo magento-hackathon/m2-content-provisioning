@@ -34,10 +34,11 @@ class ListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $table = new Table($output);
-        $table->setHeaders(['Type', 'Identifier', 'Stores', 'Maintained', 'Content (Teaser)']);
+        $table->setHeaders(['Key', 'Type', 'Identifier', 'Stores', 'Maintained', 'Content (Teaser)']);
 
         foreach ($this->getAllContentEntries->get() as $entry) {
             $table->addRow([
+                $entry->getKey(),
                 $entry->getType(),
                 $entry->getIdentifier(),
                 implode(', ', $entry->getStores()),
