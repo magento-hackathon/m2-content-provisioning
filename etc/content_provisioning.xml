@@ -12,7 +12,7 @@
         </stores>
         <content><![CDATA[this is some sample content...]]></content>
     </page>
-    <block identifier="test" maintained="false">
+    <block identifier="test">
         <stores>
             <store code="*" />
         </stores>
