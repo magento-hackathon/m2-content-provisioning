@@ -31,11 +31,20 @@
         </arguments>
     </type>
 
-    <type name="Firegento\ContentProvisioning\Model\ContentResolverProvider">
+    <type name="Firegento\ContentProvisioning\Model\Resolver\ContentResolverProvider">
         <arguments>
             <argument name="contentResolvers" xsi:type="array">
                 <item name="plain" xsi:type="object">Firegento\ContentProvisioning\Model\Resolver\PlainContentResolver</item>
                 <item name="file" xsi:type="object">Firegento\ContentProvisioning\Model\Resolver\FileContentResolver</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Firegento\ContentProvisioning\Model\Installer\ContentEntryInstallerProvider">
+        <arguments>
+            <argument name="installer" xsi:type="array">
+                <item name="block" xsi:type="object">Firegento\ContentProvisioning\Model\Installer\BlockContentEntryInstaller</item>
+                <item name="page" xsi:type="object">Firegento\ContentProvisioning\Model\Installer\PageContentEntryInstaller</item>
             </argument>
         </arguments>
     </type>

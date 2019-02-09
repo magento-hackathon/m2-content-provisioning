@@ -8,7 +8,7 @@ use DOMElement;
 use DOMNode;
 use Firegento\ContentProvisioning\Api\Data\ContentEntryInterface;
 use Firegento\ContentProvisioning\Api\StoreCodeResolverInterface;
-use Firegento\ContentProvisioning\Model\ContentResolverProvider;
+use Firegento\ContentProvisioning\Model\Resolver\ContentResolverProvider;
 use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
 

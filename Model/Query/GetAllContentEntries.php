@@ -37,15 +37,24 @@ class GetAllContentEntries
     }
 
     /**
+     * Prepare items array by transforming all configured entries into content entry data models
+     */
+    private function prepare(): void
+    {
+        if (empty($this->items)) {
+            foreach ($this->configuration->getList() as $data) {
+                $item = $this->contentEntryFactory->create(['data' => $data]);
+                $this->items[] = $item;
+            }
+        }
+    }
+
+    /**
      * @return ContentEntryInterface[]
      */
     public function get(): array
     {
-        if (empty($this->items)) {
-            foreach ($this->configuration->getList() as $data) {
-                $this->items[] = $this->contentEntryFactory->create(['data' => $data]);
-            }
-        }
+        $this->prepare();
         return $this->items;
     }
 }

@@ -32,9 +32,7 @@ class StoreCodeResolver implements StoreCodeResolverInterface
         $output = [];
 
         if ($code === '*') {
-            foreach ($this->storeManager->getStores() as $store) {
-                $output[] = $store->getCode();
-            }
+            $output[] = $this->storeManager->getStore('admin')->getCode();
         } else {
             $output[] = $this->storeManager->getStore($code)->getCode();
         }
