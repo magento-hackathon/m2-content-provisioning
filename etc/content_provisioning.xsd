@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element type="cms_entity" name="page" />
+                    <xs:element type="cms_entity" name="block" />
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="cms_entity">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" type="stores" name="stores" />
+            <xs:element minOccurs="1" maxOccurs="1" type="content" name="content" />
+        </xs:choice>
+        <xs:attribute name="identifier" type="identifier" use="required" />
+        <xs:attribute name="maintained" type="xs:boolean" use="optional" />
+    </xs:complexType>
+
+    <xs:simpleType name="identifier">
+        <xs:annotation>
+            <xs:documentation>
+                Unique identifier for cms entities
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_\\]{1,}" />
+            <xs:minLength value="2" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="stores">
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="unbounded" type="store" name="store" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="store">
+        <xs:attribute name="code" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="content">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="content_type" use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="content_type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="file"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
