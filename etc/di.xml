@@ -2,6 +2,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Firegento\ContentProvisioning\Api\ConfigurationInterface" type="Firegento\ContentProvisioning\Model\Config\Data" />
     <preference for="Firegento\ContentProvisioning\Api\StoreCodeResolverInterface" type="Firegento\ContentProvisioning\Model\Resolver\StoreCodeResolver" />
+    <preference for="Firegento\ContentProvisioning\Api\ContentInstallerInterface" type="Firegento\ContentProvisioning\Model\ContentInstaller" />
+    <preference for="Firegento\ContentProvisioning\Api\Data\ContentEntryInterface" type="Firegento\ContentProvisioning\Model\ContentEntry" />
 
     <virtualType name="Firegento\ContentProvisioning\Model\Config\Reader" type="Magento\Framework\Config\Reader\Filesystem">
         <arguments>

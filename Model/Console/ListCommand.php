@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model\Console;
 
-use Firegento\ContentProvisioning\Api\ConfigurationInterface;
+use Firegento\ContentProvisioning\Model\Query\GetAllContentEntries;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,20 +12,20 @@ use Symfony\Component\Console\Helper\Table;
 class ListCommand extends Command
 {
     /**
-     * @var ConfigurationInterface
+     * @var GetAllContentEntries
      */
-    private $configuration;
+    private $getAllContentEntries;
 
     /**
-     * @param ConfigurationInterface $configuration
+     * @param GetAllContentEntries $getAllContentEntries
      * @param string|null $name
      */
     public function __construct(
-        ConfigurationInterface $configuration,
+        GetAllContentEntries $getAllContentEntries,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->configuration = $configuration;
+        $this->getAllContentEntries = $getAllContentEntries;
     }
 
     /**
@@ -36,16 +36,14 @@ class ListCommand extends Command
         $table = new Table($output);
         $table->setHeaders(['Type', 'Identifier', 'Stores', 'Maintained', 'Content (Teaser)']);
 
-        foreach ($this->configuration->getList() as $type => $entries) {
-            foreach ($entries as $entry) {
-                $table->addRow([
-                    $type,
-                    $entry['identifier'],
-                    implode(', ', $entry['stores']),
-                    $entry['maintained'] ? 'yes' : 'no',
-                    substr($entry['content'], 0, 200),
-                ]);
-            }
+        foreach ($this->getAllContentEntries->get() as $entry) {
+            $table->addRow([
+                $entry->getType(),
+                $entry->getIdentifier(),
+                implode(', ', $entry->getStores()),
+                $entry->isMaintained() ? 'yes' : 'no',
+                substr($entry->getContent(), 0, 147) . '...',
+            ]);
         }
 
         $table->render($output);

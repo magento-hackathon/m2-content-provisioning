@@ -6,9 +6,11 @@ namespace Firegento\ContentProvisioning\Model\Config;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
+use Firegento\ContentProvisioning\Api\Data\ContentEntryInterface;
 use Firegento\ContentProvisioning\Api\StoreCodeResolverInterface;
 use Firegento\ContentProvisioning\Model\ContentResolverProvider;
 use Magento\Framework\Exception\LocalizedException;
+use Psr\Log\LoggerInterface;
 
 class Converter implements \Magento\Framework\Config\ConverterInterface
 {
@@ -23,15 +25,23 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     private $contentResolverProvider;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param StoreCodeResolverInterface $storeCodeResolver
      * @param ContentResolverProvider $contentResolverProvider
+     * @param LoggerInterface $logger
      */
     public function __construct(
         StoreCodeResolverInterface $storeCodeResolver,
-        ContentResolverProvider $contentResolverProvider
+        ContentResolverProvider $contentResolverProvider,
+        LoggerInterface $logger
     ) {
         $this->storeCodeResolver = $storeCodeResolver;
         $this->contentResolverProvider = $contentResolverProvider;
+        $this->logger = $logger;
     }
 
     /**
@@ -40,16 +50,15 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source): array
     {
-        return [
-            'pages' => $this->extractCmsEntityNodes($source, 'page'),
-            'blocks' => $this->extractCmsEntityNodes($source, 'block'),
-        ];
+        return array_merge(
+            $this->extractCmsEntityNodes($source, 'page'),
+            $this->extractCmsEntityNodes($source, 'block')
+        );
     }
 
     /**
      * @param DOMDocument $config
      * @return array
-     * @throws LocalizedException
      */
     private function extractCmsEntityNodes(DOMDocument $config, string $nodeKey): array
     {
@@ -57,13 +66,20 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
         /** @var $node DOMElement */
         foreach ($config->getElementsByTagName($nodeKey) as $node) {
             $identifier = $this->getAttributeValue($node, 'identifier');
-            $stores = $this->extractStores($node);
-            $output[$this->buildKey($identifier, $stores)] = [
-                'identifier' => $identifier,
-                'maintained' => (bool)$this->getAttributeValue($node, 'maintained', false),
-                'stores' => $stores,
-                'content' => $this->extractContent($node)
-            ];
+            try {
+                $stores = $this->extractStores($node);
+                $output[$this->buildKey($identifier, $stores, $nodeKey)] = [
+                    ContentEntryInterface::IDENTIFIER => $identifier,
+                    ContentEntryInterface::TYPE => $nodeKey,
+                    ContentEntryInterface::IS_MAINTAINED =>
+                        (bool)$this->getAttributeValue($node, 'maintained', false),
+                    ContentEntryInterface::STORES => $stores,
+                    ContentEntryInterface::CONTENT => $this->extractContent($node),
+                ];
+            } catch (LocalizedException $exception) {
+                $this->logger->error($exception->getMessage(), $exception->getTrace());
+                continue;
+            }
         }
         return $output;
     }
@@ -71,11 +87,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     /**
      * @param string $identifier
      * @param array $stores
+     * @param string $nodeKey
      * @return string
      */
-    private function buildKey(string $identifier, array $stores): string
+    private function buildKey(string $identifier, array $stores, string $nodeKey): string
     {
-        return md5($identifier . json_encode($stores));
+        return md5($identifier . $nodeKey . json_encode($stores));
     }
 
     /**
@@ -91,6 +108,11 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             );
             $output = array_merge($output, $storeCodes);
         }
+
+        if (empty($output)) {
+            $output = $this->storeCodeResolver->execute('*');
+        }
+
         return $output;
     }
 

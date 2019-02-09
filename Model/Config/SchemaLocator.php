@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model\Config;
 
+use Magento\Framework\Module\Dir\Reader;
+
 class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
@@ -20,9 +22,9 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     protected $_perFileSchema = null;
 
     /**
-     * @param \Magento\Framework\Module\Dir\Reader $moduleReader
+     * @param Reader $moduleReader
      */
-    public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader)
+    public function __construct(Reader $moduleReader)
     {
         $etcDir = $moduleReader->getModuleDir(
             \Magento\Framework\Module\Dir::MODULE_ETC_DIR,
