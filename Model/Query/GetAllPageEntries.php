@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Query;
 
 use Firegento\ContentProvisioning\Api\ConfigurationInterface;
-use Firegento\ContentProvisioning\Api\Data\ContentEntryInterface;
-use Firegento\ContentProvisioning\Api\Data\ContentEntryInterfaceFactory;
+use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
+use Firegento\ContentProvisioning\Api\Data\PageEntryInterfaceFactory;
 
-class GetAllContentEntries
+class GetAllPageEntries
 {
     /**
      * @var ConfigurationInterface
@@ -15,25 +15,25 @@ class GetAllContentEntries
     private $configuration;
 
     /**
-     * @var ContentEntryInterfaceFactory
-     */
-    private $contentEntryFactory;
-
-    /**
-     * @var ContentEntryInterface[]
+     * @var PageEntryInterface[]
      */
     private $items = [];
 
     /**
+     * @var PageEntryInterfaceFactory
+     */
+    private $pageEntryFactory;
+
+    /**
      * @param ConfigurationInterface $configuration
-     * @param ContentEntryInterfaceFactory $contentEntryFactory
+     * @param PageEntryInterfaceFactory $pageEntryFactory
      */
     public function __construct(
         ConfigurationInterface $configuration,
-        ContentEntryInterfaceFactory $contentEntryFactory
+        PageEntryInterfaceFactory $pageEntryFactory
     ) {
         $this->configuration = $configuration;
-        $this->contentEntryFactory = $contentEntryFactory;
+        $this->pageEntryFactory = $pageEntryFactory;
     }
 
     /**
@@ -42,15 +42,16 @@ class GetAllContentEntries
     private function prepare(): void
     {
         if (empty($this->items)) {
-            foreach ($this->configuration->getList() as $data) {
-                $item = $this->contentEntryFactory->create(['data' => $data]);
+            $pages = $this->configuration->getList()['pages'] ?? [];
+            foreach ($pages as $data) {
+                $item = $this->pageEntryFactory->create(['data' => $data]);
                 $this->items[] = $item;
             }
         }
     }
 
     /**
-     * @return ContentEntryInterface[]
+     * @return PageEntryInterface[]
      */
     public function get(): array
     {

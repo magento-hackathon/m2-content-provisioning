@@ -4,19 +4,65 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="1" maxOccurs="unbounded">
-                    <xs:element type="cms_entity" name="page" />
-                    <xs:element type="cms_entity" name="block" />
+                    <xs:element type="page" name="page" />
+                    <xs:element type="block" name="block" />
                 </xs:choice>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="cms_entity">
+    <xs:complexType name="page">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element minOccurs="1" maxOccurs="1" type="content" name="content" />
+            <xs:element minOccurs="1" maxOccurs="1" name="title">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" type="stores" name="stores" />
+            <xs:element minOccurs="0" maxOccurs="1" type="seo" name="seo" />
+            <xs:element minOccurs="0" maxOccurs="1" type="design" name="design" />
+            <xs:element minOccurs="0" maxOccurs="1" type="custom_design" name="custom_design" />
+        </xs:choice>
+        <xs:attribute name="identifier" type="identifier" use="required" />
+        <xs:attribute name="active" type="xs:boolean" use="required" />
+        <xs:attribute name="maintained" type="xs:boolean" use="optional" />
+    </xs:complexType>
+
+    <xs:complexType name="seo">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" type="xs:string" name="title" />
+            <xs:element minOccurs="0" maxOccurs="1" type="xs:string" name="keywords" />
+            <xs:element minOccurs="0" maxOccurs="1" type="xs:string" name="description" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="design">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" type="layout" name="layout" />
+            <xs:element minOccurs="0" maxOccurs="1" type="xs:string" name="layout_xml" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="custom_design">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="1" type="xs:date" name="from" />
+            <xs:element minOccurs="0" maxOccurs="1" type="xs:date" name="to" />
+            <xs:element minOccurs="0" maxOccurs="1" type="xs:integer" name="theme_id" />
+            <xs:element minOccurs="0" maxOccurs="1" type="layout" name="layout" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="block">
         <xs:choice maxOccurs="unbounded">
             <xs:element minOccurs="0" maxOccurs="1" type="stores" name="stores" />
             <xs:element minOccurs="1" maxOccurs="1" type="content" name="content" />
+            <xs:element minOccurs="1" maxOccurs="1" type="xs:string" name="title" />
         </xs:choice>
         <xs:attribute name="identifier" type="identifier" use="required" />
+        <xs:attribute name="active" type="xs:boolean" use="required" />
         <xs:attribute name="maintained" type="xs:boolean" use="optional" />
     </xs:complexType>
 
@@ -46,6 +92,7 @@
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute name="type" type="content_type" use="optional" />
+                <xs:attribute name="heading" type="xs:string" use="optional" />
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -53,6 +100,16 @@
     <xs:simpleType name="content_type">
         <xs:restriction base="xs:string">
             <xs:enumeration value="file"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="layout">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="empty"/>
+            <xs:enumeration value="1column"/>
+            <xs:enumeration value="2columns-left"/>
+            <xs:enumeration value="2columns-right"/>
+            <xs:enumeration value="3columns"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

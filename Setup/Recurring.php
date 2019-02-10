@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Setup;
 
-use Firegento\ContentProvisioning\Api\ContentInstallerInterface;
+use Firegento\ContentProvisioning\Model\PageInstaller;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
@@ -14,17 +14,17 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 class Recurring implements InstallSchemaInterface
 {
     /**
-     * @var ContentInstallerInterface
+     * @var PageInstaller
      */
-    private $contentInstaller;
+    private $pageInstaller;
 
     /**
-     * @param ContentInstallerInterface $contentInstaller
+     * @param PageInstaller $pageInstaller
      */
     public function __construct(
-        ContentInstallerInterface $contentInstaller
+        PageInstaller $pageInstaller
     ) {
-        $this->contentInstaller = $contentInstaller;
+        $this->pageInstaller = $pageInstaller;
     }
 
     /**
@@ -32,6 +32,6 @@ class Recurring implements InstallSchemaInterface
      */
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
-        $this->contentInstaller->install();
+        $this->pageInstaller->install();
     }
 }
