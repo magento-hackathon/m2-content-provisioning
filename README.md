@@ -14,7 +14,6 @@ to database on each `setup:upgrade` run.
 
 ## Install with composer
 ```bash
-composer config repositories.firegento.content-provisioning vcs git@github.com:vadimjustus/magento2-content-provisioning.git
 composer require firegento/magento2-content-provisioning
 ```
 
