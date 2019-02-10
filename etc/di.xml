@@ -3,6 +3,7 @@
     <preference for="Firegento\ContentProvisioning\Api\ConfigurationInterface" type="Firegento\ContentProvisioning\Model\Config\Data" />
     <preference for="Firegento\ContentProvisioning\Api\StoreCodeResolverInterface" type="Firegento\ContentProvisioning\Model\Resolver\StoreCodeResolver" />
     <preference for="Firegento\ContentProvisioning\Api\Data\PageEntryInterface" type="Firegento\ContentProvisioning\Model\PageEntry" />
+    <preference for="Firegento\ContentProvisioning\Api\Data\BlockEntryInterface" type="Firegento\ContentProvisioning\Model\BlockEntry" />
 
     <virtualType name="Firegento\ContentProvisioning\Model\Config\Reader" type="Magento\Framework\Config\Reader\Filesystem">
         <arguments>
@@ -25,7 +26,8 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="contentProvisioningList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\PagesListCommand</item>
+                <item name="contentProvisioning.PageList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\PageListCommand</item>
+                <item name="contentProvisioning.BlockList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\BlockListCommand</item>
             </argument>
         </arguments>
     </type>

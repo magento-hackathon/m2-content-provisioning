@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 
-class PagesListCommand extends Command
+class PageListCommand extends Command
 {
     /**
      * @var GetAllPageEntries
@@ -34,7 +34,7 @@ class PagesListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $table = new Table($output);
-        $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Title', 'Content (Teaser)']);
+        $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'Content (Teaser)']);
 
         foreach ($this->getAllContentEntries->get() as $entry) {
             $table->addRow([
@@ -42,6 +42,7 @@ class PagesListCommand extends Command
                 $entry->getIdentifier(),
                 implode(', ', $entry->getStores()),
                 $entry->isMaintained() ? 'yes' : 'no',
+                $entry->isActive() ? 'yes' : 'no',
                 $entry->getTitle(),
                 substr($entry->getContent(), 0, 147) . '...',
             ]);
@@ -55,8 +56,8 @@ class PagesListCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('content-provisioning:pages:list');
-        $this->setDescription('List all given content provisioning definitions');
+        $this->setName('content-provisioning:page:list');
+        $this->setDescription('List all configured CMS page entries');
         parent::configure();
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Config\Converter;
 
 use DOMDocument;
-use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
+use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
 use Magento\Framework\Exception\LocalizedException;
 
 class BlockNodesParser
@@ -30,32 +30,18 @@ class BlockNodesParser
     private $contentElementKeyBuilder;
 
     /**
-     * @var ContentHeadingParser
-     */
-    private $contentHeadingParser;
-
-    /**
-     * @var SeoNodeParser
-     */
-    private $seoNodeParser;
-
-    /**
-     * @var DesignNodeParser
-     */
-    private $designNodeParser;
-
-    /**
-     * @var CustomDesignNodeParser
-     */
-    private $customDesignNodeParser;
-
-    /**
      * @var TitleNodeParser
      */
     private $titleNodeParser;
 
     /**
+     * @var BooleanAttributeValueParser
+     */
+    private $booleanAttributeValueParser;
+
+    /**
      * @param AttributeValueParser $attributeValueParser
+     * @param BooleanAttributeValueParser $booleanAttributeValueParser
      * @param StoresNodeParser $storesNodeParser
      * @param ContentNodeParser $contentNodeParser
      * @param ContentElementKeyBuilder $contentElementKeyBuilder
@@ -63,6 +49,7 @@ class BlockNodesParser
      */
     public function __construct(
         AttributeValueParser $attributeValueParser,
+        BooleanAttributeValueParser $booleanAttributeValueParser,
         StoresNodeParser $storesNodeParser,
         ContentNodeParser $contentNodeParser,
         ContentElementKeyBuilder $contentElementKeyBuilder,
@@ -73,6 +60,7 @@ class BlockNodesParser
         $this->contentNodeParser = $contentNodeParser;
         $this->contentElementKeyBuilder = $contentElementKeyBuilder;
         $this->titleNodeParser = $titleNodeParser;
+        $this->booleanAttributeValueParser = $booleanAttributeValueParser;
     }
 
     /**
@@ -87,19 +75,17 @@ class BlockNodesParser
             $identifier = $this->attributeValueParser->execute($node, 'identifier');
             $stores = $this->storesNodeParser->execute($node);
             $key = $this->contentElementKeyBuilder->build($identifier, $stores, 'block');
-            $output[$key] = array_merge(
-                [
-                    PageEntryInterface::KEY => $key,
-                    PageEntryInterface::IDENTIFIER => $identifier,
-                    PageEntryInterface::TITLE => $this->titleNodeParser->execute($node),
-                    PageEntryInterface::IS_ACTIVE =>
-                        (bool)$this->attributeValueParser->execute($node, 'active', null),
-                    PageEntryInterface::IS_MAINTAINED =>
-                        (bool)$this->attributeValueParser->execute($node, 'maintained', null),
-                    PageEntryInterface::STORES => $stores,
-                    PageEntryInterface::CONTENT => $this->contentNodeParser->execute($node),
-                ],
-            );
+            $output[$key] = [
+                BlockEntryInterface::KEY => $key,
+                BlockEntryInterface::IDENTIFIER => $identifier,
+                BlockEntryInterface::TITLE => $this->titleNodeParser->execute($node),
+                BlockEntryInterface::IS_ACTIVE =>
+                    $this->booleanAttributeValueParser->execute($node, 'active', 'false'),
+                BlockEntryInterface::IS_MAINTAINED =>
+                    $this->booleanAttributeValueParser->execute($node, 'maintained', 'false'),
+                BlockEntryInterface::STORES => $stores,
+                BlockEntryInterface::CONTENT => $this->contentNodeParser->execute($node),
+            ];
         }
         return $output;
     }

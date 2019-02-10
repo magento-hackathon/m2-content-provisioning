@@ -55,7 +55,13 @@ class PageNodesParser
     private $titleNodeParser;
 
     /**
+     * @var BooleanAttributeValueParser
+     */
+    private $booleanAttributeValueParser;
+
+    /**
      * @param AttributeValueParser $attributeValueParser
+     * @param BooleanAttributeValueParser $booleanAttributeValueParser
      * @param StoresNodeParser $storesNodeParser
      * @param ContentNodeParser $contentNodeParser
      * @param ContentElementKeyBuilder $contentElementKeyBuilder
@@ -67,6 +73,7 @@ class PageNodesParser
      */
     public function __construct(
         AttributeValueParser $attributeValueParser,
+        BooleanAttributeValueParser $booleanAttributeValueParser,
         StoresNodeParser $storesNodeParser,
         ContentNodeParser $contentNodeParser,
         ContentElementKeyBuilder $contentElementKeyBuilder,
@@ -85,6 +92,7 @@ class PageNodesParser
         $this->designNodeParser = $designNodeParser;
         $this->customDesignNodeParser = $customDesignNodeParser;
         $this->titleNodeParser = $titleNodeParser;
+        $this->booleanAttributeValueParser = $booleanAttributeValueParser;
     }
 
     /**
@@ -104,12 +112,10 @@ class PageNodesParser
                     PageEntryInterface::KEY => $key,
                     PageEntryInterface::IDENTIFIER => $identifier,
                     PageEntryInterface::TITLE => $this->titleNodeParser->execute($node),
-                    PageEntryInterface::IS_ACTIVE => $this->castBoolean(
-                        $this->attributeValueParser->execute($node, 'active', 'false')
-                    ),
-                    PageEntryInterface::IS_MAINTAINED => $this->castBoolean(
-                        $this->attributeValueParser->execute($node, 'maintained', 'false')
-                    ),
+                    PageEntryInterface::IS_ACTIVE =>
+                        $this->booleanAttributeValueParser->execute($node, 'active', 'false'),
+                    PageEntryInterface::IS_MAINTAINED =>
+                        $this->booleanAttributeValueParser->execute($node, 'maintained', 'false'),
                     PageEntryInterface::STORES => $stores,
                     PageEntryInterface::CONTENT => $this->contentNodeParser->execute($node),
                     PageEntryInterface::CONTENT_HEADING => $this->contentHeadingParser->execute($node),
@@ -120,17 +126,5 @@ class PageNodesParser
             );
         }
         return $output;
-    }
-
-    /**
-     * @param string $value
-     * @return bool
-     */
-    private function castBoolean(string $value): bool
-    {
-        if (in_array($value, ['false', 'no', '0'])) {
-            return false;
-        }
-        return (bool)$value;
     }
 }

@@ -12,6 +12,7 @@ class DesignNodeParser
      * @var AttributeValueParser
      */
     private $attributeValueParser;
+
     /**
      * @var ChildNodeValueParser
      */
