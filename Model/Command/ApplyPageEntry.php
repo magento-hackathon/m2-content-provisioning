@@ -10,7 +10,6 @@ use Magento\Cms\Api\Data\PageInterfaceFactory;
 use Magento\Cms\Api\PageRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 
 class ApplyPageEntry
@@ -36,29 +35,29 @@ class ApplyPageEntry
     private $pageRepository;
 
     /**
-     * @var StoreManagerInterface
+     * @var NormalizeData
      */
-    private $storeManager;
+    private $normalizeData;
 
     /**
      * @param PageInterfaceFactory $pageFactory
      * @param GetFirstPageByPageEntry $getFirstPageByPageEntry
      * @param PageRepositoryInterface $pageRepository
      * @param LoggerInterface $logger
-     * @param StoreManagerInterface $storeManager
+     * @param NormalizeData $normalizeData
      */
     public function __construct(
         PageInterfaceFactory $pageFactory,
         GetFirstPageByPageEntry $getFirstPageByPageEntry,
         PageRepositoryInterface $pageRepository,
         LoggerInterface $logger,
-        StoreManagerInterface $storeManager
+        NormalizeData $normalizeData
     ) {
         $this->pageFactory = $pageFactory;
         $this->getFirstPageByPageEntry = $getFirstPageByPageEntry;
         $this->logger = $logger;
         $this->pageRepository = $pageRepository;
-        $this->storeManager = $storeManager;
+        $this->normalizeData = $normalizeData;
     }
 
     /**
@@ -73,26 +72,10 @@ class ApplyPageEntry
                 /** @var PageInterface $page */
                 $page = $this->pageFactory->create([]);
             }
-            $page->addData($this->normalizeData($pageEntry->getData()));
+            $page->addData($this->normalizeData->execute($pageEntry->getData()));
             $this->pageRepository->save($page);
         } catch (NoSuchEntityException $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     * @throws NoSuchEntityException
-     */
-    private function normalizeData(array $data): array
-    {
-        $storeIds = [];
-        $storeCodes = $data['stores'] ?? [];
-        foreach ($storeCodes as $code) {
-            $storeIds[] = $this->storeManager->getStore($code)->getId();
-        }
-        $data['stores'] = $storeIds;
-        return $data;
     }
 }

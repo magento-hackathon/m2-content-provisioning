@@ -25,7 +25,7 @@ class GetFirstPageByPageEntry
 
     /**
      * @param PageEntryInterface $pageEntry
-     * @return PageInterface
+     * @return PageInterface|null
      * @throws NoSuchEntityException
      */
     public function execute(PageEntryInterface $pageEntry): ?PageInterface

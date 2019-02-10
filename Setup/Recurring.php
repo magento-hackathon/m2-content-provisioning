@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Setup;
 
+use Firegento\ContentProvisioning\Model\BlockInstaller;
 use Firegento\ContentProvisioning\Model\PageInstaller;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -19,12 +20,20 @@ class Recurring implements InstallSchemaInterface
     private $pageInstaller;
 
     /**
+     * @var BlockInstaller
+     */
+    private $blockInstaller;
+
+    /**
      * @param PageInstaller $pageInstaller
+     * @param BlockInstaller $blockInstaller
      */
     public function __construct(
-        PageInstaller $pageInstaller
+        PageInstaller $pageInstaller,
+        BlockInstaller $blockInstaller
     ) {
         $this->pageInstaller = $pageInstaller;
+        $this->blockInstaller = $blockInstaller;
     }
 
     /**
@@ -33,5 +42,6 @@ class Recurring implements InstallSchemaInterface
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $this->pageInstaller->install();
+        $this->blockInstaller->install();
     }
 }
