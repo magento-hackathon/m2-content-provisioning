@@ -105,10 +105,10 @@ class PageNodesParser
                     PageEntryInterface::IDENTIFIER => $identifier,
                     PageEntryInterface::TITLE => $this->titleNodeParser->execute($node),
                     PageEntryInterface::IS_ACTIVE => $this->castBoolean(
-                        $this->attributeValueParser->execute($node, 'active', null)
+                        $this->attributeValueParser->execute($node, 'active', 'false')
                     ),
                     PageEntryInterface::IS_MAINTAINED => $this->castBoolean(
-                        (bool)$this->attributeValueParser->execute($node, 'maintained', null)
+                        $this->attributeValueParser->execute($node, 'maintained', 'false')
                     ),
                     PageEntryInterface::STORES => $stores,
                     PageEntryInterface::CONTENT => $this->contentNodeParser->execute($node),
