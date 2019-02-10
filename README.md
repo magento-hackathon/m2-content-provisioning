@@ -12,6 +12,12 @@ no chance to declare the responsibility for each content entity.
 This module allows you to declare such content entries via XML file and ensures, that this declaration will be applied
 to database on each `setup:upgrade` run.
 
+## Install with composer
+```bash
+composer config repositories.firegento.content-provisioning vcs git@github.com:vadimjustus/magento2-content-provisioning.git
+composer require firegento/magento2-content-provisioning
+```
+
 ## How it works
 After installing this module you can create own `content_provisioning.xml` in each of your modules. 
 
