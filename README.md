@@ -112,14 +112,14 @@ This node is optional. If it is not defined, the block or page will be applied t
 will also be applied to stores, which will be created in the future after re-running `setup:upgrade` command.
 
 ## Planed features / Road map
-| Status | Feature | Issue |
-|---|---|---|
-| implemented | Configuration for pages | |
-| implemented | Configuration for blocks | |
-| implemented | Recurring setup installer for pages | |
-| implemented | Recurring setup installer for blocks | |
-| planned | Notification in Magento backend (admin), for editors - if the content entry is maintained by code | #1 |
-| planned | CLI command to apply dedicated configured content entries to database | |
-| idea | Add a button to page or block edit page in Magento backend, if there is content defined for this page in code. (Like: "Use default content") | |
-| idea | Persist version hash every time the content is applied to database and track whether is was changes by editor. (Auto `maintained` mode) | |
+| Status | Feature | Version | Issue/Story/Ticket |
+|---|---|---|---|
+| implemented | Configuration for pages | 0.1.0 | |
+| implemented | Configuration for blocks | 0.1.0 | |
+| implemented | Recurring setup installer for pages | 0.1.0 | |
+| implemented | Recurring setup installer for blocks | 0.1.0 | |
+| planned | Notification in Magento backend (admin), for editors - if the content entry is maintained by code | 1.0.0 | [#1](https://github.com/magento-hackathon/m2-content-provisioning/issues/1) |
+| planned | CLI command to apply dedicated configured content entries to database | 1.1.0 | |
+| idea | Add a button to page or block edit page in Magento backend, if there is content defined for this page in code. (Like: "Use default content") | ? | |
+| idea | Persist version hash every time the content is applied to database and track whether is was changes by editor. (Auto `maintained` mode) | ? | |
 
