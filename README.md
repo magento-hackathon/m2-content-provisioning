@@ -120,6 +120,8 @@ will also be applied to stores, which will be created in the future after re-run
 You can also use the 'wildcard' `*` in order to define that the content should be applied to all stores.
 
 ## Planed features / Road map
+| Status | Feature/Change | Version |
+|---|---|---|
 | planned | Refactoring: Needs to find a pretty solution in order avoid some duplicate code... | 1.1.x |
 | planned | CLI command to apply dedicated configured content entries to database | 1.2.x |
 | planned | Integration tests | 1.2.x |
