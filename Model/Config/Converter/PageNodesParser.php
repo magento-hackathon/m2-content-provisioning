@@ -25,11 +25,6 @@ class PageNodesParser
     private $contentNodeParser;
 
     /**
-     * @var ContentElementKeyBuilder
-     */
-    private $contentElementKeyBuilder;
-
-    /**
      * @var ContentHeadingParser
      */
     private $contentHeadingParser;
@@ -64,7 +59,6 @@ class PageNodesParser
      * @param BooleanAttributeValueParser $booleanAttributeValueParser
      * @param StoresNodeParser $storesNodeParser
      * @param ContentNodeParser $contentNodeParser
-     * @param ContentElementKeyBuilder $contentElementKeyBuilder
      * @param ContentHeadingParser $contentHeadingParser
      * @param SeoNodeParser $seoNodeParser
      * @param DesignNodeParser $designNodeParser
@@ -76,7 +70,6 @@ class PageNodesParser
         BooleanAttributeValueParser $booleanAttributeValueParser,
         StoresNodeParser $storesNodeParser,
         ContentNodeParser $contentNodeParser,
-        ContentElementKeyBuilder $contentElementKeyBuilder,
         ContentHeadingParser $contentHeadingParser,
         SeoNodeParser $seoNodeParser,
         DesignNodeParser $designNodeParser,
@@ -86,7 +79,6 @@ class PageNodesParser
         $this->attributeValueParser = $attributeValueParser;
         $this->storesNodeParser = $storesNodeParser;
         $this->contentNodeParser = $contentNodeParser;
-        $this->contentElementKeyBuilder = $contentElementKeyBuilder;
         $this->contentHeadingParser = $contentHeadingParser;
         $this->seoNodeParser = $seoNodeParser;
         $this->designNodeParser = $designNodeParser;
@@ -106,7 +98,7 @@ class PageNodesParser
         foreach ($document->getElementsByTagName('page') as $node) {
             $identifier = $this->attributeValueParser->execute($node, 'identifier');
             $stores = $this->storesNodeParser->execute($node);
-            $key = $this->contentElementKeyBuilder->build($identifier, $stores, 'page');
+            $key = $this->attributeValueParser->execute($node, 'key');
             $output[$key] = array_merge(
                 [
                     PageEntryInterface::KEY => $key,

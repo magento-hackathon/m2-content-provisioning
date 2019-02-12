@@ -5,6 +5,7 @@ namespace Firegento\ContentProvisioning\Model\Query;
 
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Magento\Cms\Api\Data\PageInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class GetFirstPageByPageEntry
@@ -27,10 +28,11 @@ class GetFirstPageByPageEntry
      * @param PageEntryInterface $pageEntry
      * @return PageInterface|null
      * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function execute(PageEntryInterface $pageEntry): ?PageInterface
     {
         $pages = $this->getPagesByPageEntry->execute($pageEntry);
-        return $pages[0] ?? null;
+        return array_shift($pages);
     }
 }

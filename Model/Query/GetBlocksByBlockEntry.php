@@ -4,53 +4,58 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Query;
 
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
-use Magento\Cms\Api\Data\PageInterface;
-use Magento\Cms\Model\GetBlockByIdentifier;
+use Magento\Cms\Api\BlockRepositoryInterface;
+use Magento\Cms\Api\Data\BlockInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\StoreManagerInterface;
+use Firegento\ContentProvisioning\Model\Resolver\StoreIdsByStoreCodeResolver;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 
 class GetBlocksByBlockEntry
 {
     /**
-     * @var StoreManagerInterface
+     * @var BlockRepositoryInterface
      */
-    private $storeManager;
+    private $blockRepository;
 
     /**
-     * @var GetBlockByIdentifier
+     * @var SearchCriteriaBuilder
      */
-    private $getBlockByIdentifier;
+    private $searchCriteriaBuilder;
 
     /**
-     * @param GetBlockByIdentifier $getBlockByIdentifier
-     * @param StoreManagerInterface $storeManager
+     * @var StoreIdsByStoreCodeResolver
+     */
+    private $storeIdsByStoreCodeResolver;
+
+    /**
+     * @param BlockRepositoryInterface $blockRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param StoreIdsByStoreCodeResolver $storeIdsByStoreCodeResolver
      */
     public function __construct(
-        GetBlockByIdentifier $getBlockByIdentifier,
-        StoreManagerInterface $storeManager
+        BlockRepositoryInterface $blockRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        StoreIdsByStoreCodeResolver $storeIdsByStoreCodeResolver
     ) {
-        $this->storeManager = $storeManager;
-        $this->getBlockByIdentifier = $getBlockByIdentifier;
+        $this->blockRepository = $blockRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->storeIdsByStoreCodeResolver = $storeIdsByStoreCodeResolver;
     }
 
     /**
-     * @param BlockEntryInterface $blockEntry
-     * @return PageInterface[]
+     * @param BlockEntryInterface $pageEntry
+     * @return BlockInterface[]
      * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
-    public function execute(BlockEntryInterface $blockEntry): array
+    public function execute(BlockEntryInterface $pageEntry): array
     {
-        $blocks = [];
-        foreach ($blockEntry->getStores() as $storeCode) {
-            $store = $this->storeManager->getStore($storeCode);
-            try {
-                $block = $this->getBlockByIdentifier->execute($blockEntry->getIdentifier(), (int)$store->getId());
-                $blocks[] = $block;
-            } catch (NoSuchEntityException $exception) {
-                // This exception is expected and do not need be handled
-                // @TODO Create own page loader class
-            }
-        }
-        return $blocks;
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter('identifier', $pageEntry->getIdentifier())
+            ->addFilter('store_id', $this->storeIdsByStoreCodeResolver->execute($pageEntry->getStores()))
+            ->create();
+        $searchResult = $this->blockRepository->getList($searchCriteria);
+        return $searchResult->getItems();
     }
 }

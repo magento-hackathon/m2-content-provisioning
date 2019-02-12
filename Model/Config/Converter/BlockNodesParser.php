@@ -25,11 +25,6 @@ class BlockNodesParser
     private $contentNodeParser;
 
     /**
-     * @var ContentElementKeyBuilder
-     */
-    private $contentElementKeyBuilder;
-
-    /**
      * @var TitleNodeParser
      */
     private $titleNodeParser;
@@ -44,7 +39,6 @@ class BlockNodesParser
      * @param BooleanAttributeValueParser $booleanAttributeValueParser
      * @param StoresNodeParser $storesNodeParser
      * @param ContentNodeParser $contentNodeParser
-     * @param ContentElementKeyBuilder $contentElementKeyBuilder
      * @param TitleNodeParser $titleNodeParser
      */
     public function __construct(
@@ -52,13 +46,11 @@ class BlockNodesParser
         BooleanAttributeValueParser $booleanAttributeValueParser,
         StoresNodeParser $storesNodeParser,
         ContentNodeParser $contentNodeParser,
-        ContentElementKeyBuilder $contentElementKeyBuilder,
         TitleNodeParser $titleNodeParser
     ) {
         $this->attributeValueParser = $attributeValueParser;
         $this->storesNodeParser = $storesNodeParser;
         $this->contentNodeParser = $contentNodeParser;
-        $this->contentElementKeyBuilder = $contentElementKeyBuilder;
         $this->titleNodeParser = $titleNodeParser;
         $this->booleanAttributeValueParser = $booleanAttributeValueParser;
     }
@@ -74,7 +66,7 @@ class BlockNodesParser
         foreach ($document->getElementsByTagName('block') as $node) {
             $identifier = $this->attributeValueParser->execute($node, 'identifier');
             $stores = $this->storesNodeParser->execute($node);
-            $key = $this->contentElementKeyBuilder->build($identifier, $stores, 'block');
+            $key = $this->attributeValueParser->execute($node, 'key');
             $output[$key] = [
                 BlockEntryInterface::KEY => $key,
                 BlockEntryInterface::IDENTIFIER => $identifier,

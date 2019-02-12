@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model;
 
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
-use Firegento\ContentProvisioning\Model\Query\GetAllBlockEntries;
+use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
 use Firegento\ContentProvisioning\Model\Validator\CanApplyBlockEntry;
 use Psr\Log\LoggerInterface;
 
@@ -16,7 +16,7 @@ class BlockInstaller
     private $logger;
 
     /**
-     * @var GetAllBlockEntries
+     * @var GetBlockEntryList
      */
     private $getAllBlockEntries;
 
@@ -32,13 +32,13 @@ class BlockInstaller
 
     /**
      * @param LoggerInterface $logger
-     * @param GetAllBlockEntries $getAllBlockEntries
+     * @param GetBlockEntryList $getAllBlockEntries
      * @param CanApplyBlockEntry $canApplyBlockEntry
      * @param ApplyBlockEntry $applyBlockEntry
      */
     public function __construct(
         LoggerInterface $logger,
-        GetAllBlockEntries $getAllBlockEntries,
+        GetBlockEntryList $getAllBlockEntries,
         CanApplyBlockEntry $canApplyBlockEntry,
         ApplyBlockEntry $applyBlockEntry
     ) {

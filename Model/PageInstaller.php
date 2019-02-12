@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model;
 
 use Firegento\ContentProvisioning\Model\Command\ApplyPageEntry;
-use Firegento\ContentProvisioning\Model\Query\GetAllPageEntries;
+use Firegento\ContentProvisioning\Model\Query\GetPageEntryList;
 use Firegento\ContentProvisioning\Model\Validator\CanApplyPageEntry;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 class PageInstaller
 {
     /**
-     * @var GetAllPageEntries
+     * @var GetPageEntryList
      */
     private $getAllPageEntries;
 
@@ -33,13 +33,13 @@ class PageInstaller
     private $logger;
 
     /**
-     * @param GetAllPageEntries $getAllPageEntries
+     * @param GetPageEntryList $getAllPageEntries
      * @param ApplyPageEntry $applyPageEntry
      * @param CanApplyPageEntry $canApplyPageEntry
      * @param LoggerInterface $logger
      */
     public function __construct(
-        GetAllPageEntries $getAllPageEntries,
+        GetPageEntryList $getAllPageEntries,
         ApplyPageEntry $applyPageEntry,
         CanApplyPageEntry $canApplyPageEntry,
         LoggerInterface $logger

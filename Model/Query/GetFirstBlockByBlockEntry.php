@@ -5,6 +5,7 @@ namespace Firegento\ContentProvisioning\Model\Query;
 
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
 use Magento\Cms\Api\Data\BlockInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class GetFirstBlockByBlockEntry
@@ -27,10 +28,11 @@ class GetFirstBlockByBlockEntry
      * @param BlockEntryInterface $blockEntry
      * @return BlockInterface|null
      * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function execute(BlockEntryInterface $blockEntry): ?BlockInterface
     {
         $pages = $this->getBlocksByBlockEntry->execute($blockEntry);
-        return $pages[0] ?? null;
+        return array_shift($pages);
     }
 }
