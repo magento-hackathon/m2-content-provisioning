@@ -4,53 +4,58 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Query;
 
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
+use Firegento\ContentProvisioning\Model\Resolver\StoreIdsByStoreCodeResolver;
 use Magento\Cms\Api\Data\PageInterface;
-use Magento\Cms\Api\GetPageByIdentifierInterface;
+use Magento\Cms\Api\PageRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\StoreManagerInterface;
 
 class GetPagesByPageEntry
 {
     /**
-     * @var GetPageByIdentifierInterface
+     * @var SearchCriteriaBuilder
      */
-    private $getPageByIdentifier;
+    private $searchCriteriaBuilder;
 
     /**
-     * @var StoreManagerInterface
+     * @var PageRepositoryInterface
      */
-    private $storeManager;
+    private $pageRepository;
 
     /**
-     * @param GetPageByIdentifierInterface $getPageByIdentifier
-     * @param StoreManagerInterface $storeManager
+     * @var StoreIdsByStoreCodeResolver
+     */
+    private $storeIdsByStoreCodeResolver;
+
+    /**
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param PageRepositoryInterface $pageRepository
+     * @param StoreIdsByStoreCodeResolver $storeIdsByStoreCodeResolver
      */
     public function __construct(
-        GetPageByIdentifierInterface $getPageByIdentifier,
-        StoreManagerInterface $storeManager
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        PageRepositoryInterface $pageRepository,
+        StoreIdsByStoreCodeResolver $storeIdsByStoreCodeResolver
     ) {
-        $this->getPageByIdentifier = $getPageByIdentifier;
-        $this->storeManager = $storeManager;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->pageRepository = $pageRepository;
+        $this->storeIdsByStoreCodeResolver = $storeIdsByStoreCodeResolver;
     }
 
     /**
      * @param PageEntryInterface $pageEntry
      * @return PageInterface[]
      * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function execute(PageEntryInterface $pageEntry): array
     {
-        $pages = [];
-        foreach ($pageEntry->getStores() as $storeCode) {
-            $store = $this->storeManager->getStore($storeCode);
-            try {
-                $page = $this->getPageByIdentifier->execute($pageEntry->getIdentifier(), (int)$store->getId());
-                $pages[] = $page;
-            } catch (NoSuchEntityException $exception) {
-                // This exception is expected and do not need be handled
-                // @TODO Create own page loader class
-            }
-        }
-        return $pages;
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter('identifier', $pageEntry->getIdentifier())
+            ->addFilter('store_id', $this->storeIdsByStoreCodeResolver->execute($pageEntry->getStores()))
+            ->create();
+        $searchResult = $this->pageRepository->getList($searchCriteria);
+        return $searchResult->getItems();
     }
 }

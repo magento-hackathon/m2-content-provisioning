@@ -27,7 +27,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
 ```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
-    <page identifier="an-identifier" maintained="true" active="true">
+    <page key="your-module.page.an-identifier.all" identifier="an-identifier" maintained="true" active="true">
         <title>Page Title</title>
         <content type="file">Your_Module::path/to/content.html</content>
     </page>
@@ -39,7 +39,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
 ```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
-    <page identifier="an-identifier" maintained="true" active="true">
+    <page key="your-module.page.an-identifier.german" identifier="an-identifier" maintained="true" active="true">
         <title>Page Title</title>
         <content heading="New Page Heading" type="file">Your_Module::path/to/content.html</content>
         <stores>
@@ -71,7 +71,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
 ```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
-    <block identifier="lorem-ipsum-1" maintained="true" active="true">
+    <block key="your-module.block.lorem-ipsum-1.all" identifier="lorem-ipsum-1" maintained="true" active="true">
         <title>Test Block 1</title>
         <content><![CDATA[<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>]]></content>
     </block>
@@ -83,7 +83,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
 ```xml
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
-    <block identifier="lorem-ipsum-2" maintained="false" active="true">
+    <block key="your-module.block.lorem-ipsum-2.german" identifier="lorem-ipsum-2" maintained="false" active="true">
         <title>Test Block 2</title>
         <content type="file">Your_Module::path/to/content.html</content>
         <stores>
@@ -98,7 +98,14 @@ After installing this module you can create own `content_provisioning.xml` in ea
 
 ## Some explanation
 
-### `maintain`-Attribute
+### `key`-Attribute
+The `key` attribute is required in order to merge all content provisioning configurations across all modules.
+It is like the `name` attribute for layout blocks...
+
+#### You could use `identifier` - or?
+No, identifier is not unique since the same identifier can be used for multiple store views. 
+
+### `maintained`-Attribute
 With this attribute you define whether this content should be applied every time or even only once. Is the value
 `false` the content will only be persisted, if there is no `identifier` for the defined stores present in database.
 
@@ -110,17 +117,24 @@ you need to add the `type="file"` attribute to the content node.
 ### `stores`-Node
 This node is optional. If it is not defined, the block or page will be applied to all stores. A "maintained" entry
 will also be applied to stores, which will be created in the future after re-running `setup:upgrade` command.
+You can also use the 'wildcard' `*` in order to define that the content should be applied to all stores.
 
 ## Planed features / Road map
-| Status | Feature | Version | Issue/Story/Ticket |
-|---|---|---|---|
-| implemented | Configuration for pages | 0.1.0 | |
-| implemented | Configuration for blocks | 0.1.0 | |
-| implemented | Recurring setup installer for pages | 0.1.0 | |
-| implemented | Recurring setup installer for blocks | 0.1.0 | |
-| planned | Notification in Magento backend (admin), for editors - if the content entry is maintained by code | 1.0.0 | [#1](https://github.com/magento-hackathon/m2-content-provisioning/issues/1) |
-| planned | Remove duplicate code by using general Interfaces and implementations and configure page and block specific class as virtual types | 1.1.0 |  |
-| planned | CLI command to apply dedicated configured content entries to database | 1.2.0 | |
-| idea | Add a button to page or block edit page in Magento backend, if there is content defined for this page in code. (Like: "Use default content") | ? | |
-| idea | Persist version hash every time the content is applied to database and track whether is was changes by editor. (Auto `maintained` mode) | ? | |
+| planned | Refactoring: Needs to find a pretty solution in order avoid some duplicate code... | 1.1.x |
+| planned | CLI command to apply dedicated configured content entries to database | 1.2.x |
+| planned | Integration tests | 1.2.x |
+| idea | Add a button to page or block edit page in Magento backend, if there is content defined for this page in code. (Like: "Use default content") | ? |
+| idea | Persist version hash every time the content is applied to database and track whether is was changes by editor. (Auto `maintained` mode) | ? |
 
+Further ideas are welcome :)
+
+## Major changes
+| Feature/Change | Version |
+|---|---|
+| Configuration for pages | 0.1.0 |
+| Configuration for blocks | 0.1.0 |
+| Recurring setup installer for pages | 0.1.0 |
+| Recurring setup installer for blocks | 0.1.0 |
+| Notification in Magento backend (admin), for editors - if the content entry is maintained by code | 1.0.0 |
+| Introduce `key` attribute for configured entries, in order to improve merging of all configurations | 1.0.0 |
+| Refactoring: Improve query for fetching existing cms entities by configured entries | 1.0.0 |

@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model\Console;
 
-use Firegento\ContentProvisioning\Model\Query\GetAllPageEntries;
+use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
+use Firegento\ContentProvisioning\Model\Query\GetPageEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry;
+use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,20 +15,28 @@ use Symfony\Component\Console\Helper\Table;
 class PageListCommand extends Command
 {
     /**
-     * @var GetAllPageEntries
+     * @var GetPageEntryList
      */
     private $getAllContentEntries;
 
     /**
-     * @param GetAllPageEntries $getAllContentEntries
+     * @var GetPagesByPageEntry
+     */
+    private $getPagesByPageEntry;
+
+    /**
+     * @param GetPageEntryList $getAllContentEntries
+     * @param GetPagesByPageEntry $getPagesByPageEntry
      * @param string|null $name
      */
     public function __construct(
-        GetAllPageEntries $getAllContentEntries,
+        GetPageEntryList $getAllContentEntries,
+        GetPagesByPageEntry $getPagesByPageEntry,
         string $name = null
     ) {
         parent::__construct($name);
         $this->getAllContentEntries = $getAllContentEntries;
+        $this->getPagesByPageEntry = $getPagesByPageEntry;
     }
 
     /**
@@ -34,7 +45,7 @@ class PageListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $table = new Table($output);
-        $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'Content (Teaser)']);
+        $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
 
         foreach ($this->getAllContentEntries->get() as $entry) {
             $table->addRow([
@@ -44,7 +55,7 @@ class PageListCommand extends Command
                 $entry->isMaintained() ? 'yes' : 'no',
                 $entry->isActive() ? 'yes' : 'no',
                 $entry->getTitle(),
-                substr($entry->getContent(), 0, 147) . '...',
+                $this->getExistsInDbValue($entry)
             ]);
         }
 
@@ -61,4 +72,25 @@ class PageListCommand extends Command
         parent::configure();
     }
 
+    /**
+     * @param PageEntryInterface $entry
+     * @return string
+     */
+    private function getExistsInDbValue(PageEntryInterface $entry): string
+    {
+        try {
+            $ids = [];
+            foreach ($this->getPagesByPageEntry->execute($entry) as $page) {
+                $ids[] = $page->getId();
+            }
+
+            if (empty($ids)) {
+                return 'no';
+            }
+
+            return 'yes (' . implode(', ', $ids) . ')';
+        } catch (LocalizedException $noSuchEntityException) {
+            return 'ERROR: ' . $noSuchEntityException->getMessage();
+        }
+    }
 }
