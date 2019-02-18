@@ -36,7 +36,7 @@ class SeoNodeParser
     public function execute(DOMElement $element): array
     {
         $seoNodes = $element->getElementsByTagName('seo');
-        if ($seoNodes->count() > 0) {
+        if ($seoNodes->length > 0) {
             $node = $seoNodes->item(0);
             return [
                 PageEntryInterface::META_TITLE => $this->childNodeValueParser->execute($node, 'title'),

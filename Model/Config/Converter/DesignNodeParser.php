@@ -37,7 +37,7 @@ class DesignNodeParser
     public function execute(DOMElement $element): array
     {
         $nodes = $element->getElementsByTagName('design');
-        if ($nodes->count() > 0) {
+        if ($nodes->length > 0) {
             $node = $nodes->item(0);
             return [
                 PageEntryInterface::PAGE_LAYOUT => $this->childNodeValueParser->execute($node, 'layout'),

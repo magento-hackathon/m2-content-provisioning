@@ -36,7 +36,7 @@ class CustomDesignNodeParser
     public function execute(DOMElement $element): array
     {
         $nodes = $element->getElementsByTagName('custom_design');
-        if ($nodes->count() > 0) {
+        if ($nodes->length > 0) {
             $node = $nodes->item(0);
             return [
                 PageEntryInterface::CUSTOM_THEME_FROM => $this->childNodeValueParser->execute($node, 'from'),

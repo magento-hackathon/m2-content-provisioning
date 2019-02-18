@@ -15,7 +15,7 @@ class ChildNodeValueParser
     public function execute(DOMElement $node, string $childNodeName): string
     {
         $children = $node->getElementsByTagName($childNodeName);
-        if ($children->count() > 0) {
+        if ($children->length > 0) {
             return (string)$children->item(0)->textContent;
         }
         return '';
