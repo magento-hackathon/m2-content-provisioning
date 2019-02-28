@@ -66,16 +66,12 @@ class ApplyPageEntry
      */
     public function execute(PageEntryInterface $pageEntry): void
     {
-        try {
-            $page = $this->getFirstPageByPageEntry->execute($pageEntry);
-            if ($page === null) {
-                /** @var PageInterface $page */
-                $page = $this->pageFactory->create([]);
-            }
-            $page->addData($this->normalizeData->execute($pageEntry->getData()));
-            $this->pageRepository->save($page);
-        } catch (NoSuchEntityException $e) {
-            $this->logger->error($e->getMessage(), $e->getTrace());
+        $page = $this->getFirstPageByPageEntry->execute($pageEntry);
+        if ($page === null) {
+            /** @var PageInterface $page */
+            $page = $this->pageFactory->create([]);
         }
+        $page->addData($this->normalizeData->execute($pageEntry->getData()));
+        $this->pageRepository->save($page);
     }
 }

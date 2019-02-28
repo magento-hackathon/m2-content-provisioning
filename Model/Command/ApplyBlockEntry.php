@@ -66,16 +66,12 @@ class ApplyBlockEntry
      */
     public function execute(BlockEntryInterface $blockEntry): void
     {
-        try {
-            $block = $this->getFirstBlockByBlockEntry->execute($blockEntry);
-            if ($block === null) {
-                /** @var BlockInterface $page */
-                $block = $this->blockFactory->create([]);
-            }
-            $block->addData($this->normalizeData->execute($blockEntry->getData()));
-            $this->blockRepository->save($block);
-        } catch (NoSuchEntityException $e) {
-            $this->logger->error($e->getMessage(), $e->getTrace());
+        $block = $this->getFirstBlockByBlockEntry->execute($blockEntry);
+        if ($block === null) {
+            /** @var BlockInterface $page */
+            $block = $this->blockFactory->create([]);
         }
+        $block->addData($this->normalizeData->execute($blockEntry->getData()));
+        $this->blockRepository->save($block);
     }
 }
