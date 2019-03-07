@@ -7,10 +7,8 @@ use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterfaceFactory;
 use Firegento\ContentProvisioning\Model\BlockInstaller;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
-use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Cms\Api\GetBlockByIdentifierInterface;
 use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\Exception\ConfigurationMismatchException;
 use Magento\Store\Model\StoreManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -20,32 +18,27 @@ class BlockInstallerTest extends \PHPUnit\Framework\TestCase
     /**
      * @var BlockInstaller
      */
-    protected $installer;
+    private $installer;
 
     /**
      * @var GetBlockEntryList|MockObject
      */
-    protected $getBlockEntryListMock;
+    private $getBlockEntryListMock;
 
     /**
      * @var BlockEntryInterfaceFactory
      */
-    protected $blockEntryInterfaceFactory;
+    private $blockEntryInterfaceFactory;
 
     /**
      * @var GetBlockByIdentifierInterface
      */
-    protected $getBlockByIdentifier;
+    private $getBlockByIdentifier;
 
     /**
      * @var StoreManagerInterface
      */
-    protected $storeManager;
-
-    /**
-     * @var BlockRepositoryInterface
-     */
-    protected $blockRepository;
+    private $storeManager;
 
     /**
      * @var BlockEntryInterface[]
@@ -71,9 +64,6 @@ class BlockInstallerTest extends \PHPUnit\Framework\TestCase
 
         $this->storeManager = Bootstrap::getObjectManager()
             ->create(StoreManagerInterface::class);
-
-        $this->blockRepository = Bootstrap::getObjectManager()
-            ->create(BlockRepositoryInterface::class);
     }
 
     protected function tearDown()
