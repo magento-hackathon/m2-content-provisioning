@@ -23,7 +23,7 @@ before_install:
   - ln -s $(pwd) /tmp/magento/app/code/Firegento/ContentProvisioning
 
 before_script:
-  - /usr/bin/env php /tmp/magento/bin/magento setup:upgrade
+  - php /tmp/magento/bin/magento setup:upgrade
 
 script:
-  - /usr/bin/env php /tmp/magento/vendor/bin/phpunit -c /tmp/magento/app/code/Firegento/ContentProvisioning/Test/Integration/phpunit.xml
+  - php /tmp/magento/vendor/bin/phpunit -c /tmp/magento/app/code/Firegento/ContentProvisioning/Test/Integration/phpunit.xml
