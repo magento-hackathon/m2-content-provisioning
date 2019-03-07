@@ -16,7 +16,7 @@ env:
   - MAGENTO_VERSION=2.3
 
 before_install:
-  - composer create-project --repository=https://repo.magento.com/ magento/project-community-edition /tmp/magento "$MAGENTO_VERSION.*"
+  - git clone --depth=50 --branch=$MAGENTO_VERSION https://github.com/magento/magento2.git /tmp/magento
   - mysql -uroot -e 'SET @@global.sql_mode = NO_ENGINE_SUBSTITUTION; CREATE DATABASE magento_integration_tests;'
   - mv /tmp/magento/dev/tests/integration/etc/install-config-mysql.travis.php.dist /tmp/magento/dev/tests/integration/etc/install-config-mysql.php
   - mkdir -p /tmp/magento/app/code/Firegento
