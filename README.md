@@ -118,6 +118,23 @@ This node is optional. If it is not defined, the block or page will be applied t
 will also be applied to stores, which will be created in the future after re-running `setup:upgrade` command.
 You can also use the 'wildcard' `*` in order to define that the content should be applied to all stores.
 
+## Executing integration tests on local environment
+```bash
+# Create a new Magento instance
+composer create-project --repository=https://repo.magento.com/ magento/project-community-edition magento
+
+# Install content provisioning extension
+cd magento 
+composer require firegento/magento2-content-provisioning
+
+# Update database configuration for integration tests
+mv dev/tests/integration/etc/install-config-mysql.php.dist dev/tests/integration/etc/install-config-mysql.php
+vi dev/tests/integration/etc/install-config-mysql.php
+
+# Execute tests
+php vendor/bin/phpunit -c $(pwd)/vendor/firegento/magento2-content-provisioning/Test/Integration/phpunit.xml
+```
+
 ## Issues and planned features
 See issues to see what's planed next: https://github.com/magento-hackathon/m2-content-provisioning/issues
 Feel free to add your ideas there.
