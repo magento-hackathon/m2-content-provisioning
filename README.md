@@ -1,12 +1,12 @@
+# Description
+This module was developed during a Magento Hackathon organized by FireGento e.V. (https://firegento.com/).
+
+# Supported versions matrix
 | PHP | Magento 2.1 | Magento 2.2 | Magento 2.3 |
 |---|---|---|---|
 | 7.0 | not supported | not supported | not supported |
 | 7.1 | not supported | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/master/1)]((https://travis-ci.org/magento-hackathon/m2-content-provisioning)) | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/master/2)]((https://travis-ci.org/magento-hackathon/m2-content-provisioning)) |
 | 7.2 | not supported | not supported | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/master/3)]((https://travis-ci.org/magento-hackathon/m2-content-provisioning)) |
-
-
-# magento2-content-provisioning
-This module was developed during a Magento Hackathon organized by FireGento e.V. (https://firegento.com/).
 
 ## The idea behind this module
 It is a common requirement, that some parts of content (like CMS pages or blocks) need be deployed within
