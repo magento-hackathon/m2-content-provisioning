@@ -6,8 +6,9 @@ namespace Firegento\ContentProvisioning\Test\Integration\Model;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterfaceFactory;
 use Firegento\ContentProvisioning\Model\PageInstaller;
+use Firegento\ContentProvisioning\Model\Query\GetFirstPageByPageEntry;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryList;
-use Magento\Cms\Api\GetPageByIdentifierInterface;
+use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Store\Model\StoreManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -36,14 +37,14 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
     private $pageEntryInterfaceFactory;
 
     /**
-     * @var GetPageByIdentifierInterface
-     */
-    private $getPageByIdentifier;
-
-    /**
      * @var PageEntryInterface[]
      */
     private $pageEntries;
+
+    /**
+     * @var GetFirstPageByPageEntry
+     */
+    private $getFisrtPageByPageEntry;
 
 
     protected function setUp()
@@ -60,11 +61,11 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
         $this->pageEntryInterfaceFactory = Bootstrap::getObjectManager()
             ->create(PageEntryInterfaceFactory::class);
 
-        $this->getPageByIdentifier = Bootstrap::getObjectManager()
-            ->create(GetPageByIdentifierInterface::class);
-
         $this->storeManager = Bootstrap::getObjectManager()
             ->create(StoreManagerInterface::class);
+
+        $this->getFisrtPageByPageEntry = Bootstrap::getObjectManager()
+            ->create(GetFirstPageByPageEntry::class);
     }
 
     protected function tearDown()
@@ -139,13 +140,10 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
         $this->getPageEntryListMock->method('get')->willReturn($this->pageEntries);
     }
 
-    private function comparePageWithEntryForStore($entryIndex, $storeCode)
+    private function comparePageWithEntryForStore($entryIndex)
     {
         $entry = $this->pageEntries[$entryIndex];
-        $block = $this->getPageByIdentifier->execute(
-            $entry->getIdentifier(),
-            (int)$this->storeManager->getStore($storeCode)->getId()
-        );
+        $block = $this->getPageByPageEntry($entry);
 
         $this->assertSame($block->getTitle(), $entry->getTitle());
         $this->assertSame($block->getContent(), $entry->getContent());
@@ -158,6 +156,17 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($block->getContentHeading(), $entry->getContentHeading());
     }
 
+    /**
+     * @param PageEntryInterface $entry
+     * @return PageInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    private function getPageByPageEntry(PageEntryInterface $entry): PageInterface
+    {
+        return $this->getFisrtPageByPageEntry->execute($entry);
+    }
+
     public function testInstall()
     {
         $this->initEntries();
@@ -165,10 +174,9 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
         $this->installer->install();
 
         // Verify, that pages are in database like defined
-        $this->comparePageWithEntryForStore(1, 'admin');
-        $this->comparePageWithEntryForStore(2, 'default');
-        $this->comparePageWithEntryForStore(2, 'admin');
-        $this->comparePageWithEntryForStore(3, 'default');
+        $this->comparePageWithEntryForStore(1);
+        $this->comparePageWithEntryForStore(2);
+        $this->comparePageWithEntryForStore(3);
     }
 
     public function testInstallUpdateMaintainedPages()
@@ -196,15 +204,12 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
         $this->installer->install();
 
         // Verify that first and third page was updated
-        $this->comparePageWithEntryForStore(1, 'admin');
-        $this->comparePageWithEntryForStore(3, 'default');
+        $this->comparePageWithEntryForStore(1);
+        $this->comparePageWithEntryForStore(3);
 
         // Verify that second page did not change
         $entry = $this->pageEntries[2];
-        $block = $this->getPageByIdentifier->execute(
-            $entry->getIdentifier(),
-            (int)$this->storeManager->getStore('default')->getId()
-        );
+        $block = $this->getPageByPageEntry($entry);
 
         $this->assertNotSame($block->getTitle(), $entry->getTitle());
         $this->assertNotSame($block->getContent(), $entry->getContent());
