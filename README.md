@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/magento-hackathon/m2-content-provisioning.svg?branch=master)](https://travis-ci.org/magento-hackathon/m2-content-provisioning)
+
 # magento2-content-provisioning
 This module was developed during a Magento Hackathon organized by FireGento e.V. (https://firegento.com/).
 
