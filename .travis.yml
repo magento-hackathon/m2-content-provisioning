@@ -1,0 +1,29 @@
+addons:
+  apt:
+    packages:
+    - mysql-server-5.7
+    - mysql-client-core-5.7
+    - mysql-client-5.7
+
+language: php
+php:
+  - 7.1
+  - 7.2
+
+env:
+  matrix:
+  - MAGENTO_VERSION=2.2
+  - MAGENTO_VERSION=2.3
+
+before_install:
+  - composer create-project --repository=https://repo.magento.com/ magento/project-community-edition /tmp/magento "$MAGENTO_VERSION.*"
+  - mysql -uroot -e 'SET @@global.sql_mode = NO_ENGINE_SUBSTITUTION; CREATE DATABASE magento_integration_tests;'
+  - mv /tmp/magento/dev/tests/integration/etc/install-config-mysql.travis.php.dist /tmp/magento/dev/tests/integration/etc/install-config-mysql.php
+  - mkdir -p /tmp/magento/app/code/Firegento
+  - ln -s $(pwd) /tmp/magento/app/code/Firegento/ContentProvisioning
+
+before_script:
+  - /usr/bin/env php /tmp/magento/bin/magento setup:upgrade
+
+script:
+  - /usr/bin/env php /tmp/magento/vendor/bin/phpunit -c /tmp/magento/app/code/Firegento/ContentProvisioning/Test/Integration/phpunit.xml
