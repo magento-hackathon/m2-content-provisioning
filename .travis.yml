@@ -12,7 +12,6 @@ language: php
 php:
   - 7.1
   - 7.2
-  - 7.3
 
 env:
   matrix:
@@ -22,8 +21,6 @@ env:
 matrix:
   exclude:
   - php: 7.2
-    env: MAGENTO_VERSION=2.2
-  - php: 7.3
     env: MAGENTO_VERSION=2.2
 
 before_install:
