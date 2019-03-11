@@ -1,12 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Firegento\ContentProvisioning\Model\Config\Converter;
+namespace Firegento\ContentProvisioning\Model\Config\Parser;
 
 use DOMElement;
+use Firegento\ContentProvisioning\Api\ConfigParserInterface;
 use Firegento\ContentProvisioning\Api\StoreCodeResolverInterface;
+use Firegento\ContentProvisioning\Model\Config\Parser\Query\FetchAttributeValue;
 
-class StoresNodeParser
+class StoresParser implements ConfigParserInterface
 {
     /**
      * @var StoreCodeResolverInterface
@@ -14,20 +16,20 @@ class StoresNodeParser
     private $storeCodeResolver;
 
     /**
-     * @var AttributeValueParser
+     * @var FetchAttributeValue
      */
-    private $attributeValueParser;
+    private $fetchAttributeValue;
 
     /**
      * @param StoreCodeResolverInterface $storeCodeResolver
-     * @param AttributeValueParser $attributeValueParser
+     * @param FetchAttributeValue $fetchAttributeValue
      */
     public function __construct(
         StoreCodeResolverInterface $storeCodeResolver,
-        AttributeValueParser $attributeValueParser
+        FetchAttributeValue $fetchAttributeValue
     ) {
         $this->storeCodeResolver = $storeCodeResolver;
-        $this->attributeValueParser = $attributeValueParser;
+        $this->fetchAttributeValue = $fetchAttributeValue;
     }
 
     /**
@@ -39,7 +41,7 @@ class StoresNodeParser
         $output = [];
         foreach ($element->getElementsByTagName('store') as $store) {
             $storeCodes = $this->storeCodeResolver->execute(
-                (string)$this->attributeValueParser->execute($store, 'code', '*')
+                (string)$this->fetchAttributeValue->execute($store, 'code', '*')
             );
             $output = array_merge($output, $storeCodes);
         }
@@ -48,6 +50,6 @@ class StoresNodeParser
             $output = $this->storeCodeResolver->execute('*');
         }
 
-        return $output;
+        return ['stores' => $output];
     }
 }

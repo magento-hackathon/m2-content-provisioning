@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Firegento\ContentProvisioning\Model\Config\Converter;
+namespace Firegento\ContentProvisioning\Model\Config\Parser\Query;
 
 use DOMElement;
 
-class ChildNodeValueParser
+class FetchChildNodeValue
 {
     /**
      * @param DOMElement $node
      * @param string $childNodeName
-     * @return null|string
+     * @return string
      */
     public function execute(DOMElement $node, string $childNodeName): string
     {
