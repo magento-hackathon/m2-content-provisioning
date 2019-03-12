@@ -5,6 +5,60 @@
     <preference for="Firegento\ContentProvisioning\Api\Data\PageEntryInterface" type="Firegento\ContentProvisioning\Model\PageEntry" />
     <preference for="Firegento\ContentProvisioning\Api\Data\BlockEntryInterface" type="Firegento\ContentProvisioning\Model\BlockEntry" />
 
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Parser\PageContentParser" type="Firegento\ContentProvisioning\Model\Config\Parser\ContentParser">
+        <arguments>
+            <argument name="arrayKey" xsi:type="const">Firegento\ContentProvisioning\Api\Data\PageEntryInterface::CONTENT</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Parser\PageParserChain" type="Firegento\ContentProvisioning\Model\Config\Parser\ParserChain">
+        <arguments>
+            <argument name="parser" xsi:type="array">
+                <item name="meta" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\MetaDataParser</item>
+                <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\StoresParser</item>
+                <item name="content" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Parser\PageContentParser</item>
+                <item name="content_heading" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\ContentHeadingParser</item>
+                <item name="seo" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\SeoParser</item>
+                <item name="design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\DesignParser</item>
+                <item name="custom_design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\CustomDesignParser</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Parser\BlockContentParser" type="Firegento\ContentProvisioning\Model\Config\Parser\ContentParser">
+        <arguments>
+            <argument name="arrayKey" xsi:type="const">Firegento\ContentProvisioning\Api\Data\BlockEntryInterface::CONTENT</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Parser\BlockParserChain" type="Firegento\ContentProvisioning\Model\Config\Parser\ParserChain">
+        <arguments>
+            <argument name="parser" xsi:type="array">
+                <item name="meta" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\MetaDataParser</item>
+                <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\StoresParser</item>
+                <item name="content" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Parser\BlockContentParser</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\PageNodeConverter" type="Firegento\ContentProvisioning\Model\Config\NodeConverter">
+        <arguments>
+            <argument name="configParser" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Parser\PageParserChain</argument>
+            <argument name="nodeName" xsi:type="string">page</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\BlockNodeConverter" type="Firegento\ContentProvisioning\Model\Config\NodeConverter">
+        <arguments>
+            <argument name="configParser" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Parser\BlockParserChain</argument>
+            <argument name="nodeName" xsi:type="string">block</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Firegento\ContentProvisioning\Model\Config\Converter">
+        <arguments>
+            <argument name="pageNodeConverter" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\PageNodeConverter</argument>
+            <argument name="blockNodeConverter" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\BlockNodeConverter</argument>
+        </arguments>
+    </type>
+
     <virtualType name="Firegento\ContentProvisioning\Model\Config\Reader" type="Magento\Framework\Config\Reader\Filesystem">
         <arguments>
             <argument name="fileName" xsi:type="string">content_provisioning.xml</argument>

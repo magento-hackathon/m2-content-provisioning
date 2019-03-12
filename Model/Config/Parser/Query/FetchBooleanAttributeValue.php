@@ -1,24 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace Firegento\ContentProvisioning\Model\Config\Converter;
+namespace Firegento\ContentProvisioning\Model\Config\Parser\Query;
 
 use DOMNode;
 
-class BooleanAttributeValueParser
+class FetchBooleanAttributeValue
 {
     /**
-     * @var AttributeValueParser
+     * @var FetchAttributeValue
      */
-    private $attributeValueParser;
+    private $fetchAttributeValue;
 
     /**
-     * @param AttributeValueParser $attributeValueParser
+     * @param FetchAttributeValue $fetchAttributeValue
      */
     public function __construct(
-        AttributeValueParser $attributeValueParser
+        FetchAttributeValue $fetchAttributeValue
     ) {
-        $this->attributeValueParser = $attributeValueParser;
+        $this->fetchAttributeValue = $fetchAttributeValue;
     }
 
     /**
@@ -30,7 +30,7 @@ class BooleanAttributeValueParser
     public function execute(DOMNode $node, string $attributeName, ?string $defaultValue = null): bool
     {
         return $this->castBoolean(
-            (string)$this->attributeValueParser->execute($node, $attributeName, (string)$defaultValue)
+            (string)$this->fetchAttributeValue->execute($node, $attributeName, (string)$defaultValue)
         );
     }
 

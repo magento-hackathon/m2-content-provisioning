@@ -43,8 +43,8 @@ class MaintainedContentWarning extends Template
     public function getMessage(): Phrase
     {
         return __(
-            'This content is maintained by software releases. ' .
-            'All changes will be overwritten with next update!'
+            'This content is managed by the release. ' .
+            'All changes will be overwritten by the next update!'
         );
     }
 }
