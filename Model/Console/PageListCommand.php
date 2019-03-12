@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Console;
 
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
-use Firegento\ContentProvisioning\Model\Query\GetPageEntryList;
-use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry;
+use Firegento\ContentProvisioning\Model\Query\GetPageEntryList\Proxy as GetPageEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry\Proxy as GetPagesByPageEntry;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
