@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Console;
 
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
-use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
-use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry;
+use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy as GetBlockEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry\Proxy as GetBlocksByBlockEntry;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
