@@ -8,7 +8,7 @@
         "magento/module-widget": "101.1.*"
     },
     "require-dev": {
-        "mikey179/vfsStream": "^1.6"
+        "mikey179/vfsstream": "^1.6"
     },
     "license": [
         "OSL-3.0",

@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 1.2.0
+* *Feature:* Enables module to provide media files
+** Introduce optional XML node for pages and blocks: `media_directory`
+** Media files, which are used in the content will be copied to Magento's `pub/media` directory if they are
+   present in the defined source media directory
+
+## 1.1.1
+* *Bugfix:* In some cases `bin/magento` execution was not able at all during the initial Magento install
+
+## 1.1.0
+* *Feature:* Introduce further interfaces and refactor config reader structure, in order to improve extensibility
+
+## 1.0.4
+* *Bugfix:* Backport bugfix from version 1.1.1
+
 ## 1.0.3
 * *Bugfix:* Fix issue with missing `store_id` values while persisting block entries.
 
