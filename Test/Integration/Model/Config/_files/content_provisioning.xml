@@ -27,6 +27,11 @@
             <theme_id>3</theme_id>
         </custom_design>
     </page>
+    <page key="test.page.3" identifier="test-page-3" active="true" maintained="true">
+        <title>Page With Images</title>
+        <content type="file">Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/content-with-images-1.html</content>
+        <media_directory>Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/media</media_directory>
+    </page>
     <block key="test.block.1" identifier="test-block-1" maintained="true" active="true">
         <title>Test Block 1</title>
         <content><![CDATA[<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>]]></content>
@@ -38,5 +43,10 @@
             <store code="default" />
             <store code="admin" />
         </stores>
+    </block>
+    <block key="test.block.3" identifier="test-block-3" maintained="true" active="true">
+        <title>Block With Images</title>
+        <content type="file">Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/content-with-images-1.html</content>
+        <media_directory>Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/media</media_directory>
     </block>
 </config>

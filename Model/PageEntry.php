@@ -55,4 +55,36 @@ class PageEntry extends Page implements PageEntryInterface
     {
         $this->setData(PageEntryInterface::STORES, $stores);
     }
+
+    /**
+     * @return string
+     */
+    public function getMediaDirectory(): string
+    {
+        return (string)$this->getData(PageEntryInterface::MEDIA_DIRECTORY);
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setMediaDirectory(string $path): void
+    {
+        $this->setData(PageEntryInterface::MEDIA_DIRECTORY, $path);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMediaFiles(): array
+    {
+        return (array)$this->getData(PageEntryInterface::MEDIA_FILES);
+    }
+
+    /**
+     * @param array $files
+     */
+    public function setMediaFiles(array $files): void
+    {
+        $this->setData(PageEntryInterface::MEDIA_FILES, $files);
+    }
 }

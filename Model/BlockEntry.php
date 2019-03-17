@@ -55,4 +55,36 @@ class BlockEntry extends Block implements BlockEntryInterface
     {
         $this->setData(BlockEntryInterface::STORES, $stores);
     }
+
+    /**
+     * @return string
+     */
+    public function getMediaDirectory(): string
+    {
+        return (string)$this->getData(BlockEntryInterface::MEDIA_DIRECTORY);
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setMediaDirectory(string $path): void
+    {
+        $this->setData(BlockEntryInterface::MEDIA_DIRECTORY, $path);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMediaFiles(): array
+    {
+        return (array)$this->getData(BlockEntryInterface::MEDIA_FILES);
+    }
+
+    /**
+     * @param array $files
+     */
+    public function setMediaFiles(array $files): void
+    {
+        $this->setData(BlockEntryInterface::MEDIA_FILES, $files);
+    }
 }

@@ -14,6 +14,8 @@ return [
             PageEntryInterface::IS_MAINTAINED => true,
             PageEntryInterface::STORES => ['admin'],
             PageEntryInterface::CONTENT_HEADING => '',
+            PageEntryInterface::MEDIA_DIRECTORY => null,
+            PageEntryInterface::MEDIA_FILES => [],
         ],
         'test.page.2' => [
             PageEntryInterface::TITLE => 'Title 2',
@@ -33,6 +35,24 @@ return [
             PageEntryInterface::CUSTOM_THEME_TO => '2019-03-29',
             PageEntryInterface::CUSTOM_THEME => '3',
             PageEntryInterface::CUSTOM_ROOT_TEMPLATE => '3columns',
+            PageEntryInterface::MEDIA_DIRECTORY => null,
+            PageEntryInterface::MEDIA_FILES => [],
+        ],
+        'test.page.3' => [
+            PageEntryInterface::TITLE => 'Page With Images',
+            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/test-files/content-with-images-1.html'),
+            PageEntryInterface::KEY => 'test.page.3',
+            PageEntryInterface::IDENTIFIER => 'test-page-3',
+            PageEntryInterface::IS_ACTIVE => true,
+            PageEntryInterface::IS_MAINTAINED => true,
+            PageEntryInterface::STORES => ['admin'],
+            PageEntryInterface::CONTENT_HEADING => '',
+            PageEntryInterface::MEDIA_DIRECTORY => __DIR__ . '/test-files/media',
+            PageEntryInterface::MEDIA_FILES => [
+                'image-1.png',
+                'some-test-image.png',
+                'foobar/test.png',
+            ],
         ]
     ],
     'blocks' => [
@@ -44,6 +64,8 @@ return [
             BlockEntryInterface::IS_ACTIVE => true,
             BlockEntryInterface::IS_MAINTAINED => true,
             BlockEntryInterface::STORES => ['admin'],
+            BlockEntryInterface::MEDIA_DIRECTORY => null,
+            BlockEntryInterface::MEDIA_FILES => [],
         ],
         'test.block.2' => [
             BlockEntryInterface::TITLE => 'Test Block 2',
@@ -53,6 +75,23 @@ return [
             BlockEntryInterface::IS_ACTIVE => true,
             BlockEntryInterface::IS_MAINTAINED => false,
             BlockEntryInterface::STORES => ['default', 'admin'],
+            BlockEntryInterface::MEDIA_DIRECTORY => null,
+            BlockEntryInterface::MEDIA_FILES => [],
+        ],
+        'test.block.3' => [
+            BlockEntryInterface::TITLE => 'Block With Images',
+            BlockEntryInterface::CONTENT => file_get_contents(__DIR__ . '/test-files/content-with-images-1.html'),
+            BlockEntryInterface::KEY => 'test.block.3',
+            BlockEntryInterface::IDENTIFIER => 'test-block-3',
+            BlockEntryInterface::IS_ACTIVE => true,
+            BlockEntryInterface::IS_MAINTAINED => true,
+            BlockEntryInterface::STORES => ['admin'],
+            BlockEntryInterface::MEDIA_DIRECTORY => __DIR__ . '/test-files/media',
+            BlockEntryInterface::MEDIA_FILES => [
+                'image-1.png',
+                'some-test-image.png',
+                'foobar/test.png',
+            ],
         ],
     ],
 ];

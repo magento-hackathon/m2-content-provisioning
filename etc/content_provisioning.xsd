@@ -30,6 +30,13 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="media_directory">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="3"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
             <xs:element minOccurs="0" maxOccurs="1" type="stores" name="stores" />
             <xs:element minOccurs="0" maxOccurs="1" type="seo" name="seo" />
             <xs:element minOccurs="0" maxOccurs="1" type="design" name="design" />
@@ -69,6 +76,13 @@
         <xs:choice maxOccurs="unbounded">
             <xs:element minOccurs="0" maxOccurs="1" type="stores" name="stores" />
             <xs:element minOccurs="1" maxOccurs="1" type="content" name="content" />
+            <xs:element minOccurs="0" maxOccurs="1" name="media_directory">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="3"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
             <xs:element minOccurs="1" maxOccurs="1" type="xs:string" name="title" />
         </xs:choice>
         <xs:attribute name="key" type="key" use="required" />
