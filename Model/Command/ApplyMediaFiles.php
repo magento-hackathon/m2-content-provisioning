@@ -51,7 +51,7 @@ class ApplyMediaFiles
         $sourceInfo = new SplFileInfo($sourcePathname);
         if ($sourceInfo->isFile() && $sourceInfo->isReadable()) {
             $this->createDirectory($targetDirPath, $sourceDirPath, $sourceInfo);
-            copy($sourceInfo->getRealPath(), $targetPathname);
+            copy($sourceInfo->getPathname(), $targetPathname);
         }
     }
 
