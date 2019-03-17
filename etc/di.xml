@@ -4,6 +4,7 @@
     <preference for="Firegento\ContentProvisioning\Api\StoreCodeResolverInterface" type="Firegento\ContentProvisioning\Model\Resolver\StoreCodeResolver" />
     <preference for="Firegento\ContentProvisioning\Api\Data\PageEntryInterface" type="Firegento\ContentProvisioning\Model\PageEntry" />
     <preference for="Firegento\ContentProvisioning\Api\Data\BlockEntryInterface" type="Firegento\ContentProvisioning\Model\BlockEntry" />
+    <preference for="Firegento\ContentProvisioning\Api\TargetMediaDirectoryPathProviderInterface" type="Firegento\ContentProvisioning\Model\Configuration\TargetMediaDirectoryPathProvider" />
 
     <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Parser\PageContentParser" type="Firegento\ContentProvisioning\Model\Config\Parser\ContentParser">
         <arguments>

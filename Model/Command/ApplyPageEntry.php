@@ -9,8 +9,6 @@ use Magento\Cms\Api\Data\PageInterface;
 use Magento\Cms\Api\Data\PageInterfaceFactory;
 use Magento\Cms\Api\PageRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Psr\Log\LoggerInterface;
 
 class ApplyPageEntry
 {
@@ -23,11 +21,6 @@ class ApplyPageEntry
      * @var GetFirstPageByPageEntry
      */
     private $getFirstPageByPageEntry;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
 
     /**
      * @var PageRepositoryInterface
@@ -43,19 +36,16 @@ class ApplyPageEntry
      * @param PageInterfaceFactory $pageFactory
      * @param GetFirstPageByPageEntry $getFirstPageByPageEntry
      * @param PageRepositoryInterface $pageRepository
-     * @param LoggerInterface $logger
      * @param NormalizeData $normalizeData
      */
     public function __construct(
         PageInterfaceFactory $pageFactory,
         GetFirstPageByPageEntry $getFirstPageByPageEntry,
         PageRepositoryInterface $pageRepository,
-        LoggerInterface $logger,
         NormalizeData $normalizeData
     ) {
         $this->pageFactory = $pageFactory;
         $this->getFirstPageByPageEntry = $getFirstPageByPageEntry;
-        $this->logger = $logger;
         $this->pageRepository = $pageRepository;
         $this->normalizeData = $normalizeData;
     }
