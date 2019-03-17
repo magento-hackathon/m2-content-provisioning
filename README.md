@@ -59,6 +59,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
     <page key="your-module.page.an-identifier.german" identifier="an-identifier" maintained="true" active="true">
         <title>Page Title</title>
         <content heading="New Page Heading" type="file">Your_Module::path/to/content.html</content>
+        <media_directory>Your_Module::path/to/media</media_directory>
         <stores>
             <store code="germany_german" />
             <store code="swiss_german" />
@@ -103,6 +104,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
     <block key="your-module.block.lorem-ipsum-2.german" identifier="lorem-ipsum-2" maintained="false" active="true">
         <title>Test Block 2</title>
         <content type="file">Your_Module::path/to/content.html</content>
+        <media_directory>Your_Module::path/to/media</media_directory>
         <stores>
             <store code="germany_german" />
             <store code="swiss_german" />
@@ -135,6 +137,11 @@ you need to add the `type="file"` attribute to the content node.
 This node is optional. If it is not defined, the block or page will be applied to all stores. A "maintained" entry
 will also be applied to stores, which will be created in the future after re-running `setup:upgrade` command.
 You can also use the 'wildcard' `*` in order to define that the content should be applied to all stores.
+
+### `media_directory`-Node (since version 1.2.0)
+Specifies the directory for media files. Each used media file in the content and present in media source directory
+will be copied to Magento's `pub/media` directory. Sub-directory structure should be same like inspected it to be
+in `pub/media`. Only existing and used media files will be copied. 
 
 ## Executing integration tests on local environment
 ```bash
