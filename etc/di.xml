@@ -4,6 +4,7 @@
     <preference for="Firegento\ContentProvisioning\Api\StoreCodeResolverInterface" type="Firegento\ContentProvisioning\Model\Resolver\StoreCodeResolver" />
     <preference for="Firegento\ContentProvisioning\Api\Data\PageEntryInterface" type="Firegento\ContentProvisioning\Model\PageEntry" />
     <preference for="Firegento\ContentProvisioning\Api\Data\BlockEntryInterface" type="Firegento\ContentProvisioning\Model\BlockEntry" />
+    <preference for="Firegento\ContentProvisioning\Api\TargetMediaDirectoryPathProviderInterface" type="Firegento\ContentProvisioning\Model\Configuration\TargetMediaDirectoryPathProvider" />
 
     <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Parser\PageContentParser" type="Firegento\ContentProvisioning\Model\Config\Parser\ContentParser">
         <arguments>
@@ -20,6 +21,7 @@
                 <item name="seo" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\SeoParser</item>
                 <item name="design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\DesignParser</item>
                 <item name="custom_design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\CustomDesignParser</item>
+                <item name="media_directory" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\MediaDirectoryParser</item>
             </argument>
         </arguments>
     </virtualType>
@@ -35,6 +37,7 @@
                 <item name="meta" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\MetaDataParser</item>
                 <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\StoresParser</item>
                 <item name="content" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Parser\BlockContentParser</item>
+                <item name="media_directory" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\MediaDirectoryParser</item>
             </argument>
         </arguments>
     </virtualType>

@@ -9,16 +9,9 @@ use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Cms\Api\Data\BlockInterfaceFactory;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Psr\Log\LoggerInterface;
 
 class ApplyBlockEntry
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
     /**
      * @var BlockInterfaceFactory
      */
@@ -40,20 +33,17 @@ class ApplyBlockEntry
     private $normalizeData;
 
     /**
-     * @param LoggerInterface $logger
      * @param BlockInterfaceFactory $blockFactory
      * @param GetFirstBlockByBlockEntry $getFirstBlockByBlockEntry
      * @param BlockRepositoryInterface $blockRepository
      * @param NormalizeData $normalizeData
      */
     public function __construct(
-        LoggerInterface $logger,
         BlockInterfaceFactory $blockFactory,
         GetFirstBlockByBlockEntry $getFirstBlockByBlockEntry,
         BlockRepositoryInterface $blockRepository,
         NormalizeData $normalizeData
     ) {
-        $this->logger = $logger;
         $this->blockFactory = $blockFactory;
         $this->getFirstBlockByBlockEntry = $getFirstBlockByBlockEntry;
         $this->blockRepository = $blockRepository;

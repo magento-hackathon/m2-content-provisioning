@@ -2,11 +2,11 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
     <page key="test.page.1" identifier="test-page-1" maintained="true" active="true">
         <title>Test Page 1</title>
-        <content type="file">Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/file-1.html</content>
+        <content type="file">Firegento_ContentProvisioning::Test/Integration/_files/content/file-1.html</content>
     </page>
     <page key="test.page.2" identifier="test-page-2" active="false">
         <title>Title 2</title>
-        <content heading="New Page Heading 2" type="file">Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/file-1.html</content>
+        <content heading="New Page Heading 2" type="file">Firegento_ContentProvisioning::Test/Integration/_files/content/file-1.html</content>
         <stores>
             <store code="default" />
             <store code="admin" />
@@ -29,8 +29,8 @@
     </page>
     <page key="test.page.3" identifier="test-page-3" active="true" maintained="true">
         <title>Page With Images</title>
-        <content type="file">Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/content-with-images-1.html</content>
-        <media_directory>Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/media</media_directory>
+        <content type="file">Firegento_ContentProvisioning::Test/Integration/_files/content/content-with-images-1.html</content>
+        <media_directory>Firegento_ContentProvisioning::Test/Integration/_files/content/media</media_directory>
     </page>
     <block key="test.block.1" identifier="test-block-1" maintained="true" active="true">
         <title>Test Block 1</title>
@@ -38,7 +38,7 @@
     </block>
     <block key="test.block.2" identifier="test-block-2" maintained="false" active="true">
         <title>Test Block 2</title>
-        <content type="file">Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/file-1.html</content>
+        <content type="file">Firegento_ContentProvisioning::Test/Integration/_files/content/file-1.html</content>
         <stores>
             <store code="default" />
             <store code="admin" />
@@ -46,7 +46,7 @@
     </block>
     <block key="test.block.3" identifier="test-block-3" maintained="true" active="true">
         <title>Block With Images</title>
-        <content type="file">Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/content-with-images-1.html</content>
-        <media_directory>Firegento_ContentProvisioning::Test/Integration/Model/Config/_files/test-files/media</media_directory>
+        <content type="file">Firegento_ContentProvisioning::Test/Integration/_files/content/content-with-images-1.html</content>
+        <media_directory>Firegento_ContentProvisioning::Test/Integration/_files/content/media</media_directory>
     </block>
 </config>

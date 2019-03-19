@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Firegento\ContentProvisioning\Test\Integration\Model;
+namespace Firegento\ContentProvisioning\Test\Integration\Model\PageInstaller;
 
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterfaceFactory;
@@ -14,37 +14,37 @@ use Magento\Store\Model\StoreManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Magento\TestFramework\Helper\Bootstrap;
 
-class PageInstallerTest extends \PHPUnit\Framework\TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var StoreManagerInterface
      */
-    private $storeManager;
+    protected $storeManager;
 
     /**
      * @var GetPageEntryList|MockObject
      */
-    private $getPageEntryListMock;
+    protected $getPageEntryListMock;
 
     /**
      * @var PageInstaller
      */
-    private $installer;
+    protected $installer;
 
     /**
      * @var PageEntryInterfaceFactory
      */
-    private $pageEntryInterfaceFactory;
+    protected $pageEntryInterfaceFactory;
 
     /**
      * @var PageEntryInterface[]
      */
-    private $pageEntries;
+    protected $pageEntries;
 
     /**
      * @var GetFirstPageByPageEntry
      */
-    private $getFisrtPageByPageEntry;
+    protected $getFisrtPageByPageEntry;
 
 
     protected function setUp()
@@ -88,7 +88,7 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    private function initEntries()
+    protected function initEntries()
     {
         $this->pageEntries[1] = $this->pageEntryInterfaceFactory->create(['data' => [
             PageEntryInterface::TITLE => 'Test Page 1',
@@ -112,7 +112,7 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
 
         $this->pageEntries[2] = $this->pageEntryInterfaceFactory->create(['data' => [
             PageEntryInterface::TITLE => 'Test Page 2',
-            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/_files/dummy-content.html'),
+            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/../../_files/content/dummy-content.html'),
             PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
             PageEntryInterface::KEY => 'test.page.2',
             PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-2',
@@ -140,7 +140,7 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
         $this->getPageEntryListMock->method('get')->willReturn($this->pageEntries);
     }
 
-    private function comparePageWithEntryForStore($entryIndex)
+    protected function comparePageWithEntryForStore($entryIndex)
     {
         $entry = $this->pageEntries[$entryIndex];
         $block = $this->getPageByPageEntry($entry);
@@ -162,56 +162,8 @@ class PageInstallerTest extends \PHPUnit\Framework\TestCase
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function getPageByPageEntry(PageEntryInterface $entry): PageInterface
+    protected function getPageByPageEntry(PageEntryInterface $entry): PageInterface
     {
         return $this->getFisrtPageByPageEntry->execute($entry);
-    }
-
-    public function testInstall()
-    {
-        $this->initEntries();
-
-        $this->installer->install();
-
-        // Verify, that pages are in database like defined
-        $this->comparePageWithEntryForStore(1);
-        $this->comparePageWithEntryForStore(2);
-        $this->comparePageWithEntryForStore(3);
-    }
-
-    public function testInstallUpdateMaintainedPages()
-    {
-        $this->initEntries();
-
-        $this->installer->install();
-
-        // Change page entry values
-        $this->pageEntries[1]->setTitle('Changed Page 1');
-        $this->pageEntries[1]->setIsActive(true);
-        $this->pageEntries[1]->setContent('New Content');
-
-        $this->pageEntries[2]->setTitle('Changed Page 2');
-        $this->pageEntries[2]->setIsActive(true);
-        $this->pageEntries[2]->setContent('New Content');
-
-        $this->pageEntries[3]->setTitle('Changed Page 3');
-        $this->pageEntries[3]->setContent('New Content 333');
-        $this->pageEntries[3]->setMetaDescription('New Meta description');
-        $this->pageEntries[3]->setPageLayout('1column');
-        $this->pageEntries[3]->setContentHeading('Another Content Heading');
-
-        // Execute installer a second time
-        $this->installer->install();
-
-        // Verify that first and third page was updated
-        $this->comparePageWithEntryForStore(1);
-        $this->comparePageWithEntryForStore(3);
-
-        // Verify that second page did not change
-        $entry = $this->pageEntries[2];
-        $block = $this->getPageByPageEntry($entry);
-
-        $this->assertNotSame($block->getTitle(), $entry->getTitle());
-        $this->assertNotSame($block->getContent(), $entry->getContent());
     }
 }

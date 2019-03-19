@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Firegento\ContentProvisioning\Test\Integration\Model;
+namespace Firegento\ContentProvisioning\Test\Integration\Model\BlockInstaller;
 
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterfaceFactory;
@@ -14,37 +14,37 @@ use Magento\Store\Model\StoreManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Magento\TestFramework\Helper\Bootstrap;
 
-class BlockInstallerTest extends \PHPUnit\Framework\TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var BlockInstaller
      */
-    private $installer;
+    protected $installer;
 
     /**
      * @var GetBlockEntryList|MockObject
      */
-    private $getBlockEntryListMock;
+    protected $getBlockEntryListMock;
 
     /**
      * @var BlockEntryInterfaceFactory
      */
-    private $blockEntryInterfaceFactory;
+    protected $blockEntryInterfaceFactory;
 
     /**
      * @var StoreManagerInterface
      */
-    private $storeManager;
+    protected $storeManager;
 
     /**
      * @var BlockEntryInterface[]
      */
-    private $blockEntries = [];
+    protected $blockEntries = [];
 
     /**
      * @var GetFirstBlockByBlockEntry
      */
-    private $getFirstBlockByBlockEntry;
+    protected $getFirstBlockByBlockEntry;
 
     protected function setUp()
     {
@@ -80,7 +80,7 @@ class BlockInstallerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    private function initBlockEntries()
+    protected function initBlockEntries()
     {
         $this->blockEntries[1] = $this->blockEntryInterfaceFactory->create(['data' => [
             BlockEntryInterface::TITLE => 'Test Block 1',
@@ -94,7 +94,7 @@ class BlockInstallerTest extends \PHPUnit\Framework\TestCase
 
         $this->blockEntries[2] = $this->blockEntryInterfaceFactory->create(['data' => [
             BlockEntryInterface::TITLE => 'Test Block 2',
-            BlockEntryInterface::CONTENT => file_get_contents(__DIR__ . '/_files/dummy-content.html'),
+            BlockEntryInterface::CONTENT => file_get_contents(__DIR__ . '/../../_files/content/dummy-content.html'),
             BlockEntryInterface::KEY => 'test.block.2',
             BlockEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-2',
             BlockEntryInterface::IS_ACTIVE => true,
@@ -105,7 +105,7 @@ class BlockInstallerTest extends \PHPUnit\Framework\TestCase
         $this->getBlockEntryListMock->method('get')->willReturn($this->blockEntries);
     }
 
-    private function compareBlockWithEntryForStore($entryIndex)
+    protected function compareBlockWithEntryForStore($entryIndex)
     {
         $entry = $this->blockEntries[$entryIndex];
         $block = $this->getBlockByBlockEntry($entry);
@@ -121,48 +121,8 @@ class BlockInstallerTest extends \PHPUnit\Framework\TestCase
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function getBlockByBlockEntry(BlockEntryInterface $entry): BlockInterface
+    protected function getBlockByBlockEntry(BlockEntryInterface $entry): BlockInterface
     {
         return $this->getFirstBlockByBlockEntry->execute($entry);
-    }
-
-    public function testInstall()
-    {
-        $this->initBlockEntries();
-
-        $this->installer->install();
-
-        // Verify, that block are in database like defined
-        $this->compareBlockWithEntryForStore(1);
-        $this->compareBlockWithEntryForStore(2);
-    }
-
-    public function testInstallUpdateMaintainedBlocks()
-    {
-        $this->initBlockEntries();
-
-        $this->installer->install();
-
-        // Change block entry values
-        $this->blockEntries[1]->setTitle('Changed Block 1');
-        $this->blockEntries[1]->setIsActive(true);
-        $this->blockEntries[1]->setContent('New Content');
-
-        $this->blockEntries[2]->setTitle('Changed Block 2');
-        $this->blockEntries[2]->setIsActive(true);
-        $this->blockEntries[2]->setContent('New Content');
-
-        // Execute installer a second time
-        $this->installer->install();
-
-        // Verify that first block was updated
-        $this->compareBlockWithEntryForStore(1);
-
-        // Verify that second block did not change
-        $entry = $this->blockEntries[2];
-        $block = $this->getBlockByBlockEntry($entry);
-
-        $this->assertNotSame($block->getTitle(), $entry->getTitle());
-        $this->assertNotSame($block->getContent(), $entry->getContent());
     }
 }

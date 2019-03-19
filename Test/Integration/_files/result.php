@@ -7,7 +7,7 @@ return [
     'pages' => [
         'test.page.1' => [
             PageEntryInterface::TITLE => 'Test Page 1',
-            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/test-files/file-1.html'),
+            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/content/file-1.html'),
             PageEntryInterface::KEY => 'test.page.1',
             PageEntryInterface::IDENTIFIER => 'test-page-1',
             PageEntryInterface::IS_ACTIVE => true,
@@ -19,7 +19,7 @@ return [
         ],
         'test.page.2' => [
             PageEntryInterface::TITLE => 'Title 2',
-            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/test-files/file-1.html'),
+            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/content/file-1.html'),
             PageEntryInterface::KEY => 'test.page.2',
             PageEntryInterface::IDENTIFIER => 'test-page-2',
             PageEntryInterface::IS_ACTIVE => false,
@@ -40,14 +40,14 @@ return [
         ],
         'test.page.3' => [
             PageEntryInterface::TITLE => 'Page With Images',
-            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/test-files/content-with-images-1.html'),
+            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/content/content-with-images-1.html'),
             PageEntryInterface::KEY => 'test.page.3',
             PageEntryInterface::IDENTIFIER => 'test-page-3',
             PageEntryInterface::IS_ACTIVE => true,
             PageEntryInterface::IS_MAINTAINED => true,
             PageEntryInterface::STORES => ['admin'],
             PageEntryInterface::CONTENT_HEADING => '',
-            PageEntryInterface::MEDIA_DIRECTORY => __DIR__ . '/test-files/media',
+            PageEntryInterface::MEDIA_DIRECTORY => __DIR__ . '/content/media',
             PageEntryInterface::MEDIA_FILES => [
                 'image-1.png',
                 'some-test-image.png',
@@ -69,7 +69,7 @@ return [
         ],
         'test.block.2' => [
             BlockEntryInterface::TITLE => 'Test Block 2',
-            BlockEntryInterface::CONTENT => file_get_contents(__DIR__ . '/test-files/file-1.html'),
+            BlockEntryInterface::CONTENT => file_get_contents(__DIR__ . '/content/file-1.html'),
             BlockEntryInterface::KEY => 'test.block.2',
             BlockEntryInterface::IDENTIFIER => 'test-block-2',
             BlockEntryInterface::IS_ACTIVE => true,
@@ -80,13 +80,13 @@ return [
         ],
         'test.block.3' => [
             BlockEntryInterface::TITLE => 'Block With Images',
-            BlockEntryInterface::CONTENT => file_get_contents(__DIR__ . '/test-files/content-with-images-1.html'),
+            BlockEntryInterface::CONTENT => file_get_contents(__DIR__ . '/content/content-with-images-1.html'),
             BlockEntryInterface::KEY => 'test.block.3',
             BlockEntryInterface::IDENTIFIER => 'test-block-3',
             BlockEntryInterface::IS_ACTIVE => true,
             BlockEntryInterface::IS_MAINTAINED => true,
             BlockEntryInterface::STORES => ['admin'],
-            BlockEntryInterface::MEDIA_DIRECTORY => __DIR__ . '/test-files/media',
+            BlockEntryInterface::MEDIA_DIRECTORY => __DIR__ . '/content/media',
             BlockEntryInterface::MEDIA_FILES => [
                 'image-1.png',
                 'some-test-image.png',

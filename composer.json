@@ -7,6 +7,9 @@
         "magento/module-cms": "103.0.*",
         "magento/module-widget": "101.1.*"
     },
+    "require-dev": {
+        "mikey179/vfsstream": "^1.6"
+    },
     "license": [
         "OSL-3.0",
         "AFL-3.0"

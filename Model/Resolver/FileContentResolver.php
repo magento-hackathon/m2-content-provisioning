@@ -12,25 +12,17 @@ use Magento\Framework\Module\Dir\Reader;
 class FileContentResolver implements ContentResolverInterface
 {
     /**
-     * @var Reader
+     * @var PathResolver
      */
-    private $moduleReader;
+    private $pathResolver;
 
     /**
-     * @var DirectoryList
-     */
-    private $directoryList;
-
-    /**
-     * @param Reader $moduleReader
-     * @param DirectoryList $directoryList
+     * @param PathResolver $pathResolver
      */
     public function __construct(
-        Reader $moduleReader,
-        DirectoryList $directoryList
+        PathResolver $pathResolver
     ) {
-        $this->moduleReader = $moduleReader;
-        $this->directoryList = $directoryList;
+        $this->pathResolver = $pathResolver;
     }
 
     /**
@@ -40,34 +32,11 @@ class FileContentResolver implements ContentResolverInterface
      */
     public function execute(DOMElement $node): string
     {
-        $path = $this->resolvePath((string)$node->textContent);
+        $path = $this->pathResolver->execute((string)$node->textContent);
         if (!is_file($path)) {
             throw new LocalizedException(__('Given content file %file does not exists.', ['file' => $path]));
         }
 
         return file_get_contents($path);
-    }
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    private function resolvePath(string $path): string
-    {
-        if (strpos($path, '::') !== false) {
-            $pathParts = explode('::', $path, 2);
-            $moduleName = $pathParts[0];
-            $filePath = $pathParts[1];
-            $moduleDirectory = $this->moduleReader->getModuleDir('', $moduleName);
-            return implode(DIRECTORY_SEPARATOR, [
-                $moduleDirectory,
-                $filePath
-            ]);
-        } else {
-            return implode(DIRECTORY_SEPARATOR, [
-                $this->directoryList->getRoot(),
-                $path
-            ]);
-        }
     }
 }

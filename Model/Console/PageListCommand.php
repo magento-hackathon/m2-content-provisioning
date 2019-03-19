@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model\Console;
 
+use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryList\Proxy as GetPageEntryList;
 use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry\Proxy as GetPagesByPageEntry;
@@ -47,6 +48,7 @@ class PageListCommand extends Command
         $table = new Table($output);
         $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
 
+        /** @var EntryInterface $entry */
         foreach ($this->getAllContentEntries->get() as $entry) {
             $table->addRow([
                 $entry->getKey(),
@@ -55,7 +57,7 @@ class PageListCommand extends Command
                 $entry->isMaintained() ? 'yes' : 'no',
                 $entry->isActive() ? 'yes' : 'no',
                 $entry->getTitle(),
-                $this->getExistsInDbValue($entry)
+                $this->getExistsInDbValue($entry),
             ]);
         }
 

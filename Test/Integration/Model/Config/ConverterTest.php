@@ -21,7 +21,7 @@ class ConverterTest extends \PHPUnit\Framework\TestCase
 
     public function testConverter()
     {
-        $pathFiles = __DIR__ . '/_files';
+        $pathFiles = __DIR__ . '/../../_files';
         $expectedResult = require $pathFiles . '/result.php';
         $path = $pathFiles . '/content_provisioning.xml';
         $domDocument = new \DOMDocument();
