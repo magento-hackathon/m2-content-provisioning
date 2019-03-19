@@ -33,6 +33,7 @@ before_install:
 install:
   - cd /tmp/magento
   - composer install --no-interaction
+  - composer require --dev mikey179/vfsstream
 
 script:
   - php /tmp/magento/vendor/bin/phpunit -c /tmp/magento/app/code/Firegento/ContentProvisioning/Test/Integration/phpunit.travis.xml
