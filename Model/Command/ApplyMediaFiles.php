@@ -28,12 +28,12 @@ class ApplyMediaFiles
      */
     public function execute(EntryInterface $entry): void
     {
-        if ($entry[EntryInterface::MEDIA_DIRECTORY] === null) {
+        if ($entry->getMediaDirectory() === null) {
             return;
         }
 
-        $sourceDirPath = $entry[EntryInterface::MEDIA_DIRECTORY];
-        foreach ($entry[EntryInterface::MEDIA_FILES] as $fileName) {
+        $sourceDirPath = $entry->getMediaDirectory();
+        foreach ($entry->getMediaFiles() as $fileName) {
             $this->copyFile($sourceDirPath, $fileName);
         }
     }
