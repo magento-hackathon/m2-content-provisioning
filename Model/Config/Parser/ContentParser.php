@@ -8,7 +8,7 @@ use Firegento\ContentProvisioning\Api\ConfigParserInterface;
 use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Model\Config\Parser\Query\FetchAttributeValue;
-use Firegento\ContentProvisioning\Model\Config\Parser\Query\FetchMediaFilesFromContent;
+use Firegento\ContentProvisioning\Model\Config\Parser\Query\FetchMediaFilesChain;
 use Firegento\ContentProvisioning\Model\Resolver\ContentResolverProvider;
 use Magento\Framework\Exception\LocalizedException;
 
@@ -30,26 +30,26 @@ class ContentParser implements ConfigParserInterface
     private $arrayKey;
 
     /**
-     * @var FetchMediaFilesFromContent
+     * @var FetchMediaFilesChain
      */
-    private $fetchMediaFilesFromContent;
+    private $fetchMediaFilesChain;
 
     /**
      * @param ContentResolverProvider $contentResolverProvider
      * @param FetchAttributeValue $fetchAttributeValue
-     * @param FetchMediaFilesFromContent $fetchMediaFilesFromContent
+     * @param FetchMediaFilesChain $fetchMediaFilesChain
      * @param string $arrayKey
      */
     public function __construct(
         ContentResolverProvider $contentResolverProvider,
         FetchAttributeValue $fetchAttributeValue,
-        FetchMediaFilesFromContent $fetchMediaFilesFromContent,
+        FetchMediaFilesChain $fetchMediaFilesChain,
         string $arrayKey = PageEntryInterface::CONTENT
     ) {
         $this->contentResolverProvider = $contentResolverProvider;
         $this->fetchAttributeValue = $fetchAttributeValue;
         $this->arrayKey = $arrayKey;
-        $this->fetchMediaFilesFromContent = $fetchMediaFilesFromContent;
+        $this->fetchMediaFilesFromContent = $fetchMediaFilesChain;
     }
 
     /**
@@ -66,7 +66,7 @@ class ContentParser implements ConfigParserInterface
 
         return [
             $this->arrayKey => $content,
-            EntryInterface::MEDIA_FILES => $this->fetchMediaFilesFromContent->execute($content)
+            EntryInterface::MEDIA_FILES => $this->fetchMediaFilesChain->execute($content)
         ];
     }
 }

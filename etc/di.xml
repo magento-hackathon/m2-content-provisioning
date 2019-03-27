@@ -97,4 +97,12 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Firegento\ContentProvisioning\Model\Config\Parser\Query\FetchMediaFilesChain">
+        <arguments>
+            <argument name="parsers" xsi:type="array">
+                <item name="media_directive" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Parser\Query\Media\MediaDirectiveFileParser</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
