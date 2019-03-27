@@ -49,7 +49,7 @@ class ContentParser implements ConfigParserInterface
         $this->contentResolverProvider = $contentResolverProvider;
         $this->fetchAttributeValue = $fetchAttributeValue;
         $this->arrayKey = $arrayKey;
-        $this->fetchMediaFilesFromContent = $fetchMediaFilesChain;
+        $this->fetchMediaFilesChain = $fetchMediaFilesChain;
     }
 
     /**
