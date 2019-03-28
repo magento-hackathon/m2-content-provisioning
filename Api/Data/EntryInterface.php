@@ -14,50 +14,50 @@ interface EntryInterface
     /**
      * @return string
      */
-    public function getKey(): string;
+    public function getKey();
 
     /**
      * @param string $key
      */
-    public function setKey(string $key): void;
+    public function setKey($key);
 
     /**
      * @return bool
      */
-    public function isMaintained(): bool;
+    public function isMaintained();
 
     /**
      * @param bool $isMaintained
      */
-    public function setIsMaintained(bool $isMaintained): void;
+    public function setIsMaintained($isMaintained);
 
     /**
      * @return array
      */
-    public function getStores(): array;
+    public function getStores();
 
     /**
      * @param array $stores
      */
-    public function setStores(array $stores): void;
+    public function setStores(array $stores);
 
     /**
      * @return string
      */
-    public function getMediaDirectory(): string;
+    public function getMediaDirectory();
 
     /**
      * @param string $path
      */
-    public function setMediaDirectory(string $path): void;
+    public function setMediaDirectory($path);
 
     /**
      * @return array
      */
-    public function getMediaFiles(): array;
+    public function getMediaFiles();
 
     /**
      * @param array $files
      */
-    public function setMediaFiles(array $files): void;
+    public function setMediaFiles(array $files);
 }
