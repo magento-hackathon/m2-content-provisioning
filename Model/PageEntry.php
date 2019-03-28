@@ -67,7 +67,7 @@ class PageEntry extends Page implements PageEntryInterface
     /**
      * @param string $path
      */
-    public function setMediaDirectory(string $path)
+    public function setMediaDirectory($path)
     {
         $this->setData(PageEntryInterface::MEDIA_DIRECTORY, $path);
     }
