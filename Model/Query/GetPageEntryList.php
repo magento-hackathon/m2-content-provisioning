@@ -39,7 +39,7 @@ class GetPageEntryList
     /**
      * Prepare items array by transforming all configured entries into content entry data models
      */
-    private function prepare(): void
+    private function prepare()
     {
         if (empty($this->items)) {
             $pages = $this->configuration->getList()['pages'] ?? [];
@@ -53,7 +53,7 @@ class GetPageEntryList
     /**
      * @return PageEntryInterface[]
      */
-    public function get(): array
+    public function get()
     {
         $this->prepare();
         return $this->items;

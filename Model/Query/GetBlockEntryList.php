@@ -39,7 +39,7 @@ class GetBlockEntryList
     /**
      * Prepare items array by transforming all configured entries into content entry data models
      */
-    private function prepare(): void
+    private function prepare()
     {
         if (empty($this->items)) {
             $blocks = $this->configuration->getList()['blocks'] ?? [];
@@ -53,7 +53,7 @@ class GetBlockEntryList
     /**
      * @return BlockEntryInterface[]
      */
-    public function get(): array
+    public function get()
     {
         $this->prepare();
         return $this->items;
