@@ -11,7 +11,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @return string
      */
-    public function getKey(): string
+    public function getKey()
     {
         return (string)$this->getData(BlockEntryInterface::KEY);
     }
@@ -19,7 +19,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @param string $key
      */
-    public function setKey(string $key): void
+    public function setKey($key)
     {
         $this->setData(BlockEntryInterface::KEY, $key);
     }
@@ -27,7 +27,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @return bool
      */
-    public function isMaintained(): bool
+    public function isMaintained()
     {
         return (bool)$this->getData(BlockEntryInterface::IS_MAINTAINED);
     }
@@ -35,7 +35,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @param bool $isMaintained
      */
-    public function setIsMaintained(bool $isMaintained): void
+    public function setIsMaintained($isMaintained)
     {
         $this->setData(BlockEntryInterface::IS_MAINTAINED, $isMaintained);
     }
@@ -43,7 +43,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @return array
      */
-    public function getStores(): array
+    public function getStores()
     {
         return (array)$this->getData(BlockEntryInterface::STORES);
     }
@@ -51,7 +51,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @param array $stores
      */
-    public function setStores(array $stores): void
+    public function setStores(array $stores)
     {
         $this->setData(BlockEntryInterface::STORES, $stores);
     }
@@ -59,7 +59,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @return string
      */
-    public function getMediaDirectory(): string
+    public function getMediaDirectory()
     {
         return (string)$this->getData(BlockEntryInterface::MEDIA_DIRECTORY);
     }
@@ -67,7 +67,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @param string $path
      */
-    public function setMediaDirectory(string $path): void
+    public function setMediaDirectory($path)
     {
         $this->setData(BlockEntryInterface::MEDIA_DIRECTORY, $path);
     }
@@ -75,7 +75,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @return array
      */
-    public function getMediaFiles(): array
+    public function getMediaFiles()
     {
         return (array)$this->getData(BlockEntryInterface::MEDIA_FILES);
     }
@@ -83,7 +83,7 @@ class BlockEntry extends Block implements BlockEntryInterface
     /**
      * @param array $files
      */
-    public function setMediaFiles(array $files): void
+    public function setMediaFiles(array $files)
     {
         $this->setData(BlockEntryInterface::MEDIA_FILES, $files);
     }
