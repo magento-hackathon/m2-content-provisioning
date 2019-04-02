@@ -171,5 +171,5 @@ See [changelog file](CHANGELOG.md)
  
 ## Extensions for this extension ;)
 For [`magenerds/pagedesigner`](https://github.com/Magenerds/PageDesigner) there is an module, which extends this content 
-provisioning module: [techdivision/pagedesigner-content-provisioning](https://github.com/techdivision/pagedesigner-content-provisioning).
+provisioning module: [`techdivision/pagedesigner-content-provisioning`](https://github.com/techdivision/pagedesigner-content-provisioning).
 
