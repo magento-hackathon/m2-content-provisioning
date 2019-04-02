@@ -39,9 +39,11 @@ class ParserChain implements ConfigParserInterface
     public function execute(DOMElement $element): array
     {
         $data = [];
+
         foreach ($this->parser as $parser) {
-            $data = array_merge($data, $parser->execute($element));
+            $data[] = $parser->execute($element);
         }
-        return $data;
+
+        return array_merge(...$data);
     }
 }
