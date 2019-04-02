@@ -18,10 +18,6 @@ env:
   - MAGENTO_VERSION=2.2
   - MAGENTO_VERSION=2.3
   - MAGENTO_VERSION=2.3-develop
-matrix:
-  exclude:
-  - php: 7.2
-    env: MAGENTO_VERSION=2.2
 
 before_install:
   - git clone --depth=50 --branch=$MAGENTO_VERSION https://github.com/magento/magento2.git /tmp/magento

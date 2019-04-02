@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.2.2 / 1.2.3
+* *Bugfix:* `composer.json` blocked installation of the module in Magento 2.2
+** Change `composer.json` dependency definition
+** Remove some type and return type hints in order to support Magento's code generation in older versions
+
+## 1.2.1
+* *Improvement:* Better extensibility for fetching media files from content (PR from @roma-glushko)
+
 ## 1.2.0
 * *Feature:* Enables module to provide media files
 ** Introduce optional XML node for pages and blocks: `media_directory`
