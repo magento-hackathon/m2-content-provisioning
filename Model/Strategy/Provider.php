@@ -5,6 +5,7 @@ namespace Firegento\ContentProvisioning\Model\Strategy;
 
 use Firegento\ContentProvisioning\Api\StrategyInterface;
 use Firegento\ContentProvisioning\Api\StrategyProviderInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NotFoundException;
 
 class Provider implements StrategyProviderInterface
@@ -17,9 +18,18 @@ class Provider implements StrategyProviderInterface
     /**
      * Provider constructor.
      * @param StrategyInterface[] $strategies
+     * @throws InputException
      */
     public function __construct(array $strategies)
     {
+        foreach ($strategies as $strategy) {
+            if (!($strategy instanceof StrategyInterface)) {
+                throw new InputException(__(
+                    'Strategy must be instance of %interface',
+                    ['interface' => StrategyInterface::class]
+                ));
+            }
+        }
         $this->strategies = $strategies;
     }
 
@@ -34,7 +44,7 @@ class Provider implements StrategyProviderInterface
         $strategy = $this->strategies[$strategyCode] ?? null;
 
         if (!$strategy) {
-            throw new NotFoundException(__('Strategy %s not found.', $strategyCode));
+            throw new NotFoundException(__('Strategy %strategy_code not found.', ['strategy_code' => $strategyCode]));
         }
 
         return $strategy;
