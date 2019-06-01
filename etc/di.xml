@@ -107,22 +107,7 @@
     </type>
 
     <preference
-        for="Firegento\ContentProvisioning\Api\StrategyProviderInterface"
-        type="Firegento\ContentProvisioning\Model\Strategy\Provider"
-    />
-
-    <preference
         for="Firegento\ContentProvisioning\Api\ExportInterface"
         type="Firegento\ContentProvisioning\Model\Command\ExportEntry"
     />
-
-    <type name="Firegento\ContentProvisioning\Model\Strategy\Provider">
-        <arguments>
-            <argument name="strategies" xsi:type="array">
-                <item name="export_to_module" xsi:type="object">Firegento\ContentProvisioning\Model\Strategy\ExportToModule</item>
-                <item name="export_to_var" xsi:type="object">Firegento\ContentProvisioning\Model\Strategy\ExportToVar</item>
-            </argument>
-        </arguments>
-    </type>
-
 </config>

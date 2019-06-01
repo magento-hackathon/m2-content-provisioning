@@ -3,14 +3,10 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Test\Integration\Model\Export;
 
-use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterfaceFactory;
 use Firegento\ContentProvisioning\Api\ExportInterface;
-use Firegento\ContentProvisioning\Api\StrategyInterface;
-use Firegento\ContentProvisioning\Model\Strategy\ExportToModule;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -21,9 +17,6 @@ class BlockExportTestCase extends TestCase
 
     /** @var BlockEntryInterfaceFactory */
     protected $blockEntryFactory;
-
-    /** @var StrategyInterface|MockObject */
-    protected $strategyMock;
 
     /** @var vfsStreamDirectory */
     protected $fileSystem;
@@ -40,10 +33,6 @@ class BlockExportTestCase extends TestCase
         $this->blockEntryFactory = Bootstrap::getObjectManager()
             ->create(BlockEntryInterfaceFactory::class);
 
-        /** @var StrategyInterface|MockObject $strategyMock */
-        $this->strategyMock = self::getMockBuilder(ExportToModule::class)
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $this->fileSystem = vfsStream::setup('root', null, [
             'app' => [
@@ -68,9 +57,5 @@ class BlockExportTestCase extends TestCase
                 ]
             ],
         ]);
-
-        $this->strategyMock->method('buildTargetPath')->will($this->returnValue(
-            $this->fileSystem->getChild('app/code/ModuleNamespace/CustomModule')->url()
-        ));
     }
 }

@@ -9,7 +9,7 @@ interface ExportInterface
 {
     /**
      * @param StrategyInterface $strategy
-     * @param EntryInterface    $entry
+     * @param EntryInterface $entry
      * @return void
      */
     public function execute(StrategyInterface $strategy, EntryInterface $entry): void;

@@ -33,9 +33,22 @@ class XmlDOMConstruct extends DOMDocument
 
             }
         } else {
-            $domElement->appendChild($this->createTextNode($mixed));
+            $domElement->appendChild($this->createTextNode($this->castStringValues($mixed)));
         }
 
         return $this;
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    private function castStringValues($value): string
+    {
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
+
+        return (string)$value;
     }
 }

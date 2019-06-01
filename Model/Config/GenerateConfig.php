@@ -8,8 +8,11 @@ use Magento\Framework\Model\AbstractModel;
 
 class GenerateConfig
 {
-
-    public function toXml(EntryInterface ...$entries): string
+    /**
+     * @param EntryInterface[] $entries
+     * @return string
+     */
+    public function toXml(array $entries): string
     {
         $data = [];
 
