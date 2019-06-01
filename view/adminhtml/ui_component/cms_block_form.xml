@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <settings>
+        <buttons>
+            <button name="save" class="Firegento\ContentProvisioning\Block\Adminhtml\Block\Edit\SaveButton"/>
+        </buttons>
+    </settings>
     <htmlContent name="content_provisioning_hint" sortOrder="1">
         <block name="content_provisioning_hint"
                template="Firegento_ContentProvisioning::maintained_content_warning.phtml"
