@@ -6,6 +6,7 @@ namespace Firegento\ContentProvisioning\Model;
 use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Model\Builder;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\LocalizedException;
 
 class EntryBuilder
 {
@@ -31,6 +32,7 @@ class EntryBuilder
      * @param string $identifier
      * @return EntryInterface
      * @throws InputException
+     * @throws LocalizedException
      */
     public function build(string $cmsType, string $identifier): EntryInterface
     {

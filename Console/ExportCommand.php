@@ -6,6 +6,7 @@ namespace Firegento\ContentProvisioning\Console;
 use Firegento\ContentProvisioning\Model\EntryBuilder;
 use Firegento\ContentProvisioning\Model\Strategy;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,6 +38,7 @@ class ExportCommand extends Command
      * {@inheritdoc}
      * @throws NotFoundException
      * @throws InputException
+     * @throws LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
