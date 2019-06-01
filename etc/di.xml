@@ -85,6 +85,8 @@
             <argument name="commands" xsi:type="array">
                 <item name="contentProvisioning.PageList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\PageListCommand</item>
                 <item name="contentProvisioning.BlockList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\BlockListCommand</item>
+                <item name="contentProvisioning.PageAdd" xsi:type="object">Firegento\ContentProvisioning\Model\Console\AddPageCommand</item>
+                <item name="contentProvisioning.BlockAdd" xsi:type="object">Firegento\ContentProvisioning\Model\Console\AddBlockCommand</item>
             </argument>
         </arguments>
     </type>
