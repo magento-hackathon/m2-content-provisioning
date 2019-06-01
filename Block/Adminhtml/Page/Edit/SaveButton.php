@@ -121,7 +121,7 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
             ]
         ];
 
-        if ($this->hasDefaultConfiguration->get($this->getPageId())) {
+        if ($this->hasDefaultConfiguration->get((int)$this->getPageId())) {
             $options = array_merge($options, [[
                 'is_hard' => 'apply_default',
                 'label' => __('Reset to Default & Save'),
