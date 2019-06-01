@@ -83,8 +83,8 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="contentProvisioning.PageList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\PageListCommand</item>
-                <item name="contentProvisioning.BlockList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\BlockListCommand</item>
+                <item name="contentProvisioning.PageList" xsi:type="object">Firegento\ContentProvisioning\Console\PageListCommand</item>
+                <item name="contentProvisioning.BlockList" xsi:type="object">Firegento\ContentProvisioning\Console\BlockListCommand</item>
             </argument>
         </arguments>
     </type>
