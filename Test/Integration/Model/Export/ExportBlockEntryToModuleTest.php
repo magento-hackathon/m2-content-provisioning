@@ -39,7 +39,8 @@ class ExportBlockEntryToModuleTest extends BlockExportTestCase
         $targetXmlPath = 'app/code/ModuleNamespace/CustomModule/etc/content_provisioning.xml';
         $expectedXmlPath = __DIR__ . '/_files/export-block-entry-to-module.xml';
         $this->assertTrue($this->fileSystem->hasChild($targetXmlPath));
-        $this->assertSame(
+        $this->assertFileExists($this->fileSystem->getChild($targetXmlPath)->url());
+        $this->assertXmlStringNotEqualsXmlString(
             file_get_contents($expectedXmlPath),
             file_get_contents($this->fileSystem->getChild($targetXmlPath)->url())
         );
@@ -47,7 +48,7 @@ class ExportBlockEntryToModuleTest extends BlockExportTestCase
         $targetContentPath = 'app/code/ModuleNamespace/CustomModule/content/'
             . 'all-stores/firegento-content-provisioning-export-test-1.html';
         $this->assertTrue($this->fileSystem->hasChild($targetContentPath));
-        $this->assertSame(
+        $this->assertEquals(
             $entry->getContent(),
             file_get_contents($this->fileSystem->getChild($targetContentPath)->url())
         );
