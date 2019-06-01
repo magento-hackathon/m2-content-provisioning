@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
+    <block key="test.export.block.1" identifier="firegento-content-provisioning-export-test-1" maintained="true" active="false">
+        <title>Test Export Block 1</title>
+        <content type="file">ModuleNamespace_CustomModule::content/all-stores/firegento-content-provisioning-export-test-1.html</content>
+        <stores>
+            <store code="admin" />
+        </stores>
+    </block>
+</config>
