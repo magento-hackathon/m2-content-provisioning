@@ -10,7 +10,9 @@ class StoresGenerator implements GeneratorInterface
 {
     public function execute(EntryInterface $entry, SimpleXMLElement $xml): void
     {
-        $node = $xml->xpath("[@lang='" . $entry->getKey() . "']");
-
+        $nodes = $xml->xpath("[@lang='" . $entry->getKey() . "']");
+        if ($nodes) {
+            $node = array_shift($nodes);
+        }
     }
 }

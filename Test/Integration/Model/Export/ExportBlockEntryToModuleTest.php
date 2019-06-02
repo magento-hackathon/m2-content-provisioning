@@ -54,7 +54,7 @@ class ExportBlockEntryToModuleTest extends BlockExportTestCase
         $expectedXmlPath = __DIR__ . '/_files/export-block-entry-to-module.xml';
         $this->assertTrue($this->fileSystem->hasChild($targetXmlPath));
         $this->assertFileExists($this->fileSystem->getChild($targetXmlPath)->url());
-        $this->assertXmlStringNotEqualsXmlString(
+        $this->assertXmlStringEqualsXmlString(
             file_get_contents($expectedXmlPath),
             file_get_contents($this->fileSystem->getChild($targetXmlPath)->url())
         );

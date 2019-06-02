@@ -112,4 +112,28 @@
         for="Firegento\ContentProvisioning\Api\ExportInterface"
         type="Firegento\ContentProvisioning\Model\Command\ExportEntry"
     />
+
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Generator\BlockGeneratorChain" type="Firegento\ContentProvisioning\Model\Config\Generator\GeneratorChain">
+        <arguments>
+            <argument name="generatorList" xsi:type="array">
+                <item name="node" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\BlockNodeGenerator</item>
+                <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\StoresGenerator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Generator\PageGeneratorChain" type="Firegento\ContentProvisioning\Model\Config\Generator\GeneratorChain">
+        <arguments>
+            <argument name="generatorList" xsi:type="array">
+                <item name="node" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\BlockNodeGenerator</item>
+                <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\StoresGenerator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Firegento\ContentProvisioning\Model\Config\Generator">
+        <arguments>
+            <argument name="blockGeneratorChain" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Generator\BlockGeneratorChain</argument>
+            <argument name="pageGeneratorChain" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Generator\PageGeneratorChain</argument>
+        </arguments>
+    </type>
+
 </config>

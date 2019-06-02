@@ -12,22 +12,16 @@ use SimpleXMLElement;
 class GeneratorChain implements GeneratorInterface
 {
     /**
-     * @var string
-     */
-    private $entryType;
-    /**
      * @var GeneratorInterface[]
      */
     private $generatorList;
 
     /**
-     * GeneratorChain constructor.
-     * @param string               $entryType
      * @param GeneratorInterface[] $generatorList
      *
      * @throws LocalizedException
      */
-    public function __construct(string $entryType, array $generatorList = [])
+    public function __construct(array $generatorList = [])
     {
         foreach ($generatorList as $generator) {
             if (!($generator instanceof GeneratorInterface)) {
@@ -38,7 +32,6 @@ class GeneratorChain implements GeneratorInterface
             }
         }
 
-        $this->entryType     = $entryType;
         $this->generatorList = $generatorList;
     }
 
