@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
+    <page key="test.page.1" identifier="firegento-content-provisioning-test-1" active="false">
+        <title>Test Page 1</title>
+        <content heading="Some Content Heading"><![CDATA[<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>]]></content>
+        <stores>
+            <store code="default" />
+            <store code="admin" />
+        </stores>
+        <seo>
+            <title>Seo title</title>
+            <keywords>Some, seo, keywords</keywords>
+            <description>Some seo description</description>
+        </seo>
+        <design>
+            <layout>3columns</layout>
+            <layout_xml><![CDATA[<foo>bar</foo>]]></layout_xml>
+        </design>
+        <custom_design>
+            <from>2019-03-03</from>
+            <to>2019-05-29</to>
+            <layout>3columns</layout>
+            <theme_id>3</theme_id>
+        </custom_design>
+    </page>
+</config>

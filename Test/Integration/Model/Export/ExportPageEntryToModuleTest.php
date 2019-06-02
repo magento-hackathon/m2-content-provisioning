@@ -43,7 +43,7 @@ class ExportPageEntryToModuleTest extends PageExportTestCase
             PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-1',
             PageEntryInterface::IS_ACTIVE => false,
             PageEntryInterface::IS_MAINTAINED => true,
-            PageEntryInterface::STORES => ['admin'],
+            PageEntryInterface::STORES => ['default', 'admin'],
             PageEntryInterface::META_DESCRIPTION => 'Some seo description',
             PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
             PageEntryInterface::META_TITLE => 'Seo title',
