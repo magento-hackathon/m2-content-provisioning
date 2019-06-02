@@ -8,11 +8,6 @@ interface StrategyInterface
     /**
      * @return string
      */
-    public function getModulePath(): string;
-
-    /**
-     * @return string
-     */
     public function getXmlPath(): string;
 
     /**
@@ -24,4 +19,14 @@ interface StrategyInterface
      * @return string
      */
     public function getMediaDirectoryPath(): string;
+
+    /**
+     * @return string
+     */
+    public function getContentNamespacePath(): string;
+
+    /**
+     * @return string
+     */
+    public function getMediaNamespacePath(): string;
 }
