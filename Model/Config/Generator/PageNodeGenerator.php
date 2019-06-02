@@ -31,6 +31,12 @@ class PageNodeGenerator implements GeneratorInterface
      */
     public function execute(EntryInterface $entry, SimpleXMLElement $xml): void
     {
+        /** @var SimpleXMLElement $node */
+        $node = array_shift($xml->xpath("page[@key='" . $entry->getKey() . "']"));
+
+        $dom = dom_import_simplexml($node);
+        $dom->parentNode->removeChild($dom);
+
         $childNode = $xml->addChild('page');
         $childNode->addAttribute('key', $entry->getKey());
         $childNode->addAttribute('identifier', $entry->getIdentifier());
