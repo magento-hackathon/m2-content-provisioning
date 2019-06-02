@@ -2,7 +2,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
     <block key="test.export.block.1" identifier="firegento-content-provisioning-export-test-1" maintained="true" active="false">
         <title>Test Export Block 1</title>
-        <content type="file">ModuleNamespace_CustomModule::content/all-stores/firegento-content-provisioning-export-test-1.html</content>
+        <content><![CDATA[<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>]]></content>
+        <media_directory>ModuleNamespace_CustomModule::content/media</media_directory>
         <stores>
             <store code="admin" />
         </stores>

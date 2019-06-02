@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Test\Integration\Model\Export;
 
-use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
+use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Model\Strategy\ExportToModule;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ExportBlockEntryToModuleTest extends BlockExportTestCase
+class ExportPageEntryToModuleTest extends BlockExportTestCase
 {
     public function testExecute()
     {
@@ -36,13 +36,23 @@ class ExportBlockEntryToModuleTest extends BlockExportTestCase
         ));
 
         $entry = $this->blockEntryFactory->create(['data' => [
-            BlockEntryInterface::TITLE => 'Test Export Block 1',
-            BlockEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>',
-            BlockEntryInterface::KEY => 'test.export.block.1',
-            BlockEntryInterface::IDENTIFIER => 'firegento-content-provisioning-export-test-1',
-            BlockEntryInterface::IS_ACTIVE => false,
-            BlockEntryInterface::IS_MAINTAINED => true,
-            BlockEntryInterface::STORES => ['admin'],
+            PageEntryInterface::TITLE => 'Test Page 1',
+            PageEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>',
+            PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
+            PageEntryInterface::KEY => 'test.page.1',
+            PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-1',
+            PageEntryInterface::IS_ACTIVE => false,
+            PageEntryInterface::IS_MAINTAINED => true,
+            PageEntryInterface::STORES => ['admin'],
+            PageEntryInterface::META_DESCRIPTION => 'Some seo description',
+            PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
+            PageEntryInterface::META_TITLE => 'Seo title',
+            PageEntryInterface::PAGE_LAYOUT => '3columns',
+            PageEntryInterface::LAYOUT_UPDATE_XML => '<foo>bar</foo>',
+            PageEntryInterface::CUSTOM_THEME => 3,
+            PageEntryInterface::CUSTOM_THEME_FROM => '2019-03-29',
+            PageEntryInterface::CUSTOM_THEME_TO => '2019-05-29',
+            PageEntryInterface::CUSTOM_ROOT_TEMPLATE => '3columns',
         ]]);
 
         $this->export->execute(
@@ -51,7 +61,7 @@ class ExportBlockEntryToModuleTest extends BlockExportTestCase
         );
 
         $targetXmlPath = 'app/code/ModuleNamespace/CustomModule/etc/content_provisioning.xml';
-        $expectedXmlPath = __DIR__ . '/_files/export-block-entry-to-module.xml';
+        $expectedXmlPath = __DIR__ . '/_files/export-page-entry-to-module.xml';
         $this->assertTrue($this->fileSystem->hasChild($targetXmlPath));
         $this->assertFileExists($this->fileSystem->getChild($targetXmlPath)->url());
         $this->assertXmlStringNotEqualsXmlString(

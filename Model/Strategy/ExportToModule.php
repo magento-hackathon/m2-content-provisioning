@@ -66,7 +66,7 @@ class ExportToModule implements StrategyInterface
     /**
      * @return string
      */
-    public function getContentNamespacePath(): string
+        public function getContentNamespacePath(): string
     {
         return $this->moduleName . '::content';
     }
