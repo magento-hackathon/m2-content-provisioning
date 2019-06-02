@@ -8,20 +8,20 @@ use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Api\ExportInterface;
 use Firegento\ContentProvisioning\Api\StrategyInterface;
-use Firegento\ContentProvisioning\Model\Config\GenerateConfig;
+use Firegento\ContentProvisioning\Model\Config\Generator;
 
 class ExportEntry implements ExportInterface
 {
     /**
-     * @var GenerateConfig
+     * @var Generator
      */
     private $generateConfig;
 
     /**
-     * @param GenerateConfig $generateConfig
+     * @param Generator $generateConfig
      */
     public function __construct(
-        GenerateConfig $generateConfig
+        Generator $generateConfig
     ) {
         $this->generateConfig = $generateConfig;
     }

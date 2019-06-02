@@ -7,4 +7,5 @@ use Magento\Cms\Api\Data\BlockInterface;
 
 interface BlockEntryInterface extends BlockInterface, EntryInterface
 {
+
 }
