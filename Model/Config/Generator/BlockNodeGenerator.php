@@ -31,9 +31,18 @@ class BlockNodeGenerator implements GeneratorInterface
      */
     public function execute(EntryInterface $entry, SimpleXMLElement $xml): void
     {
+        /** @var SimpleXMLElement $node */
+        $nodes = $xml->xpath("block[@key='" . $entry->getKey() . "']");
+        if ($nodes) {
+            $node = array_shift($nodes);
+            $dom = dom_import_simplexml($node);
+            $dom->parentNode->removeChild($dom);
+        }
+
         $childNode = $xml->addChild('block');
         $childNode->addAttribute('key', $entry->getKey());
         $childNode->addAttribute('identifier', $entry->getIdentifier());
         $childNode->addAttribute('active', $this->castBooleanValue->execute($entry->isActive()));
+        $childNode->addAttribute('maintained', $this->castBooleanValue->execute($entry->isMaintained()));
     }
 }
