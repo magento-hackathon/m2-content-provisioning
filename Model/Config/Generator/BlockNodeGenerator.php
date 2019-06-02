@@ -5,6 +5,7 @@ namespace Firegento\ContentProvisioning\Model\Config\Generator;
 
 use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Model\Config\Generator\Cast\BooleanValue;
+use Firegento\ContentProvisioning\Model\Config\Generator\Query\GetNodeByKey;
 use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Cms\Api\Data\PageInterface;
 use SimpleXMLElement;
@@ -17,12 +18,20 @@ class BlockNodeGenerator implements GeneratorInterface
     private $castBooleanValue;
 
     /**
+     * @var GetNodeByKey
+     */
+    private $getNodeByKey;
+
+    /**
      * @param BooleanValue $castBooleanValue
+     * @param GetNodeByKey $getNodeByKey
      */
     public function __construct(
-        BooleanValue $castBooleanValue
+        BooleanValue $castBooleanValue,
+        GetNodeByKey $getNodeByKey
     ) {
         $this->castBooleanValue = $castBooleanValue;
+        $this->getNodeByKey = $getNodeByKey;
     }
 
     /**
@@ -31,10 +40,8 @@ class BlockNodeGenerator implements GeneratorInterface
      */
     public function execute(EntryInterface $entry, SimpleXMLElement $xml): void
     {
-        /** @var SimpleXMLElement $node */
-        $nodes = $xml->xpath("block[@key='" . $entry->getKey() . "']");
-        if ($nodes) {
-            $node = array_shift($nodes);
+        $node = $this->getNodeByKey->execute($xml, $entry->getKey());
+        if ($node) {
             $dom = dom_import_simplexml($node);
             $dom->parentNode->removeChild($dom);
         }

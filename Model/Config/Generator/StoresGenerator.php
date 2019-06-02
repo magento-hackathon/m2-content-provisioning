@@ -31,7 +31,9 @@ class StoresGenerator implements GeneratorInterface
     {
         $nodeEntry = $this->getNodeByKey->execute($xml, $entry->getKey());
 
-        if (!$nodeEntry) return;
+        if (!$nodeEntry) {
+            return;
+        }
 
         $nodeStores = $nodeEntry->addChild('stores');
 
