@@ -128,6 +128,8 @@
                 <item name="node" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\PageNodeGenerator</item>
                 <item name="content" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\ContentGenerator</item>
                 <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\StoresGenerator</item>
+                <item name="design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\DesignGenerator</item>
+                <item name="custom_design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\CustomDesignGenerator</item>
             </argument>
         </arguments>
     </virtualType>
