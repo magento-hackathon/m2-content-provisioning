@@ -36,10 +36,10 @@ class CustomDesignGenerator implements GeneratorInterface
             return;
         }
 
-        $customThemeFrom      = $entry->getCustomThemeFrom();
-        $customThemeTo        = $entry->getCustomThemeTo();
-        $customTheme          = $entry->getCustomTheme();
-        $customNewLayout      = $entry->getCustomRootTemplate();
+        $customThemeFrom = $entry->getCustomThemeFrom();
+        $customThemeTo   = $entry->getCustomThemeTo();
+        $customTheme     = $entry->getCustomTheme();
+        $customNewLayout = $entry->getCustomRootTemplate();
 
         if (!$customThemeFrom && !$customThemeTo && !$customTheme && !$customNewLayout) {
             return;
@@ -57,7 +57,7 @@ class CustomDesignGenerator implements GeneratorInterface
             $nodeCustomDesign->addChild('layout', $customNewLayout);
         }
         if ($customTheme) {
-            $nodeCustomDesign->addChild('theme_id', $customTheme);
+            $nodeCustomDesign->addChild('theme_id', (string) $customTheme);
         }
     }
 }
