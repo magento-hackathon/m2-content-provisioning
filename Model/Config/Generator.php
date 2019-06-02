@@ -29,14 +29,13 @@ class Generator
     }
 
     /**
+     * @param SimpleXMLElement $xml
      * @param EntryInterface[] $entries
-     * @return string
+     *
+     * @return void
      */
-    public function toXml(array $entries): string
+    public function execute(SimpleXMLElement $xml, array $entries): void
     {
-        // TODO: Parse file if exists and create new if not
-        $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"utf-8\" ?><config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd\"></config>");;
-
         foreach ($entries as $entry) {
             if ($entry instanceof PageEntryInterface) {
                 $this->pageGeneratorChain->execute($entry, $xml);
@@ -45,7 +44,5 @@ class Generator
                 $this->blockGeneratorChain->execute($entry, $xml);
             }
         }
-
-        return $xml->asXML();
     }
 }

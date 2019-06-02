@@ -16,14 +16,21 @@ class ExportEntry implements ExportInterface
      * @var Generator
      */
     private $generateConfig;
+    /**
+     * @var ParseConfigurationFile
+     */
+    private $parseConfigurationFile;
 
     /**
-     * @param Generator $generateConfig
+     * @param Generator              $generateConfig
+     * @param ParseConfigurationFile $parseConfigurationFile
      */
     public function __construct(
-        Generator $generateConfig
+        Generator              $generateConfig,
+        ParseConfigurationFile $parseConfigurationFile
     ) {
-        $this->generateConfig = $generateConfig;
+        $this->generateConfig         = $generateConfig;
+        $this->parseConfigurationFile = $parseConfigurationFile;
     }
 
     /**
@@ -35,7 +42,9 @@ class ExportEntry implements ExportInterface
             $entry->setMediaDirectory($strategy->getMediaNamespacePath());
         }
 
-        $xmlContent = $this->generateConfig->toXml([$entry]);
-        file_put_contents($strategy->getXmlPath(), $xmlContent);
+        $xml = $this->parseConfigurationFile->execute($strategy);
+
+        $this->generateConfig->execute($xml, [$entry]);
+        $xml->asXML($strategy->getXmlPath());
     }
 }
