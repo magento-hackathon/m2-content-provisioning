@@ -7,7 +7,7 @@ use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Model\Strategy\ExportToModule;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ExportPageEntryToModuleTest extends BlockExportTestCase
+class ExportPageEntryToModuleTest extends PageExportTestCase
 {
     public function testExecute()
     {
@@ -35,7 +35,7 @@ class ExportPageEntryToModuleTest extends BlockExportTestCase
             'ModuleNamespace_CustomModule::content/media'
         ));
 
-        $entry = $this->blockEntryFactory->create(['data' => [
+        $entry = $this->pageEntryFactory->create(['data' => [
             PageEntryInterface::TITLE => 'Test Page 1',
             PageEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>',
             PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
