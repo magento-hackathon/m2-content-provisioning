@@ -39,25 +39,25 @@ class ExportCommand extends Command
     private $export;
 
     /**
-     * @param EntryBuilder $entryBuilder
-     * @param ExportInterface $export
+     * @param EntryBuilder          $entryBuilder
+     * @param ExportInterface       $export
      * @param ExportToModuleFactory $exportToModuleFactory
-     * @param ExportToVarFactory $exportToVarFactory
-     * @param string $name
+     * @param ExportToVarFactory    $exportToVarFactory
+     * @param string                $name
      */
     public function __construct(
-        EntryBuilder $entryBuilder,
-        ExportInterface $export,
+        EntryBuilder          $entryBuilder,
+        ExportInterface       $export,
         ExportToModuleFactory $exportToModuleFactory,
-        ExportToVarFactory $exportToVarFactory,
-        string $name
+        ExportToVarFactory    $exportToVarFactory,
+        string                $name
     ) {
         parent::__construct($name);
 
-        $this->entryBuilder = $entryBuilder;
+        $this->entryBuilder          = $entryBuilder;
         $this->exportToModuleFactory = $exportToModuleFactory;
-        $this->exportToVarFactory = $exportToVarFactory;
-        $this->export = $export;
+        $this->exportToVarFactory    = $exportToVarFactory;
+        $this->export                = $export;
     }
 
     /**

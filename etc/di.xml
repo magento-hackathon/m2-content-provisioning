@@ -130,6 +130,7 @@
                 <item name="title" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\TitleGenerator</item>
                 <item name="content" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\ContentGenerator</item>
                 <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\StoresGenerator</item>
+                <item name="seo" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\SeoGenerator</item>
                 <item name="design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\DesignGenerator</item>
                 <item name="custom_design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\CustomDesignGenerator</item>
             </argument>
