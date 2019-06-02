@@ -118,6 +118,7 @@
             <argument name="generatorList" xsi:type="array">
                 <item name="node" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\BlockNodeGenerator</item>
                 <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\StoresGenerator</item>
+                <item name="content" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\ContentGenerator</item>
             </argument>
         </arguments>
     </virtualType>
@@ -126,6 +127,7 @@
             <argument name="generatorList" xsi:type="array">
                 <item name="node" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\PageNodeGenerator</item>
                 <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\StoresGenerator</item>
+                <item name="content" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\ContentGenerator</item>
             </argument>
         </arguments>
     </virtualType>
