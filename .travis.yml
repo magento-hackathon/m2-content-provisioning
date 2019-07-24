@@ -1,12 +1,15 @@
 addons:
   apt:
+    sources:
+      - mysql-5.7-trusty
     packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
+      - mysql-server
+      - mysql-client
+      - rabbitmq-server 
 services:
-- rabbitmq
-- elasticsearch
+  - mysql
+  - rabbitmq
+  - elasticsearch
 
 language: php
 php:
