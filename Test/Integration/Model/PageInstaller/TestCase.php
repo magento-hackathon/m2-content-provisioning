@@ -103,7 +103,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
             PageEntryInterface::META_TITLE => 'Seo title',
             PageEntryInterface::PAGE_LAYOUT => '3columns',
-            PageEntryInterface::LAYOUT_UPDATE_XML => '<foo>bar</foo>',
+            PageEntryInterface::LAYOUT_UPDATE_XML => '',
             PageEntryInterface::CUSTOM_THEME => 3,
             PageEntryInterface::CUSTOM_THEME_FROM => '2019-03-29',
             PageEntryInterface::CUSTOM_THEME_TO => '2019-05-29',
@@ -134,7 +134,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
             PageEntryInterface::META_TITLE => 'Seo title',
             PageEntryInterface::PAGE_LAYOUT => '3columns',
-            PageEntryInterface::LAYOUT_UPDATE_XML => '<foo>bar</foo>'
+            PageEntryInterface::LAYOUT_UPDATE_XML => ''
         ]]);
 
         $this->getPageEntryListMock->method('get')->willReturn($this->pageEntries);

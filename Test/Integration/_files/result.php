@@ -30,7 +30,7 @@ return [
             PageEntryInterface::META_KEYWORDS => 'Some, SEO, keywords',
             PageEntryInterface::META_DESCRIPTION => 'SEO description',
             PageEntryInterface::PAGE_LAYOUT => '3columns',
-            PageEntryInterface::LAYOUT_UPDATE_XML => '<foo>bar</foo>',
+            PageEntryInterface::LAYOUT_UPDATE_XML => '',
             PageEntryInterface::CUSTOM_THEME_FROM => '2019-03-03',
             PageEntryInterface::CUSTOM_THEME_TO => '2019-03-29',
             PageEntryInterface::CUSTOM_THEME => '3',
