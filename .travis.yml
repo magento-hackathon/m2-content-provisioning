@@ -15,6 +15,7 @@ language: php
 php:
   - 7.1
   - 7.2
+  - 7.3
 
 env:
   matrix:
@@ -25,6 +26,11 @@ matrix:
   exclude:
   - php: 7.2
     env: MAGENTO_VERSION=2.2
+
+matrix:
+  exclude:
+    - php: 7.3
+      env: MAGENTO_VERSION=2.2
 
 before_install:
   - git clone --depth=50 --branch=$MAGENTO_VERSION https://github.com/magento/magento2.git /tmp/magento
