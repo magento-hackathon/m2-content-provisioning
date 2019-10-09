@@ -18,7 +18,7 @@
         </seo>
         <design>
             <layout>3columns</layout>
-            <layout_xml><![CDATA[<foo>bar</foo>]]></layout_xml>
+            <layout_xml><![CDATA[]]></layout_xml>
         </design>
         <custom_design>
             <from>2019-03-03</from>
