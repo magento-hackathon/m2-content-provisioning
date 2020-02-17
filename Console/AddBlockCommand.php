@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Firegento\ContentProvisioning\Model\Console;
+namespace Firegento\ContentProvisioning\Console;
 
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryByKey;

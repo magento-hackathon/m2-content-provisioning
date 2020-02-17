@@ -1,42 +1,44 @@
 <?php
 declare(strict_types=1);
 
-namespace Firegento\ContentProvisioning\Model\Console;
+namespace Firegento\ContentProvisioning\Console;
 
-use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
-use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy as GetBlockEntryList;
-use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry\Proxy as GetBlocksByBlockEntry;
+use Firegento\ContentProvisioning\Api\Data\EntryInterface;
+use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
+use Firegento\ContentProvisioning\Model\Query\GetPageEntryList\Proxy as GetPageEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry\Proxy as GetPagesByPageEntry;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 
-class BlockListCommand extends Command
+class PageListCommand extends Command
 {
     /**
-     * @var GetBlockEntryList
+     * @var GetPageEntryList
      */
-    private $getAllBlockEntries;
+    private $getAllContentEntries;
 
     /**
-     * @var GetBlocksByBlockEntry
+     * @var GetPagesByPageEntry
      */
-    private $getBlocksByBlockEntry;
+    private $getPagesByPageEntry;
 
     /**
-     * @param GetBlockEntryList $getAllBlockEntries
-     * @param GetBlocksByBlockEntry $getBlocksByBlockEntry
-     * @param string|null $name
+     * @param GetPageEntryList    $getAllContentEntries
+     * @param GetPagesByPageEntry $getPagesByPageEntry
+     * @param string|null         $name
      */
     public function __construct(
-        GetBlockEntryList $getAllBlockEntries,
-        GetBlocksByBlockEntry $getBlocksByBlockEntry,
-        string $name = null
+        GetPageEntryList    $getAllContentEntries,
+        GetPagesByPageEntry $getPagesByPageEntry,
+        string              $name = null
     ) {
         parent::__construct($name);
-        $this->getAllBlockEntries = $getAllBlockEntries;
-        $this->getBlocksByBlockEntry = $getBlocksByBlockEntry;
+
+        $this->getAllContentEntries = $getAllContentEntries;
+        $this->getPagesByPageEntry  = $getPagesByPageEntry;
     }
 
     /**
@@ -47,7 +49,8 @@ class BlockListCommand extends Command
         $table = new Table($output);
         $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
 
-        foreach ($this->getAllBlockEntries->get() as $entry) {
+        /** @var EntryInterface $entry */
+        foreach ($this->getAllContentEntries->get() as $entry) {
             $table->addRow([
                 $entry->getKey(),
                 $entry->getIdentifier(),
@@ -55,7 +58,7 @@ class BlockListCommand extends Command
                 $entry->isMaintained() ? 'yes' : 'no',
                 $entry->isActive() ? 'yes' : 'no',
                 $entry->getTitle(),
-                $this->getExistsInDbValue($entry)
+                $this->getExistsInDbValue($entry),
             ]);
         }
 
@@ -67,20 +70,20 @@ class BlockListCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('content-provisioning:block:list');
-        $this->setDescription('List all configured CMS block entries');
+        $this->setName('content-provisioning:page:list');
+        $this->setDescription('List all configured CMS page entries');
         parent::configure();
     }
 
     /**
-     * @param BlockEntryInterface $entry
+     * @param PageEntryInterface $entry
      * @return string
      */
-    private function getExistsInDbValue(BlockEntryInterface $entry): string
+    private function getExistsInDbValue(PageEntryInterface $entry): string
     {
         try {
             $ids = [];
-            foreach ($this->getBlocksByBlockEntry->execute($entry) as $page) {
+            foreach ($this->getPagesByPageEntry->execute($entry) as $page) {
                 $ids[] = $page->getId();
             }
 

@@ -83,10 +83,10 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="contentProvisioning.PageList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\PageListCommand</item>
-                <item name="contentProvisioning.BlockList" xsi:type="object">Firegento\ContentProvisioning\Model\Console\BlockListCommand</item>
-                <item name="contentProvisioning.PageAdd" xsi:type="object">Firegento\ContentProvisioning\Model\Console\AddPageCommand</item>
-                <item name="contentProvisioning.BlockAdd" xsi:type="object">Firegento\ContentProvisioning\Model\Console\AddBlockCommand</item>
+                <item name="contentProvisioning.PageList" xsi:type="object">Firegento\ContentProvisioning\Console\PageListCommand</item>
+                <item name="contentProvisioning.BlockList" xsi:type="object">Firegento\ContentProvisioning\Console\BlockListCommand</item>
+                <item name="contentProvisioning.PageAdd" xsi:type="object">Firegento\ContentProvisioning\Console\AddPageCommand</item>
+                <item name="contentProvisioning.BlockAdd" xsi:type="object">Firegento\ContentProvisioning\Console\AddBlockCommand</item>
             </argument>
         </arguments>
     </type>
@@ -107,4 +107,40 @@
             </argument>
         </arguments>
     </type>
+
+    <preference
+        for="Firegento\ContentProvisioning\Api\ExportInterface"
+        type="Firegento\ContentProvisioning\Model\Command\ExportEntry"
+    />
+
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Generator\BlockGeneratorChain" type="Firegento\ContentProvisioning\Model\Config\Generator\GeneratorChain">
+        <arguments>
+            <argument name="generatorList" xsi:type="array">
+                <item name="node" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\BlockNodeGenerator</item>
+                <item name="title" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\TitleGenerator</item>
+                <item name="content" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\ContentGenerator</item>
+                <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\StoresGenerator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Firegento\ContentProvisioning\Virtual\Config\Generator\PageGeneratorChain" type="Firegento\ContentProvisioning\Model\Config\Generator\GeneratorChain">
+        <arguments>
+            <argument name="generatorList" xsi:type="array">
+                <item name="node" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\PageNodeGenerator</item>
+                <item name="title" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\TitleGenerator</item>
+                <item name="content" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\ContentGenerator</item>
+                <item name="stores" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\StoresGenerator</item>
+                <item name="seo" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\SeoGenerator</item>
+                <item name="design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\DesignGenerator</item>
+                <item name="custom_design" xsi:type="object">Firegento\ContentProvisioning\Model\Config\Generator\CustomDesignGenerator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Firegento\ContentProvisioning\Model\Config\Generator">
+        <arguments>
+            <argument name="blockGeneratorChain" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Generator\BlockGeneratorChain</argument>
+            <argument name="pageGeneratorChain" xsi:type="object">Firegento\ContentProvisioning\Virtual\Config\Generator\PageGeneratorChain</argument>
+        </arguments>
+    </type>
+
 </config>
