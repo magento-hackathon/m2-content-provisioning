@@ -2,10 +2,10 @@
     "name": "firegento/magento2-content-provisioning",
     "description": "N/A",
     "require": {
-        "php": "~7.1.3|~7.2.0|~7.3.0",
-        "magento/framework": "100.1.*|101.0.*|102.0.*",
-        "magento/module-cms": "101.0.*|102.0.*|103.0.*",
-        "magento/module-widget": "100.1.*|101.0.*|101.1.*"
+        "php": "~7.1.3|~7.2.0|~7.3.0|~7.4.0",
+        "magento/framework": "100.1.*|101.0.*|102.0.*|103.0.*",
+        "magento/module-cms": "101.0.*|102.0.*|103.0.*|104.0.*",
+        "magento/module-widget": "100.1.*|101.0.*|101.1.*|101.2.*"
     },
     "require-dev": {
         "mikey179/vfsstream": "^1.6"
