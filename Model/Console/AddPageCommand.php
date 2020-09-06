@@ -5,8 +5,7 @@ namespace Firegento\ContentProvisioning\Model\Console;
 
 use Firegento\ContentProvisioning\Model\Command\ApplyPageEntry;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryByKey;
-use Firegento\ContentProvisioning\Model\Query\GetPageEntryList\Proxy as GetPageEntryList;
-use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry\Proxy as GetPagesByPageEntry;
+use Firegento\ContentProvisioning\Model\Query\GetPageEntryByKeyFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +18,7 @@ class AddPageCommand extends Command
     /**
      * @var GetPageEntryByKey
      */
-    private $getPageEntryByKey;
+    private $getPageEntryByKeyFactory;
 
     /**
      * @var ApplyPageEntry
@@ -27,18 +26,18 @@ class AddPageCommand extends Command
     private $applyPageEntry;
 
     /**
-     * @param GetPageEntryList $getAllContentEntries
-     * @param GetPagesByPageEntry $getPagesByPageEntry
+     * @param GetPageEntryByKeyFactory $getPageEntryByKey
+     * @param ApplyPageEntry $applyPageEntry
      * @param string|null $name
      */
     public function __construct(
-        GetPageEntryByKey $getPageEntryByKey,
+        GetPageEntryByKeyFactory $getPageEntryByKeyFactory,
         ApplyPageEntry $applyPageEntry,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->getPageEntryByKey = $getPageEntryByKey;
-        $this->applyPageEntry = $applyPageEntry;
+        $this->getPageEntryByKeyFactory = $getPageEntryByKeyFactory;
+        $this->applyPageEntry           = $applyPageEntry;
     }
 
     /**
@@ -47,7 +46,7 @@ class AddPageCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument(self::ARG_PAGE_KEY);
-        $page = $this->getPageEntryByKey->get($key);
+        $page = $this->getPageEntryByKeyFactory->create()->get($key);
         $this->applyPageEntry->execute($page);
     }
 
