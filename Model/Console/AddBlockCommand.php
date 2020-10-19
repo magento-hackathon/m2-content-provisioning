@@ -5,7 +5,7 @@ namespace Firegento\ContentProvisioning\Model\Console;
 
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryByKey;
-use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy as GetBlockEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetBlockEntryByKeyFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +18,7 @@ class AddBlockCommand extends Command
     /**
      * @var GetBlockEntryByKey
      */
-    private $getBlockEntryByKey;
+    private $getBlockEntryByKeyFactory;
 
     /**
      * @var ApplyBlockEntry
@@ -26,17 +26,18 @@ class AddBlockCommand extends Command
     private $applyBlockEntry;
 
     /**
-     * @param GetBlockEntryList $getBlockEntryByKey
+     * @param GetBlockEntryByKeyFactory $getBlockEntryByKeyFactory
+     * @param ApplyBlockEntry $applyBlockEntry
      * @param string|null $name
      */
     public function __construct(
-        GetBlockEntryByKey $getBlockEntryByKey,
+        GetBlockEntryByKeyFactory $getBlockEntryByKeyFactory,
         ApplyBlockEntry $applyBlockEntry,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->getBlockEntryByKey = $getBlockEntryByKey;
-        $this->applyBlockEntry = $applyBlockEntry;
+        $this->getBlockEntryByKeyFactory = $getBlockEntryByKeyFactory;
+        $this->applyBlockEntry           = $applyBlockEntry;
     }
 
     /**
@@ -45,7 +46,7 @@ class AddBlockCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument(self::ARG_BLOCK_KEY);
-        $block = $this->getBlockEntryByKey->get($key);
+        $block = $this->getBlockEntryByKeyFactory->create()->get($key);
         $this->applyBlockEntry->execute($block);
     }
 
