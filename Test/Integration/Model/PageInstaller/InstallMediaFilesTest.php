@@ -24,7 +24,7 @@ class InstallMediaFilesTest extends TestCase
      */
     protected $fileSystem;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -68,7 +68,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->create(GetFirstPageByPageEntry::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

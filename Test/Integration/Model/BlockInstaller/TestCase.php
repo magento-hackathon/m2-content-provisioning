@@ -46,7 +46,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected $getFirstBlockByBlockEntry;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -67,7 +67,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->create(GetFirstBlockByBlockEntry::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
