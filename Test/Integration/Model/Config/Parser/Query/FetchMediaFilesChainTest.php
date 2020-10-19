@@ -24,7 +24,7 @@ class FetchMediaFilesChainTest extends \PHPUnit\Framework\TestCase
      */
     private $parser2;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->parser1 = self::getMockBuilder(MediaFilesParserInterface::class)
             ->disableOriginalConstructor()
