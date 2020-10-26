@@ -35,7 +35,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
 ### Minimal configuration for a page
 ```xml
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento_ContentProvisioning:etc/content_provisioning.xsd">
     <page key="your-module.page.an-identifier.all" identifier="an-identifier" maintained="true" active="true">
         <title>Page Title</title>
         <content type="file">Your_Module::path/to/content.html</content>
@@ -47,7 +47,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
 ### Full configuration for a page
 ```xml
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento_ContentProvisioning:etc/content_provisioning.xsd">
     <page key="your-module.page.an-identifier.german" identifier="an-identifier" maintained="true" active="true">
         <title>Page Title</title>
         <content heading="New Page Heading" type="file">Your_Module::path/to/content.html</content>
@@ -80,7 +80,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
 ### Minimal configuration for a block
 ```xml
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento_ContentProvisioning:etc/content_provisioning.xsd">
     <block key="your-module.block.lorem-ipsum-1.all" identifier="lorem-ipsum-1" maintained="true" active="true">
         <title>Test Block 1</title>
         <content><![CDATA[<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>]]></content>
@@ -92,7 +92,7 @@ After installing this module you can create own `content_provisioning.xml` in ea
 ### Full configuration for a block
 ```xml
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento_ContentProvisioning:etc/content_provisioning.xsd">
     <block key="your-module.block.lorem-ipsum-2.german" identifier="lorem-ipsum-2" maintained="false" active="true">
         <title>Test Block 2</title>
         <content type="file">Your_Module::path/to/content.html</content>
