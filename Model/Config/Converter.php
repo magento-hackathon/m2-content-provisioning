@@ -53,5 +53,6 @@ class Converter implements ConverterInterface
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage(), $exception->getTrace());
         }
+        return [];
     }
 }
