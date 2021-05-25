@@ -142,6 +142,7 @@
             <xs:enumeration value="2columns-left"/>
             <xs:enumeration value="2columns-right"/>
             <xs:enumeration value="3columns"/>
+            <xs:enumeration value="cms-full-width"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

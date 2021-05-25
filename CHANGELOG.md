@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.5
+
+* *Improvement:* Add support for full-width cms pages
+
 ## 1.3.4
 
 * *Bugfix:* Set correct XSD URN
