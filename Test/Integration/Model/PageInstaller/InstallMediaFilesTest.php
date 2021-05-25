@@ -6,8 +6,8 @@ namespace Firegento\ContentProvisioning\Test\Integration\Model\PageInstaller;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Api\TargetMediaDirectoryPathProviderInterface;
 use Firegento\ContentProvisioning\Model\Command\ApplyMediaFiles;
-use Magento\TestFramework\Helper\Bootstrap;
 use Firegento\ContentProvisioning\Model\PageInstaller;
+use Magento\TestFramework\Helper\Bootstrap;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -39,17 +39,17 @@ class InstallMediaFilesTest extends TestCase
                     'file-2.txt' => 'some value',
                     'not-used.png' => 'some value',
                     'sub-directory' => [
-                        'file-3.jpg' => 'some value'
+                        'file-3.jpg' => 'some value',
                     ],
                     'existing' => [
-                        'file-4.gif' => 'some value'
-                    ]
-                ]
+                        'file-4.gif' => 'some value',
+                    ],
+                ],
             ],
             'pub' => [
                 'media' => [
-                    'existing' => []
-                ]
+                    'existing' => [],
+                ],
             ],
         ];
 
@@ -67,7 +67,7 @@ class InstallMediaFilesTest extends TestCase
         $this->installer = Bootstrap::getObjectManager()
             ->create(PageInstaller::class, [
                 'getAllPageEntries' => $this->getPageEntryListMock,
-                'applyMediaFiles' => $applyMediaFiles
+                'applyMediaFiles' => $applyMediaFiles,
             ]);
     }
 
@@ -86,7 +86,7 @@ class InstallMediaFilesTest extends TestCase
             PageEntryInterface::MEDIA_FILES => [
                 'sub-directory/file-3.jpg',
                 'file-1.png',
-            ]
+            ],
         ]]);
 
         $this->pageEntries[2] = $this->pageEntryInterfaceFactory->create(['data' => [
@@ -102,7 +102,7 @@ class InstallMediaFilesTest extends TestCase
             PageEntryInterface::MEDIA_FILES => [
                 'file-2.txt',
                 'existing/file-4.gif',
-            ]
+            ],
         ]]);
 
         $this->pageEntries[3] = $this->pageEntryInterfaceFactory->create(['data' => [
@@ -119,7 +119,7 @@ class InstallMediaFilesTest extends TestCase
                 'sub-directory/file-3.jpg',
                 'file-1.png',
                 'not-existing/image.png',
-            ]
+            ],
         ]]);
 
         $this->getPageEntryListMock->method('get')->willReturn($this->pageEntries);

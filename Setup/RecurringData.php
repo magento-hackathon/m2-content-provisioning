@@ -6,8 +6,8 @@ namespace Firegento\ContentProvisioning\Setup;
 use Firegento\ContentProvisioning\Model\BlockInstaller;
 use Firegento\ContentProvisioning\Model\PageInstaller;
 use Magento\Framework\Setup\InstallDataInterface;
-use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
 
 /**
  * Class Recurring

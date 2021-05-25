@@ -1,7 +1,7 @@
 <?php
 
-use \Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
-use \Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
+use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
+use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 
 return [
     'pages' => [
@@ -53,7 +53,7 @@ return [
                 'some-test-image.png',
                 'foobar/test.png',
             ],
-        ]
+        ],
     ],
     'blocks' => [
         'test.block.1' => [

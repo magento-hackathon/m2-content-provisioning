@@ -8,9 +8,9 @@ use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy as GetBloc
 use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry\Proxy as GetBlocksByBlockEntry;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 
 class BlockListCommand extends Command
 {
@@ -55,7 +55,7 @@ class BlockListCommand extends Command
                 $entry->isMaintained() ? 'yes' : 'no',
                 $entry->isActive() ? 'yes' : 'no',
                 $entry->getTitle(),
-                $this->getExistsInDbValue($entry)
+                $this->getExistsInDbValue($entry),
             ]);
         }
 

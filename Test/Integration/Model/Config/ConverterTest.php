@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Test\Integration\Model\Config;
 
-use Magento\Framework\Exception\ConfigurationMismatchException;
 use Firegento\ContentProvisioning\Model\Config\Converter;
+use Magento\Framework\Exception\ConfigurationMismatchException;
 
 class ConverterTest extends \PHPUnit\Framework\TestCase
 {

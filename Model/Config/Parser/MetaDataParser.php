@@ -56,7 +56,7 @@ class MetaDataParser implements ConfigParserInterface
             PageEntryInterface::IS_ACTIVE =>
                 $this->fetchBooleanAttributeValue->execute($element, 'active', 'false'),
             EntryInterface::IS_MAINTAINED =>
-                $this->fetchBooleanAttributeValue->execute($element, 'maintained', 'false')
+                $this->fetchBooleanAttributeValue->execute($element, 'maintained', 'false'),
         ];
     }
 }

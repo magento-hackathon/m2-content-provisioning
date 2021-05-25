@@ -5,7 +5,7 @@ addons:
     packages:
       - mysql-server
       - mysql-client
-      - rabbitmq-server 
+      - rabbitmq-server
 services:
   - mysql
   - rabbitmq
@@ -18,8 +18,8 @@ php:
 
 env:
   matrix:
-  - MAGENTO_VERSION=2.3
-  - MAGENTO_VERSION=2.4
+    - MAGENTO_VERSION=2.3
+    - MAGENTO_VERSION=2.4
 
 matrix:
   exclude:

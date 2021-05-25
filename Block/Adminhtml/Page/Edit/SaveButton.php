@@ -4,6 +4,7 @@
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
+
 namespace Firegento\ContentProvisioning\Block\Adminhtml\Page\Edit;
 
 use Firegento\ContentProvisioning\Model\Query\HasDefaultPageConfiguration;
@@ -54,13 +55,13 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
                                 'params' => [
                                     true,
                                     [
-                                        'back' => 'continue'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                        'back' => 'continue',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'class_name' => Container::SPLIT_BUTTON,
             'options' => $this->getOptions(),
@@ -88,14 +89,14 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
                                     'params' => [
                                         true,
                                         [
-                                            'back' => 'duplicate'
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                            'back' => 'duplicate',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
             [
                 'id_hard' => 'save_and_close',
@@ -110,15 +111,15 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
                                     'params' => [
                                         true,
                                         [
-                                            'back' => 'close'
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                            'back' => 'close',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         if ($this->hasDefaultConfiguration->get((int)$this->getPageId())) {
@@ -135,13 +136,13 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
                                     'params' => [
                                         true,
                                         [
-                                            'back' => 'applyDefault'
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                            'back' => 'applyDefault',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ]]]);
         }
 

@@ -11,8 +11,8 @@ use Firegento\ContentProvisioning\Model\Query\GetPageEntryList;
 use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Store\Model\StoreManagerInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 use Magento\TestFramework\Helper\Bootstrap;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -134,7 +134,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
             PageEntryInterface::META_TITLE => 'Seo title',
             PageEntryInterface::PAGE_LAYOUT => '3columns',
-            PageEntryInterface::LAYOUT_UPDATE_XML => ''
+            PageEntryInterface::LAYOUT_UPDATE_XML => '',
         ]]);
 
         $this->getPageEntryListMock->method('get')->willReturn($this->pageEntries);

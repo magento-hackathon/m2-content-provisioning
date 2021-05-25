@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model\Resolver;
 
-use DOMElement;
-use Firegento\ContentProvisioning\Api\ContentResolverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem\DirectoryList;
 use Magento\Framework\Module\Dir\Reader;
@@ -46,12 +44,12 @@ class PathResolver
             $moduleDirectory = $this->moduleReader->getModuleDir('', $moduleName);
             return implode(DIRECTORY_SEPARATOR, [
                 $moduleDirectory,
-                $filePath
+                $filePath,
             ]);
         } else {
             return implode(DIRECTORY_SEPARATOR, [
                 $this->directoryList->getRoot(),
-                $path
+                $path,
             ]);
         }
     }

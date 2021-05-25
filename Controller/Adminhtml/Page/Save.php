@@ -4,16 +4,17 @@
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
+
 namespace Firegento\ContentProvisioning\Controller\Adminhtml\Page;
 
 use Firegento\ContentProvisioning\Model\Command\ApplyPageEntry;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryByPage;
-use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Backend\App\Action;
+use Magento\Cms\Controller\Adminhtml\Page\PostDataProcessor;
 use Magento\Cms\Model\Page;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Cms\Controller\Adminhtml\Page\PostDataProcessor;
 
 /**
  * Save CMS page action.
@@ -168,10 +169,10 @@ class Save extends \Magento\Backend\App\Action implements HttpPostActionInterfac
                 '*/*/edit',
                 [
                     'page_id' => $newPage->getId(),
-                    '_current' => true
+                    '_current' => true,
                 ]
             );
-        } else if ($this->getRequest()->getParam('back', false) === 'applyDefault') {
+        } elseif ($this->getRequest()->getParam('back', false) === 'applyDefault') {
             $block = $this->getPageEntryByPage->execute($model);
             $this->applyPageEntry->execute($block);
             return $resultRedirect->setPath('*/*/edit', ['page_id' => $model->getId()]);

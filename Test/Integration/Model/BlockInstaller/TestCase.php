@@ -11,8 +11,8 @@ use Firegento\ContentProvisioning\Model\Query\GetFirstBlockByBlockEntry;
 use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Store\Model\StoreManagerInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 use Magento\TestFramework\Helper\Bootstrap;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {

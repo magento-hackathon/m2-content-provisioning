@@ -37,7 +37,7 @@ class AddBlockCommand extends Command
     ) {
         parent::__construct($name);
         $this->getBlockEntryByKeyFactory = $getBlockEntryByKeyFactory;
-        $this->applyBlockEntry           = $applyBlockEntry;
+        $this->applyBlockEntry = $applyBlockEntry;
     }
 
     /**

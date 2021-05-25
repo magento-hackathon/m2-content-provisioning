@@ -4,15 +4,16 @@
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
+
 namespace Firegento\ContentProvisioning\Controller\Adminhtml\Block;
 
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryByBlock;
-use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Backend\App\Action\Context;
 use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Cms\Model\Block;
 use Magento\Cms\Model\BlockFactory;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
@@ -138,11 +139,11 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
     {
         $redirect = $data['back'] ?? 'close';
 
-        if ($redirect ==='continue') {
+        if ($redirect === 'continue') {
             $resultRedirect->setPath('*/*/edit', ['block_id' => $model->getId()]);
-        } else if ($redirect === 'close') {
+        } elseif ($redirect === 'close') {
             $resultRedirect->setPath('*/*/');
-        } else if ($redirect === 'duplicate') {
+        } elseif ($redirect === 'duplicate') {
             $duplicateModel = $this->blockFactory->create(['data' => $data]);
             $duplicateModel->setId(null);
             $duplicateModel->setIdentifier($data['identifier'] . '-' . uniqid());
@@ -152,7 +153,7 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
             $this->messageManager->addSuccessMessage(__('You duplicated the block.'));
             $this->dataPersistor->set('cms_block', $data);
             $resultRedirect->setPath('*/*/edit', ['block_id' => $id]);
-        } else if ($redirect === 'applyDefault') {
+        } elseif ($redirect === 'applyDefault') {
             $block = $this->getBlockEntryByBlock->execute($model);
             $this->applyBlockEntry->execute($block);
             $resultRedirect->setPath('*/*/edit', ['block_id' => $model->getId()]);
