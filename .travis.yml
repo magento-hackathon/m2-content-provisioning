@@ -27,6 +27,7 @@ matrix:
       env: MAGENTO_VERSION=2.3
 
 before_install:
+  - composer self-update --1
   - git clone --depth=50 --branch=$MAGENTO_VERSION https://github.com/magento/magento2.git /tmp/magento
   - mysql -uroot -e 'SET @@global.sql_mode = NO_ENGINE_SUBSTITUTION; CREATE DATABASE magento_integration_tests;'
   - mv $(pwd)/install-config-mysql.travis.$MAGENTO_VERSION.php /tmp/magento/dev/tests/integration/etc/install-config-mysql.php
