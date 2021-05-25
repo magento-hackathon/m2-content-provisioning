@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model;
 
+use Exception;
 use Firegento\ContentProvisioning\Model\Command\ApplyMediaFiles;
 use Firegento\ContentProvisioning\Model\Command\ApplyPageEntry;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryList;
@@ -70,7 +71,7 @@ class PageInstaller
                     $this->applyPageEntry->execute($pageEntry);
                     $this->applyMediaFiles->execute($pageEntry);
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->logger->error(sprintf(
                     'An error appeared while applying cms page content: %s',
                     $exception->getMessage()

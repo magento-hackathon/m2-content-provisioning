@@ -4,6 +4,8 @@
  * See COPYING.txt for license details.
  */
 
+use Magento\TestFramework\Bootstrap;
+
 return [
     'db-host' => '127.0.0.1',
     'db-user' => 'root',
@@ -11,11 +13,11 @@ return [
     'db-name' => 'magento_integration_tests',
     'db-prefix' => 'trv_',
     'backend-frontname' => 'backend',
-    'admin-user' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-    'admin-password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
-    'admin-email' => \Magento\TestFramework\Bootstrap::ADMIN_EMAIL,
-    'admin-firstname' => \Magento\TestFramework\Bootstrap::ADMIN_FIRSTNAME,
-    'admin-lastname' => \Magento\TestFramework\Bootstrap::ADMIN_LASTNAME,
+    'admin-user' => Bootstrap::ADMIN_NAME,
+    'admin-password' => Bootstrap::ADMIN_PASSWORD,
+    'admin-email' => Bootstrap::ADMIN_EMAIL,
+    'admin-firstname' => Bootstrap::ADMIN_FIRSTNAME,
+    'admin-lastname' => Bootstrap::ADMIN_LASTNAME,
     'amqp-host' => 'localhost',
     'amqp-port' => '5672',
     'amqp-user' => 'guest',

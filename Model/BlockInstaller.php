@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model;
 
+use Exception;
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
 use Firegento\ContentProvisioning\Model\Command\ApplyMediaFiles;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
@@ -70,7 +71,7 @@ class BlockInstaller
                     $this->applyBlockEntry->execute($blockEntry);
                     $this->applyMediaFiles->execute($blockEntry);
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->logger->error(sprintf(
                     'An error appeared while applying cms block content: %s',
                     $exception->getMessage()

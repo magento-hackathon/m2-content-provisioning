@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model\Config;
 
+use Magento\Framework\Config\SchemaLocatorInterface;
+use Magento\Framework\Module\Dir;
 use Magento\Framework\Module\Dir\Reader;
 
-class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
+class SchemaLocator implements SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -27,7 +29,7 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     public function __construct(Reader $moduleReader)
     {
         $etcDir = $moduleReader->getModuleDir(
-            \Magento\Framework\Module\Dir::MODULE_ETC_DIR,
+            Dir::MODULE_ETC_DIR,
             'Firegento_ContentProvisioning'
         );
         $this->_schema = $etcDir . '/content_provisioning.xsd';

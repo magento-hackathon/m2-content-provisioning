@@ -33,7 +33,7 @@ composer require firegento/magento2-content-provisioning
 
 ## How it works
 
-After installing this module you can create own `content_provisioning.xml` in each of your modules.
+After installing this module you can create your own `content_provisioning.xml` in each of your modules.
 
 ## Example configurations
 
@@ -60,9 +60,9 @@ After installing this module you can create own `content_provisioning.xml` in ea
         <content heading="New Page Heading" type="file">Your_Module::path/to/content.html</content>
         <media_directory>Your_Module::path/to/media</media_directory>
         <stores>
-            <store code="germany_german" />
-            <store code="swiss_german" />
-            <store code="austria_german" />
+            <store code="germany_german"/>
+            <store code="swiss_german"/>
+            <store code="austria_german"/>
         </stores>
         <seo>
             <title>SEO Page Title</title>
@@ -107,9 +107,9 @@ After installing this module you can create own `content_provisioning.xml` in ea
         <content type="file">Your_Module::path/to/content.html</content>
         <media_directory>Your_Module::path/to/media</media_directory>
         <stores>
-            <store code="germany_german" />
-            <store code="swiss_german" />
-            <store code="austria_german" />
+            <store code="germany_german"/>
+            <store code="swiss_german"/>
+            <store code="austria_german"/>
         </stores>
     </block>
     ...

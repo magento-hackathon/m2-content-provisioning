@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 1.3.4
+
+* *Bugfix:* Set correct XSD URN
+* *Bugfix:* Pin composer to Version 1
+
+## 1.3.3
+
+* *Bugfix:* Fix return type of convert on error
+
+## 1.3.2
+
+* *Bugfix:* Fix xml schema reference to pass magento static tests
+
+## 1.3.0 / 1.3.1
+
+* *Feature:* Add Magento 2.4 support
+* *Feature:* Add phpUnit 9 support
+
+## 1.2.4
+
+* *Feature:* Enable PHP 7.2 support
+* *Feature:* Enable PHP 7.3 support
+* *Feature:* Add command to add blocks and pages
+
 ## 1.2.2 / 1.2.3
 
 * *Bugfix:* `composer.json` blocked installation of the module in Magento 2.2

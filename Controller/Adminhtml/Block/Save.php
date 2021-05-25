@@ -7,14 +7,18 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Controller\Adminhtml\Block;
 
+use Exception;
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryByBlock;
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Cms\Model\Block;
 use Magento\Cms\Model\BlockFactory;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 
@@ -66,9 +70,9 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
     ) {
         $this->dataPersistor = $dataPersistor;
         $this->blockFactory = $blockFactory
-            ?: \Magento\Framework\App\ObjectManager::getInstance()->get(BlockFactory::class);
+            ?: ObjectManager::getInstance()->get(BlockFactory::class);
         $this->blockRepository = $blockRepository
-            ?: \Magento\Framework\App\ObjectManager::getInstance()->get(BlockRepositoryInterface::class);
+            ?: ObjectManager::getInstance()->get(BlockRepositoryInterface::class);
         parent::__construct($context, $coreRegistry);
         $this->getBlockEntryByBlock = $getBlockEntryByBlock;
         $this->applyBlockEntry = $applyBlockEntry;
@@ -78,11 +82,11 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
      * Save action
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return ResultInterface
      */
     public function execute()
     {
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         $data = $this->getRequest()->getPostValue();
         if ($data) {
@@ -93,7 +97,7 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
                 $data['block_id'] = null;
             }
 
-            /** @var \Magento\Cms\Model\Block $model */
+            /** @var Block $model */
             $model = $this->blockFactory->create();
 
             $id = $this->getRequest()->getParam('block_id');
@@ -115,7 +119,7 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
                 return $this->processBlockReturn($model, $data, $resultRedirect);
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the block.'));
             }
 
@@ -128,11 +132,11 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
     /**
      * Process and set the block return
      *
-     * @param \Magento\Cms\Model\Block $model
+     * @param Block $model
      * @param array $data
-     * @param \Magento\Framework\Controller\ResultInterface $resultRedirect
+     * @param ResultInterface $resultRedirect
      *
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return ResultInterface
      * @throws LocalizedException
      */
     private function processBlockReturn($model, $data, $resultRedirect)
