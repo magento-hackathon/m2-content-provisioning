@@ -1,4 +1,4 @@
-# Description
+# FireGento Magento 2 Content Provisioning
 
 This module was developed during a Magento Hackathon organized by FireGento e.V. (https://firegento.com/).
 
