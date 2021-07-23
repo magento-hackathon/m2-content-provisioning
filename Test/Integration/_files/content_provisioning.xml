@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento/ContentProvisioning/etc/content_provisioning.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Firegento_ContentProvisioning:etc/content_provisioning.xsd">
     <page key="test.page.1" identifier="test-page-1" maintained="true" active="true">
         <title>Test Page 1</title>
         <content type="file">Firegento_ContentProvisioning::Test/Integration/_files/content/file-1.html</content>
@@ -8,8 +8,8 @@
         <title>Title 2</title>
         <content heading="New Page Heading 2" type="file">Firegento_ContentProvisioning::Test/Integration/_files/content/file-1.html</content>
         <stores>
-            <store code="default" />
-            <store code="admin" />
+            <store code="default"/>
+            <store code="admin"/>
         </stores>
         <seo>
             <title>SEO Page Title</title>
@@ -40,8 +40,8 @@
         <title>Test Block 2</title>
         <content type="file">Firegento_ContentProvisioning::Test/Integration/_files/content/file-1.html</content>
         <stores>
-            <store code="default" />
-            <store code="admin" />
+            <store code="default"/>
+            <store code="admin"/>
         </stores>
     </block>
     <block key="test.block.3" identifier="test-block-3" maintained="true" active="true">

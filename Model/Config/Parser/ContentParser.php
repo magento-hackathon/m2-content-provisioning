@@ -66,7 +66,7 @@ class ContentParser implements ConfigParserInterface
 
         return [
             $this->arrayKey => $content,
-            EntryInterface::MEDIA_FILES => $this->fetchMediaFilesChain->execute($content)
+            EntryInterface::MEDIA_FILES => $this->fetchMediaFilesChain->execute($content),
         ];
     }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Query;
 
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
+use Firegento\ContentProvisioning\Model\Resolver\StoreIdsByStoreCodeResolver;
 use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Cms\Api\Data\BlockInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Firegento\ContentProvisioning\Model\Resolver\StoreIdsByStoreCodeResolver;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 
 class GetBlocksByBlockEntry
 {

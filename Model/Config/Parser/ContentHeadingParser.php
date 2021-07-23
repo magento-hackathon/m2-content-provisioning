@@ -34,7 +34,7 @@ class ContentHeadingParser implements ConfigParserInterface
         $contentNode = $contentNodes[0];
         return [
             PageEntryInterface::CONTENT_HEADING =>
-                $this->fetchAttributeValue->execute($contentNode, 'heading', '')
+                $this->fetchAttributeValue->execute($contentNode, 'heading', ''),
         ];
     }
 }

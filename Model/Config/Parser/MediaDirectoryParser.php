@@ -46,7 +46,7 @@ class MediaDirectoryParser implements ConfigParserInterface
         }
 
         return [
-            EntryInterface::MEDIA_DIRECTORY => $mediaDirectory
+            EntryInterface::MEDIA_DIRECTORY => $mediaDirectory,
         ];
     }
 }

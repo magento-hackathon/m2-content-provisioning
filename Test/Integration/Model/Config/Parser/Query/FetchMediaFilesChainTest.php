@@ -5,9 +5,11 @@ namespace Firegento\ContentProvisioning\Test\Integration\Model\Config\Parser\Que
 
 use Firegento\ContentProvisioning\Api\MediaFilesParserInterface;
 use Firegento\ContentProvisioning\Model\Config\Parser\Query\FetchMediaFilesChain;
+use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class FetchMediaFilesChainTest extends \PHPUnit\Framework\TestCase
+class FetchMediaFilesChainTest extends TestCase
 {
     /**
      * @var FetchMediaFilesChain
@@ -34,7 +36,7 @@ class FetchMediaFilesChainTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->chain = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $this->chain = Bootstrap::getObjectManager()
             ->create(FetchMediaFilesChain::class, ['parsers' => [
                 $this->parser1,
                 $this->parser2,

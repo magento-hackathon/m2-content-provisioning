@@ -8,7 +8,7 @@
     <htmlContent name="content_provisioning_hint" sortOrder="1">
         <block name="content_provisioning_hint"
                template="Firegento_ContentProvisioning::maintained_content_warning.phtml"
-               class="Firegento\ContentProvisioning\Block\MaintainedContentWarning" />
+               class="Firegento\ContentProvisioning\Block\MaintainedContentWarning"/>
     </htmlContent>
-    <fieldset name="general" sortOrder="2" />
+    <fieldset name="general" sortOrder="2"/>
 </form>

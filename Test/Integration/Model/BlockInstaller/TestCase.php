@@ -10,9 +10,11 @@ use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
 use Firegento\ContentProvisioning\Model\Query\GetFirstBlockByBlockEntry;
 use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 use Magento\TestFramework\Helper\Bootstrap;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -118,8 +120,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @param BlockEntryInterface $entry
      * @return BlockInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     protected function getBlockByBlockEntry(BlockEntryInterface $entry): BlockInterface
     {
