@@ -10,7 +10,6 @@ Only the latest patch versions of the following Magento versions are covered by 
 
 | PHP   | Magento 2.3 | Magento 2.4 |
 |:---:  |:---:|:---:|
-| 7.3   | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/develop/1)](https://travis-ci.org/magento-hackathon/m2-content-provisioning) | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/develop/2)](https://travis-ci.org/magento-hackathon/m2-content-provisioning) |
 | 7.4   | - | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/develop/3)](https://travis-ci.org/magento-hackathon/m2-content-provisioning) |
 
 ## The idea behind this module
@@ -166,6 +165,29 @@ vi dev/tests/integration/etc/install-config-mysql.php
 
 # Execute tests
 php vendor/bin/phpunit -c $(pwd)/vendor/firegento/magento2-content-provisioning/Test/Integration/phpunit.xml
+```
+
+## Console Commands
+```shell
+# reset a CMS block (all localizations) by its key
+bin/magento content-provisioning:block:reset --key "myKey"
+bin/magento content-provisioning:block:reset -k "myKey"
+
+# reset a CMS blocks by its identifier
+bin/magento content-provisioning:block:reset --identifier "myIdentifier"
+bin/magento content-provisioning:block:reset --i "myIdentifier"
+
+# add a CMS block by key
+bin/magento content-provisioning:block:apply "myKey"
+
+# add a CMS page by key
+bin/magento content-provisioning:page:apply "myKey"
+
+# list all configured CMS block entries
+bin/magento content-provisioning:block:list
+
+# list all configured CMS page entries
+bin/magento content-provisioning:page:list
 ```
 
 ## Issues and planned features
