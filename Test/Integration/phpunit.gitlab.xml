@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) 2022 TechDivision GmbH
+ * All rights reserved
+ *
+ * This product includes proprietary software developed at TechDivision GmbH, Germany
+ * For more information see http://www.techdivision.com/
+ *
+ * To obtain a valid license for using this software please contact us at
+ * license@techdivision.com
+ *
+ * @copyright  Copyright (c) 2022 TechDivision GmbH (http://www.techdivision.com)
+ * @author     Vadim Justus <v.justus@techdivision.com>
+ * @link       http://www.techdivision.com/
+ */
+ -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.2/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/9.5/phpunit.xsd"
          colors="true"
          columns="max"
          beStrictAboutTestsThatDoNotTestAnything="false"
-         bootstrap="/tmp/magento/dev/tests/integration/framework/bootstrap.php"
+         bootstrap="../../../../../../dev/tests/integration/framework/bootstrap.php"
          stderr="true"
 >
     <!-- Test suites definition -->
@@ -16,7 +32,7 @@
     <!-- PHP INI settings and constants definition -->
     <php>
         <includePath>.</includePath>
-        <includePath>/tmp/magento/dev/tests/integration/</includePath>
+        <includePath>../../../../../../dev/tests/integration/</includePath>
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <ini name="xdebug.max_nesting_level" value="200"/>
         <!-- Local XML configuration file ('.dist' extension will be added, if the specified file doesn't exist) -->

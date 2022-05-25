@@ -2,16 +2,11 @@
 
 This module was developed during a Magento Hackathon organized by FireGento e.V. (https://firegento.com/).
 
-## Supported versions matrix
-
-Only the latest patch versions of the following Magento versions are covered by test automation.
-
-### "develop" branch
-
-| PHP   | Magento 2.4 |
-|:---:  |:---:|
-| 7.4   | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/develop/1)](https://travis-ci.org/magento-hackathon/m2-content-provisioning) |
-| 8.1   | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/develop/2)](https://travis-ci.org/magento-hackathon/m2-content-provisioning) |
+> **ℹ️ Maintenance**
+> 
+> This module is maintained by [TechDivision](https://www.techdivision.com/). Therefore, there we created a mirror repository, which allow us 
+> to run automated quality checks on our internal infrastructure for this module. Please see https://gitlab.met.tdintern.de/techdivision-public/m2-content-provisioning
+> for details. Please feel free to contact us, if you have questions regarding the repository structure or mirroring.
 
 ## The idea behind this module
 
