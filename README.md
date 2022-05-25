@@ -8,9 +8,10 @@ Only the latest patch versions of the following Magento versions are covered by 
 
 ### "develop" branch
 
-| PHP   | Magento 2.3 | Magento 2.4 |
-|:---:  |:---:|:---:|
-| 7.4   | - | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/develop/3)](https://travis-ci.org/magento-hackathon/m2-content-provisioning) |
+| PHP   | Magento 2.4 |
+|:---:  |:---:|
+| 7.4   | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/develop/1)](https://travis-ci.org/magento-hackathon/m2-content-provisioning) |
+| 8.1   | [![Build Status](https://travis-matrix-badges.herokuapp.com/repos/magento-hackathon/m2-content-provisioning/branches/develop/2)](https://travis-ci.org/magento-hackathon/m2-content-provisioning) |
 
 ## The idea behind this module
 
@@ -175,7 +176,7 @@ bin/magento content-provisioning:block:reset -k "myKey"
 
 # reset a CMS blocks by its identifier
 bin/magento content-provisioning:block:reset --identifier "myIdentifier"
-bin/magento content-provisioning:block:reset --i "myIdentifier"
+bin/magento content-provisioning:block:reset -i "myIdentifier"
 
 # add a CMS block by key
 bin/magento content-provisioning:block:apply "myKey"

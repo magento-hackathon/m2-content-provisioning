@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 1.4.0
+
+* *Feature:* Introduce reset CLI command to force content import for already given contents manually
+
+## 1.3.7
+
+* PHP 8.1 support
+
+## 1.3.6
+
+* Change to MIT licence
+* No other changes between 1.3.5 to 1.3.6
+
 ## 1.3.5
 
 * *Improvement:* Add support for full-width cms pages

@@ -1,7 +1,7 @@
 addons:
   apt:
     sources:
-      - mysql-5.7-trusty
+      - mysql-8.0-trusty
     packages:
       - mysql-server
       - mysql-client
@@ -13,18 +13,12 @@ services:
 
 language: php
 php:
-  - 7.3
   - 7.4
+  - 8.1
 
 env:
   matrix:
-    - MAGENTO_VERSION=2.3
     - MAGENTO_VERSION=2.4
-
-matrix:
-  exclude:
-    - php: 7.4
-      env: MAGENTO_VERSION=2.3
 
 before_install:
   - composer self-update --1
