@@ -22,10 +22,12 @@ class ContentResolverProvider
     ) {
         foreach ($contentResolvers as $resolver) {
             if (!($resolver instanceof ContentResolverInterface)) {
-                throw new LocalizedException(__(
-                    'Given resolver must be an instance of %interface',
-                    ['interface' => ContentResolverInterface::class]
-                ));
+                throw new LocalizedException(
+                    __(
+                        'Given resolver must be an instance of %interface',
+                        ['interface' => ContentResolverInterface::class]
+                    )
+                );
             }
         }
         $this->contentResolvers = $contentResolvers;
@@ -39,10 +41,12 @@ class ContentResolverProvider
     public function get(string $typeCode): ContentResolverInterface
     {
         if (!isset($this->contentResolvers[$typeCode])) {
-            throw new LocalizedException(__(
-                'There is no content resolver defined for given type code %code',
-                ['code' => $typeCode]
-            ));
+            throw new LocalizedException(
+                __(
+                    'There is no content resolver defined for given type code %code',
+                    ['code' => $typeCode]
+                )
+            );
         }
 
         return $this->contentResolvers[$typeCode];

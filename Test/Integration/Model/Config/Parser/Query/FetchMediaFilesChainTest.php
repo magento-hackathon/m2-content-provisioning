@@ -37,32 +37,44 @@ class FetchMediaFilesChainTest extends TestCase
             ->getMock();
 
         $this->chain = Bootstrap::getObjectManager()
-            ->create(FetchMediaFilesChain::class, ['parsers' => [
-                $this->parser1,
-                $this->parser2,
-            ]]);
+            ->create(
+                FetchMediaFilesChain::class,
+                [
+                    'parsers' => [
+                        $this->parser1,
+                        $this->parser2,
+                    ]
+                ]
+            );
     }
 
     public function testMergingData()
     {
-        $this->parser1->method('execute')->willReturn([
-            'path/to/file1.png',
-            'path/to/file2.png',
-            'file3.png',
-        ]);
-        $this->parser2->method('execute')->willReturn([
-            'file3.png',
-            'some/other/path.jpg',
-        ]);
+        $this->parser1->method('execute')->willReturn(
+            [
+                'path/to/file1.png',
+                'path/to/file2.png',
+                'file3.png',
+            ]
+        );
+        $this->parser2->method('execute')->willReturn(
+            [
+                'file3.png',
+                'some/other/path.jpg',
+            ]
+        );
 
         $result = $this->chain->execute('');
 
-        $this->assertSame([
-            'path/to/file1.png',
-            'path/to/file2.png',
-            'file3.png',
-            'file3.png',
-            'some/other/path.jpg',
-        ], $result);
+        $this->assertSame(
+            [
+                'path/to/file1.png',
+                'path/to/file2.png',
+                'file3.png',
+                'file3.png',
+                'some/other/path.jpg',
+            ],
+            $result
+        );
     }
 }

@@ -6,8 +6,7 @@ namespace Firegento\ContentProvisioning\Model\Resolver;
 use DOMElement;
 use Firegento\ContentProvisioning\Api\ContentResolverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Filesystem\DirectoryList;
-use Magento\Framework\Module\Dir\Reader;
+use Magento\Framework\Filesystem\DriverInterface;
 
 class FileContentResolver implements ContentResolverInterface
 {
@@ -17,12 +16,20 @@ class FileContentResolver implements ContentResolverInterface
     private $pathResolver;
 
     /**
+     * @var DriverInterface
+     */
+    private $fileSystemDriver;
+
+    /**
      * @param PathResolver $pathResolver
+     * @param DriverInterface $fileSystemDriver
      */
     public function __construct(
-        PathResolver $pathResolver
+        PathResolver $pathResolver,
+        DriverInterface $fileSystemDriver
     ) {
         $this->pathResolver = $pathResolver;
+        $this->fileSystemDriver = $fileSystemDriver;
     }
 
     /**
@@ -33,10 +40,10 @@ class FileContentResolver implements ContentResolverInterface
     public function execute(DOMElement $node): string
     {
         $path = $this->pathResolver->execute((string)$node->textContent);
-        if (!is_file($path)) {
+        if (!$this->fileSystemDriver->isFile($path)) {
             throw new LocalizedException(__('Given content file %file does not exists.', ['file' => $path]));
         }
 
-        return file_get_contents($path);
+        return $this->fileSystemDriver->fileGetContents($path);
     }
 }

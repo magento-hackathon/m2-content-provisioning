@@ -21,10 +21,12 @@ class FetchMediaFilesChain implements MediaFilesParserInterface
     {
         foreach ($parsers as $parserInstance) {
             if (!($parserInstance instanceof MediaFilesParserInterface)) {
-                throw new LocalizedException(__(
-                    'Parser needs to be instance of %interface',
-                    ['interface' => MediaFilesParserInterface::class]
-                ));
+                throw new LocalizedException(
+                    __(
+                        'Parser needs to be instance of %interface',
+                        ['interface' => MediaFilesParserInterface::class]
+                    )
+                );
             }
         }
 

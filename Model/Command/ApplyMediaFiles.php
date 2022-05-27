@@ -5,6 +5,8 @@ namespace Firegento\ContentProvisioning\Model\Command;
 
 use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Api\TargetMediaDirectoryPathProviderInterface;
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Filesystem\DriverInterface;
 use SplFileInfo;
 
 class ApplyMediaFiles
@@ -15,16 +17,25 @@ class ApplyMediaFiles
     private $targetMediaDirectoryPathProvider;
 
     /**
+     * @var DriverInterface
+     */
+    private $fileSystemDriver;
+
+    /**
      * @param TargetMediaDirectoryPathProviderInterface $targetMediaDirectoryPathProvider
+     * @param DriverInterface $fileSystemDriver
      */
     public function __construct(
-        TargetMediaDirectoryPathProviderInterface $targetMediaDirectoryPathProvider
+        TargetMediaDirectoryPathProviderInterface $targetMediaDirectoryPathProvider,
+        DriverInterface $fileSystemDriver
     ) {
         $this->targetMediaDirectoryPathProvider = $targetMediaDirectoryPathProvider;
+        $this->fileSystemDriver = $fileSystemDriver;
     }
 
     /**
      * @param EntryInterface $entry
+     * @throws FileSystemException
      */
     public function execute(EntryInterface $entry): void
     {
@@ -41,6 +52,7 @@ class ApplyMediaFiles
     /**
      * @param string $sourceDirPath
      * @param string $fileName
+     * @throws FileSystemException
      */
     private function copyFile(string $sourceDirPath, string $fileName): void
     {
@@ -48,24 +60,30 @@ class ApplyMediaFiles
         $sourcePathname = $sourceDirPath . DIRECTORY_SEPARATOR . $fileName;
         $targetPathname = $targetDirPath . DIRECTORY_SEPARATOR . $fileName;
 
-        $sourceInfo = new SplFileInfo($sourcePathname);
-        if ($sourceInfo->isFile() && $sourceInfo->isReadable()) {
-            $this->createDirectory($targetDirPath, $sourceDirPath, $sourceInfo);
-            copy($sourceInfo->getPathname(), $targetPathname);
+        if ($this->fileSystemDriver->isFile($sourcePathname)
+            && $this->fileSystemDriver->isReadable($sourcePathname)()
+        ) {
+            $this->createDirectory($targetDirPath, $sourceDirPath, $sourcePathname);
+            $this->fileSystemDriver->copy($sourcePathname, $targetPathname);
         }
     }
 
     /**
      * @param string $targetDirPath
      * @param string $sourceDirPath
-     * @param SplFileInfo $sourceInfo
+     * @param string $sourcePathname
+     * @throws FileSystemException
      */
-    private function createDirectory(string $targetDirPath, string $sourceDirPath, SplFileInfo $sourceInfo): void
+    private function createDirectory(string $targetDirPath, string $sourceDirPath, string $sourcePathname): void
     {
-        $subPath = str_replace($sourceDirPath, '', $sourceInfo->getPath());
+        $subPath = str_replace(
+            $sourceDirPath,
+            '',
+            $this->fileSystemDriver->getParentDirectory($sourcePathname)
+        );
         $pathname = $targetDirPath . DIRECTORY_SEPARATOR . $subPath;
-        if (!is_dir($pathname)) {
-            mkdir($pathname, 0775, true);
+        if (!$this->fileSystemDriver->isDirectory($pathname)) {
+            $this->fileSystemDriver->createDirectory($pathname);
         }
     }
 }

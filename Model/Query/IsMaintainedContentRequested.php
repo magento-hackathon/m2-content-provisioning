@@ -36,11 +36,11 @@ class IsMaintainedContentRequested
     public function execute(RequestInterface $request): bool
     {
         if ($this->isCmsPageEditFormRequested($request)) {
-            return $this->isPageMaintained->get($this->getPageIdFromRequest($request));
+            return $this->isPageMaintained->execute($this->getPageIdFromRequest($request));
         }
 
         if ($this->isCmsBlockEditFormRequested($request)) {
-            return $this->isBlockMaintained->get($this->getBlockIdFromRequest($request));
+            return $this->isBlockMaintained->execute($this->getBlockIdFromRequest($request));
         }
 
         return false;

@@ -3,13 +3,16 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Api\Data;
 
+/**
+ * @api
+ */
 interface EntryInterface
 {
-    const KEY = 'key';
-    const IS_MAINTAINED = 'is_maintained';
-    const STORES = 'stores';
-    const MEDIA_DIRECTORY = 'media_directory';
-    const MEDIA_FILES = 'media_files';
+    public const KEY = 'key';
+    public const IS_MAINTAINED = 'is_maintained';
+    public const STORES = 'stores';
+    public const MEDIA_DIRECTORY = 'media_directory';
+    public const MEDIA_FILES = 'media_files';
 
     /**
      * @return string

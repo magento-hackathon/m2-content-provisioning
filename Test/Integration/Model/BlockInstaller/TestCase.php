@@ -84,25 +84,36 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function initBlockEntries()
     {
-        $this->blockEntries[1] = $this->blockEntryInterfaceFactory->create(['data' => [
-            BlockEntryInterface::TITLE => 'Test Block 1',
-            BlockEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>',
-            BlockEntryInterface::KEY => 'test.block.1',
-            BlockEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-1',
-            BlockEntryInterface::IS_ACTIVE => false,
-            BlockEntryInterface::IS_MAINTAINED => true,
-            BlockEntryInterface::STORES => ['admin'],
-        ]]);
+        $this->blockEntries[1] = $this->blockEntryInterfaceFactory->create(
+            [
+                'data' => [
+                    BlockEntryInterface::TITLE => 'Test Block 1',
+                    BlockEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget '
+                        . 'dolor aenean massa</h2>',
+                    BlockEntryInterface::KEY => 'test.block.1',
+                    BlockEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-1',
+                    BlockEntryInterface::IS_ACTIVE => false,
+                    BlockEntryInterface::IS_MAINTAINED => true,
+                    BlockEntryInterface::STORES => ['admin'],
+                ]
+            ]
+        );
 
-        $this->blockEntries[2] = $this->blockEntryInterfaceFactory->create(['data' => [
-            BlockEntryInterface::TITLE => 'Test Block 2',
-            BlockEntryInterface::CONTENT => file_get_contents(__DIR__ . '/../../_files/content/dummy-content.html'),
-            BlockEntryInterface::KEY => 'test.block.2',
-            BlockEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-2',
-            BlockEntryInterface::IS_ACTIVE => true,
-            BlockEntryInterface::IS_MAINTAINED => false,
-            BlockEntryInterface::STORES => ['default', 'admin'],
-        ]]);
+        $this->blockEntries[2] = $this->blockEntryInterfaceFactory->create(
+            [
+                'data' => [
+                    BlockEntryInterface::TITLE => 'Test Block 2',
+                    BlockEntryInterface::CONTENT => file_get_contents(
+                        __DIR__ . '/../../_files/content/dummy-content.html'
+                    ),
+                    BlockEntryInterface::KEY => 'test.block.2',
+                    BlockEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-2',
+                    BlockEntryInterface::IS_ACTIVE => true,
+                    BlockEntryInterface::IS_MAINTAINED => false,
+                    BlockEntryInterface::STORES => ['default', 'admin'],
+                ]
+            ]
+        );
 
         $this->getBlockEntryListMock->method('get')->willReturn($this->blockEntries);
     }

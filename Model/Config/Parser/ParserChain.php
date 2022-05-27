@@ -22,10 +22,12 @@ class ParserChain implements ConfigParserInterface
     {
         foreach ($parser as $parserInstance) {
             if (!($parserInstance instanceof ConfigParserInterface)) {
-                throw new LocalizedException(__(
-                    'Parser needs to be instance of %interface',
-                    ['interface' => ConfigParserInterface::class]
-                ));
+                throw new LocalizedException(
+                    __(
+                        'Parser needs to be instance of %interface',
+                        ['interface' => ConfigParserInterface::class]
+                    )
+                );
             }
         }
 

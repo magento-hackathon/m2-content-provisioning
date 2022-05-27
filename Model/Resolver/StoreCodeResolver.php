@@ -24,7 +24,8 @@ class StoreCodeResolver implements StoreCodeResolverInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $code
+     * @return array
      * @throws NoSuchEntityException
      */
     public function execute(string $code): array

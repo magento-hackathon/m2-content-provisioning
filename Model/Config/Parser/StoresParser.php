@@ -38,18 +38,21 @@ class StoresParser implements ConfigParserInterface
      */
     public function execute(DOMElement $element): array
     {
-        $output = [];
+        $storeCodes = [];
         foreach ($element->getElementsByTagName('store') as $store) {
-            $storeCodes = $this->storeCodeResolver->execute(
+            $storeCodes[] = $this->storeCodeResolver->execute(
                 (string)$this->fetchAttributeValue->execute($store, 'code', '*')
             );
-            $output = array_merge($output, $storeCodes);
         }
 
-        if (empty($output)) {
-            $output = $this->storeCodeResolver->execute('*');
+        if (!empty($storeCodes)) {
+            $storeCodes = array_merge(...$storeCodes);
         }
 
-        return ['stores' => $output];
+        if (empty($storeCodes)) {
+            $storeCodes = $this->storeCodeResolver->execute('*');
+        }
+
+        return ['stores' => $storeCodes];
     }
 }

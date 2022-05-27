@@ -56,6 +56,8 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
      * @param Context $context
      * @param Registry $coreRegistry
      * @param DataPersistorInterface $dataPersistor
+     * @param GetBlockEntryByBlock $getBlockEntryByBlock
+     * @param ApplyBlockEntry $applyBlockEntry
      * @param BlockFactory|null $blockFactory
      * @param BlockRepositoryInterface|null $blockRepository
      */

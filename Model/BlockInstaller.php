@@ -72,13 +72,16 @@ class BlockInstaller
                     $this->applyMediaFiles->execute($blockEntry);
                 }
             } catch (Exception $exception) {
-                $this->logger->error(sprintf(
-                    'An error appeared while applying cms block content: %s',
-                    $exception->getMessage()
-                ), [
-                    'block-data' => $blockEntry->getData(),
-                    'trace' => $exception->getTrace(),
-                ]);
+                $this->logger->error(
+                    sprintf(
+                        'An error appeared while applying cms block content: %s',
+                        $exception->getMessage()
+                    ),
+                    [
+                        'block-data' => $blockEntry->getData(),
+                        'trace' => $exception->getTrace(),
+                    ]
+                );
             }
         }
     }
