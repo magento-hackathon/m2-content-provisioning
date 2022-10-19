@@ -15,7 +15,7 @@ class MediaDirectiveFileParser implements MediaFilesParserInterface
      */
     public function execute(string $content): array
     {
-        if (preg_match_all('/\{\{media url=\&quot\;(?P<path>.*?)\&quot\;\}\}/', $content, $matches)) {
+        if (preg_match_all('/\{\{media url=(?P<path>.*?)\}\}/', $content, $matches)) {
             return $matches['path'];
         }
 
