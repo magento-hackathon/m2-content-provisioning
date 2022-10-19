@@ -7,7 +7,6 @@ use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Api\TargetMediaDirectoryPathProviderInterface;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Filesystem\DriverInterface;
-use SplFileInfo;
 
 class ApplyMediaFiles
 {
@@ -61,7 +60,7 @@ class ApplyMediaFiles
         $targetPathname = $targetDirPath . DIRECTORY_SEPARATOR . $fileName;
 
         if ($this->fileSystemDriver->isFile($sourcePathname)
-            && $this->fileSystemDriver->isReadable($sourcePathname)()
+            && $this->fileSystemDriver->isReadable($sourcePathname)
         ) {
             $this->createDirectory($targetDirPath, $sourceDirPath, $sourcePathname);
             $this->fileSystemDriver->copy($sourcePathname, $targetPathname);

@@ -7,6 +7,9 @@ use DOMElement;
 use Firegento\ContentProvisioning\Api\ConfigParserInterface;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * @api
+ */
 class ParserChain implements ConfigParserInterface
 {
     /**

@@ -105,6 +105,17 @@
         </arguments>
     </type>
 
+    <type name="Firegento\ContentProvisioning\Model\Resolver\FileContentResolver">
+        <arguments>
+            <argument name="fileSystemDriver" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Firegento\ContentProvisioning\Model\Command\ApplyMediaFiles">
+        <arguments>
+            <argument name="fileSystemDriver" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+
     <type name="Firegento\ContentProvisioning\Model\Resolver\ContentResolverProvider">
         <arguments>
             <argument name="contentResolvers" xsi:type="array">

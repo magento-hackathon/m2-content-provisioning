@@ -6,6 +6,9 @@ namespace Firegento\ContentProvisioning\Model\Config\Parser\Query;
 use Firegento\ContentProvisioning\Api\MediaFilesParserInterface;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * @api
+ */
 class FetchMediaFilesChain implements MediaFilesParserInterface
 {
     /**

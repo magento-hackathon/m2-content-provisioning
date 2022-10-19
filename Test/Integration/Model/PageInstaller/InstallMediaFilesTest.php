@@ -81,13 +81,7 @@ class InstallMediaFilesTest extends TestCase
      */
     private function getChildDirectoryUrl(string $name): string
     {
-        foreach ($this->fileSystem->getChildren() as $child) {
-            if ($child->getName() === $name) {
-                return $child->url();
-            }
-        }
-
-        $this->fail('Unknown child name for virtual directory!');
+        return $this->fileSystem->getChild($name)->url();
     }
 
     protected function initEntries()
