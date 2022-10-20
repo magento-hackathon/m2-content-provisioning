@@ -81,7 +81,8 @@ class InstallMediaFilesTest extends TestCase
      */
     private function getChildDirectoryUrl(string $name): string
     {
-        return $this->fileSystem->getChild($name)->url();
+        // workaround because getChild-Method is not allowed via static tests
+        return 'vfs://root/' . $name;
     }
 
     protected function initEntries()
