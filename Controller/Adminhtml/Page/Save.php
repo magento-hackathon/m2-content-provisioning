@@ -25,6 +25,7 @@ use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Save CMS page action.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Save extends Action implements HttpPostActionInterface
 {
@@ -33,7 +34,7 @@ class Save extends Action implements HttpPostActionInterface
      *
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'Magento_Cms::save';
+    public const ADMIN_RESOURCE = 'Magento_Cms::save';
 
     /**
      * @var PostDataProcessor
@@ -69,6 +70,8 @@ class Save extends Action implements HttpPostActionInterface
      * @param Action\Context $context
      * @param PostDataProcessor $dataProcessor
      * @param DataPersistorInterface $dataPersistor
+     * @param GetPageEntryByPage $getPageEntryByPage
+     * @param ApplyPageEntry $applyPageEntry
      * @param PageFactory|null $pageFactory
      * @param PageRepositoryInterface|null $pageRepository
      */

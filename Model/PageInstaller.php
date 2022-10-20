@@ -72,13 +72,16 @@ class PageInstaller
                     $this->applyMediaFiles->execute($pageEntry);
                 }
             } catch (Exception $exception) {
-                $this->logger->error(sprintf(
-                    'An error appeared while applying cms page content: %s',
-                    $exception->getMessage()
-                ), [
-                    'page-data' => $pageEntry->getData(),
-                    'trace' => $exception->getTrace(),
-                ]);
+                $this->logger->error(
+                    sprintf(
+                        'An error appeared while applying cms page content: %s',
+                        $exception->getMessage()
+                    ),
+                    [
+                        'page-data' => $pageEntry->getData(),
+                        'trace' => $exception->getTrace(),
+                    ]
+                );
             }
         }
     }

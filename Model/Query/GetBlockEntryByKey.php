@@ -33,10 +33,11 @@ class GetBlockEntryByKey
     }
 
     /**
-     * @return BlockEntryInterface[]
+     * @param string $key
+     * @return BlockEntryInterface
      * @throws NotFoundException
      */
-    public function get(string $key)
+    public function get(string $key): BlockEntryInterface
     {
         $blocks = $this->configuration->getList()['blocks'] ?? [];
 

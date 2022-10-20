@@ -6,6 +6,7 @@ namespace Firegento\ContentProvisioning\Model\Console;
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryByKey;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryByKeyFactory;
+use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AddBlockCommand extends Command
 {
-    const ARG_BLOCK_KEY = 'key';
+    public const ARG_BLOCK_KEY = 'key';
 
     /**
      * @var GetBlockEntryByKey
@@ -41,7 +42,12 @@ class AddBlockCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     * @throws LocalizedException
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -51,7 +57,7 @@ class AddBlockCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

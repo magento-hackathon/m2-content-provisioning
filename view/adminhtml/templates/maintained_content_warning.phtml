@@ -1,14 +1,16 @@
 <?php
 /** @var MaintainedContentWarning $block */
+/** @var Escaper $escaper */
 
 use Firegento\ContentProvisioning\Block\MaintainedContentWarning;
+use Magento\Framework\Escaper;
 
 ?>
 <?php if ($block->isMaintained()): ?>
     <div class="message-system-short">
         <div class="message-system-wrapper" data-repeat-index="0">
             <div class="message message-warning">
-                <?= $block->getMessage() ?>
+                <?= $escaper->escapeHtml($block->getMessage()) ?>
             </div>
         </div>
     </div>

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model\Config;
 
+use DOMDocument;
 use Exception;
 use Magento\Framework\Config\ConverterInterface;
-use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
 
 class Converter implements ConverterInterface
@@ -41,8 +41,8 @@ class Converter implements ConverterInterface
     }
 
     /**
-     * {@inheritdoc}
-     * @throws LocalizedException
+     * @param DOMDocument $source
+     * @return array
      */
     public function convert($source): array
     {

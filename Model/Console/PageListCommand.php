@@ -5,8 +5,8 @@ namespace Firegento\ContentProvisioning\Model\Console;
 
 use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
-use Firegento\ContentProvisioning\Model\Query\GetPageEntryList\Proxy as GetPageEntryList;
-use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry\Proxy as GetPagesByPageEntry;
+use Firegento\ContentProvisioning\Model\Query\GetPageEntryList as GetPageEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry as GetPagesByPageEntry;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -41,7 +41,11 @@ class PageListCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -50,22 +54,24 @@ class PageListCommand extends Command
 
         /** @var EntryInterface $entry */
         foreach ($this->getAllContentEntries->get() as $entry) {
-            $table->addRow([
-                $entry->getKey(),
-                $entry->getIdentifier(),
-                implode(', ', $entry->getStores()),
-                $entry->isMaintained() ? 'yes' : 'no',
-                $entry->isActive() ? 'yes' : 'no',
-                $entry->getTitle(),
-                $this->getExistsInDbValue($entry),
-            ]);
+            $table->addRow(
+                [
+                    $entry->getKey(),
+                    $entry->getIdentifier(),
+                    implode(', ', $entry->getStores()),
+                    $entry->isMaintained() ? 'yes' : 'no',
+                    $entry->isActive() ? 'yes' : 'no',
+                    $entry->getTitle(),
+                    $this->getExistsInDbValue($entry),
+                ]
+            );
         }
 
         $table->render($output);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

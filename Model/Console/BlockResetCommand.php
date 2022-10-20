@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Firegento\ContentProvisioning\Model\Console;
 
+use Exception;
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
+use Firegento\ContentProvisioning\Exception\CommandInputException;
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
 use Firegento\ContentProvisioning\Model\Command\ApplyMediaFiles;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
@@ -31,13 +33,24 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class BlockResetCommand extends Command
 {
-    public const COMMAND          = 'content-provisioning:block:reset';
-    public const PARAM_KEY        = 'key';
+    public const COMMAND = 'content-provisioning:block:reset';
+    public const PARAM_KEY = 'key';
     public const PARAM_IDENTIFIER = 'identifier';
 
-    private GetBlockEntryList $getBlockEntryList;
-    private ApplyBlockEntry $applyBlockEntry;
-    private ApplyMediaFiles $applyMediaFiles;
+    /**
+     * @var GetBlockEntryList
+     */
+    private $getBlockEntryList;
+
+    /**
+     * @var ApplyBlockEntry
+     */
+    private $applyBlockEntry;
+
+    /**
+     * @var ApplyMediaFiles
+     */
+    private $applyMediaFiles;
 
     /**
      * @param GetBlockEntryList $getBlockEntryList
@@ -46,14 +59,14 @@ class BlockResetCommand extends Command
      */
     public function __construct(
         GetBlockEntryList $getBlockEntryList,
-        ApplyBlockEntry $applyBlockEntry,
-        ApplyMediaFiles $applyMediaFiles
+        ApplyBlockEntry   $applyBlockEntry,
+        ApplyMediaFiles   $applyMediaFiles
     ) {
         parent::__construct();
 
         $this->getBlockEntryList = $getBlockEntryList;
-        $this->applyBlockEntry   = $applyBlockEntry;
-        $this->applyMediaFiles   = $applyMediaFiles;
+        $this->applyBlockEntry = $applyBlockEntry;
+        $this->applyMediaFiles = $applyMediaFiles;
     }
 
     /**
@@ -78,13 +91,13 @@ class BlockResetCommand extends Command
     {
         try {
             [$search, $type] = $this->parseParams($input);
-        } catch (\Exception $e) {
+        } catch (CommandInputException $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>' . "\n");
             return Cli::RETURN_FAILURE;
         }
 
         $blockEntries = $this->getBlockEntries($search, $type);
-        $updateCount  = 0;
+        $updateCount = 0;
 
         if (empty($blockEntries)) {
             $output->writeln('<error>block entry not found for ' . $type . ' "' . $search . '"</error>' . "\n");
@@ -97,7 +110,7 @@ class BlockResetCommand extends Command
                 $this->applyMediaFiles->execute($blockEntry);
                 $updateCount++;
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $output->writeln('<error>' . $exception->getMessage() . '</error>' . "\n");
             return Cli::RETURN_FAILURE;
         }
@@ -111,25 +124,29 @@ class BlockResetCommand extends Command
     /**
      * @param InputInterface $input
      * @return string[]
-     * @throws \Exception
+     * @throws CommandInputException
      */
     private function parseParams(InputInterface $input): array
     {
-        $key        = $input->getOption(self::PARAM_KEY);
+        $key = $input->getOption(self::PARAM_KEY);
         $identifier = $input->getOption(self::PARAM_IDENTIFIER);
 
         if ((!empty($key)) && (!empty($identifier))) {
-            throw new \Exception('Provide either "' . self::PARAM_KEY . '" or "' . self::PARAM_IDENTIFIER . '", not both!');
+            throw new CommandInputException(
+                'Provide either "' . self::PARAM_KEY . '" or "' . self::PARAM_IDENTIFIER . '", not both!'
+            );
         }
 
         if (!empty($key)) {
             $search = $key;
-            $type   = self::PARAM_KEY;
+            $type = self::PARAM_KEY;
         } elseif (!empty($identifier)) {
             $search = $identifier;
-            $type   = self::PARAM_IDENTIFIER;
+            $type = self::PARAM_IDENTIFIER;
         } else {
-            throw new \Exception('Provide either "' . self::PARAM_KEY . '" or "' . self::PARAM_IDENTIFIER . '"!');
+            throw new CommandInputException(
+                'Provide either "' . self::PARAM_KEY . '" or "' . self::PARAM_IDENTIFIER . '"!'
+            );
         }
 
         return [$search, $type];
@@ -146,7 +163,7 @@ class BlockResetCommand extends Command
             return [];
         }
 
-        $method  = 'get' . ucfirst($type);
+        $method = 'get' . ucfirst($type);
         $entries = [];
 
         foreach ($this->getBlockEntryList->get() as $blockEntry) {

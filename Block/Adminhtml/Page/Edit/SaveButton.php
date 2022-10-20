@@ -122,28 +122,34 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
             ],
         ];
 
-        if ($this->hasDefaultConfiguration->get((int)$this->getPageId())) {
-            $options = array_merge($options, [[
-                'is_hard' => 'apply_default',
-                'label' => __('Reset to Default & Save'),
-                'data_attribute' => [
-                    'mage-init' => [
-                        'buttonAdapter' => [
-                            'actions' => [
-                                [
-                                    'targetName' => 'cms_page_form.cms_page_form',
-                                    'actionName' => 'save',
-                                    'params' => [
-                                        true,
+        if ($this->hasDefaultConfiguration->execute((int)$this->getPageId())) {
+            $options = array_merge(
+                $options,
+                [
+                    [
+                        'is_hard' => 'apply_default',
+                        'label' => __('Reset to Default & Save'),
+                        'data_attribute' => [
+                            'mage-init' => [
+                                'buttonAdapter' => [
+                                    'actions' => [
                                         [
-                                            'back' => 'applyDefault',
+                                            'targetName' => 'cms_page_form.cms_page_form',
+                                            'actionName' => 'save',
+                                            'params' => [
+                                                true,
+                                                [
+                                                    'back' => 'applyDefault',
+                                                ],
+                                            ],
                                         ],
                                     ],
                                 ],
                             ],
-                        ],
-                    ],
-                ]]]);
+                        ]
+                    ]
+                ]
+            );
         }
 
         return $options;

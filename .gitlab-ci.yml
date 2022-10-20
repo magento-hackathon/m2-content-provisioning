@@ -1,0 +1,12 @@
+include:
+  - remote: 'https://gitlab.met.tdintern.de/met-public/gitlab-ci-templates/-/raw/master/module/stages.yml'
+  - remote: 'https://gitlab.met.tdintern.de/met-public/gitlab-ci-templates/-/raw/master/module/merge-request/2.4.4/static-tests.yml'
+  #- remote: 'https://gitlab.met.tdintern.de/met-public/gitlab-ci-templates/-/raw/master/module/merge-request/2.4.4/unit-tests.yml'
+  - remote: 'https://gitlab.met.tdintern.de/met-public/gitlab-ci-templates/-/raw/master/module/merge-request/2.4.4/integration-tests.yml'
+  - remote: 'https://gitlab.met.tdintern.de/met-public/gitlab-ci-templates/-/raw/master/module/merge-request/2.4.4/semver-tests.yml'
+  #- remote: 'https://gitlab.met.tdintern.de/met-public/gitlab-ci-templates/-/raw/master/module/nightly-build/2.4/unit-tests.yml'
+  - remote: 'https://gitlab.met.tdintern.de/met-public/gitlab-ci-templates/-/raw/master/module/nightly-build/2.4/static-tests.yml'
+  - remote: 'https://gitlab.met.tdintern.de/met-public/gitlab-ci-templates/-/raw/master/module/nightly-build/2.4/integration-tests.yml'
+
+#variables:
+#  SEMVER_ALLOWED_CHANGE_LEVEL: 3

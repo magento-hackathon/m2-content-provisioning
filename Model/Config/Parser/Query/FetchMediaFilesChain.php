@@ -6,6 +6,9 @@ namespace Firegento\ContentProvisioning\Model\Config\Parser\Query;
 use Firegento\ContentProvisioning\Api\MediaFilesParserInterface;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * @api
+ */
 class FetchMediaFilesChain implements MediaFilesParserInterface
 {
     /**
@@ -21,10 +24,12 @@ class FetchMediaFilesChain implements MediaFilesParserInterface
     {
         foreach ($parsers as $parserInstance) {
             if (!($parserInstance instanceof MediaFilesParserInterface)) {
-                throw new LocalizedException(__(
-                    'Parser needs to be instance of %interface',
-                    ['interface' => MediaFilesParserInterface::class]
-                ));
+                throw new LocalizedException(
+                    __(
+                        'Parser needs to be instance of %interface',
+                        ['interface' => MediaFilesParserInterface::class]
+                    )
+                );
             }
         }
 

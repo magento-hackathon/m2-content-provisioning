@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Console;
 
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
-use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy as GetBlockEntryList;
-use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry\Proxy as GetBlocksByBlockEntry;
+use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList as GetBlockEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry as GetBlocksByBlockEntry;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -40,7 +40,11 @@ class BlockListCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,22 +52,24 @@ class BlockListCommand extends Command
         $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
 
         foreach ($this->getAllBlockEntries->get() as $entry) {
-            $table->addRow([
-                $entry->getKey(),
-                $entry->getIdentifier(),
-                implode(', ', $entry->getStores()),
-                $entry->isMaintained() ? 'yes' : 'no',
-                $entry->isActive() ? 'yes' : 'no',
-                $entry->getTitle(),
-                $this->getExistsInDbValue($entry),
-            ]);
+            $table->addRow(
+                [
+                    $entry->getKey(),
+                    $entry->getIdentifier(),
+                    implode(', ', $entry->getStores()),
+                    $entry->isMaintained() ? 'yes' : 'no',
+                    $entry->isActive() ? 'yes' : 'no',
+                    $entry->getTitle(),
+                    $this->getExistsInDbValue($entry),
+                ]
+            );
         }
 
         $table->render($output);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {

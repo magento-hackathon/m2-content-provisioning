@@ -35,7 +35,7 @@ class HasDefaultPageConfiguration
      * @param int $entityId
      * @return bool
      */
-    public function get(int $entityId): bool
+    public function execute(int $entityId): bool
     {
         try {
             $page = $this->pageRepository->getById($entityId);

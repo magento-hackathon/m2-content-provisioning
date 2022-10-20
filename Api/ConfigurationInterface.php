@@ -5,6 +5,9 @@ namespace Firegento\ContentProvisioning\Api;
 
 use Magento\Framework\Config\DataInterface;
 
+/**
+ * @api
+ */
 interface ConfigurationInterface extends DataInterface
 {
     /**

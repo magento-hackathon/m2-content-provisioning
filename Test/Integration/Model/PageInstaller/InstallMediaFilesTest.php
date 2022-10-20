@@ -56,71 +56,97 @@ class InstallMediaFilesTest extends TestCase
         $this->fileSystem = vfsStream::setup('root', null, $structure);
 
         $this->targetMediaDirectoryPathProvider->method('get')->willReturn(
-            $this->fileSystem->getChild('pub/media')->url()
+            $this->getChildDirectoryUrl('pub/media')
         );
 
         $applyMediaFiles = Bootstrap::getObjectManager()
-            ->create(ApplyMediaFiles::class, [
-                'targetMediaDirectoryPathProvider' => $this->targetMediaDirectoryPathProvider,
-            ]);
+            ->create(
+                ApplyMediaFiles::class,
+                ['targetMediaDirectoryPathProvider' => $this->targetMediaDirectoryPathProvider]
+            );
 
         $this->installer = Bootstrap::getObjectManager()
-            ->create(PageInstaller::class, [
-                'getAllPageEntries' => $this->getPageEntryListMock,
-                'applyMediaFiles' => $applyMediaFiles,
-            ]);
+            ->create(
+                PageInstaller::class,
+                [
+                    'getAllPageEntries' => $this->getPageEntryListMock,
+                    'applyMediaFiles' => $applyMediaFiles,
+                ]
+            );
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function getChildDirectoryUrl(string $name): string
+    {
+        // workaround because getChild-Method is not allowed via static tests
+        return 'vfs://root/' . $name;
     }
 
     protected function initEntries()
     {
-        $this->pageEntries[1] = $this->pageEntryInterfaceFactory->create(['data' => [
-            PageEntryInterface::TITLE => 'Page with images 1',
-            PageEntryInterface::CONTENT => '',
-            PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
-            PageEntryInterface::KEY => 'page.with.images.1',
-            PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-images-1',
-            PageEntryInterface::IS_ACTIVE => true,
-            PageEntryInterface::IS_MAINTAINED => true,
-            PageEntryInterface::STORES => ['admin'],
-            PageEntryInterface::MEDIA_DIRECTORY => $this->fileSystem->getChild('source/media')->url(),
-            PageEntryInterface::MEDIA_FILES => [
-                'sub-directory/file-3.jpg',
-                'file-1.png',
-            ],
-        ]]);
+        $this->pageEntries[1] = $this->pageEntryInterfaceFactory->create(
+            [
+                'data' => [
+                    PageEntryInterface::TITLE => 'Page with images 1',
+                    PageEntryInterface::CONTENT => '',
+                    PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
+                    PageEntryInterface::KEY => 'page.with.images.1',
+                    PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-images-1',
+                    PageEntryInterface::IS_ACTIVE => true,
+                    PageEntryInterface::IS_MAINTAINED => true,
+                    PageEntryInterface::STORES => ['admin'],
+                    PageEntryInterface::MEDIA_DIRECTORY => $this->getChildDirectoryUrl('source/media'),
+                    PageEntryInterface::MEDIA_FILES => [
+                        'sub-directory/file-3.jpg',
+                        'file-1.png',
+                    ],
+                ]
+            ]
+        );
 
-        $this->pageEntries[2] = $this->pageEntryInterfaceFactory->create(['data' => [
-            PageEntryInterface::TITLE => 'Page with images 2',
-            PageEntryInterface::CONTENT => '',
-            PageEntryInterface::CONTENT_HEADING => '',
-            PageEntryInterface::KEY => 'page.with.images.2',
-            PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-images-2',
-            PageEntryInterface::IS_ACTIVE => true,
-            PageEntryInterface::IS_MAINTAINED => true,
-            PageEntryInterface::STORES => ['admin'],
-            PageEntryInterface::MEDIA_DIRECTORY => $this->fileSystem->getChild('source/media')->url(),
-            PageEntryInterface::MEDIA_FILES => [
-                'file-2.txt',
-                'existing/file-4.gif',
-            ],
-        ]]);
+        $this->pageEntries[2] = $this->pageEntryInterfaceFactory->create(
+            [
+                'data' => [
+                    PageEntryInterface::TITLE => 'Page with images 2',
+                    PageEntryInterface::CONTENT => '',
+                    PageEntryInterface::CONTENT_HEADING => '',
+                    PageEntryInterface::KEY => 'page.with.images.2',
+                    PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-images-2',
+                    PageEntryInterface::IS_ACTIVE => true,
+                    PageEntryInterface::IS_MAINTAINED => true,
+                    PageEntryInterface::STORES => ['admin'],
+                    PageEntryInterface::MEDIA_DIRECTORY => $this->getChildDirectoryUrl('source/media'),
+                    PageEntryInterface::MEDIA_FILES => [
+                        'file-2.txt',
+                        'existing/file-4.gif',
+                    ],
+                ]
+            ]
+        );
 
-        $this->pageEntries[3] = $this->pageEntryInterfaceFactory->create(['data' => [
-            PageEntryInterface::TITLE => 'Page with images 3',
-            PageEntryInterface::CONTENT => '',
-            PageEntryInterface::CONTENT_HEADING => '',
-            PageEntryInterface::KEY => 'page.with.images.3',
-            PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-images-3',
-            PageEntryInterface::IS_ACTIVE => true,
-            PageEntryInterface::IS_MAINTAINED => true,
-            PageEntryInterface::STORES => ['admin'],
-            PageEntryInterface::MEDIA_DIRECTORY => $this->fileSystem->getChild('source/media')->url(),
-            PageEntryInterface::MEDIA_FILES => [
-                'sub-directory/file-3.jpg',
-                'file-1.png',
-                'not-existing/image.png',
-            ],
-        ]]);
+        $this->pageEntries[3] = $this->pageEntryInterfaceFactory->create(
+            [
+                'data' => [
+                    PageEntryInterface::TITLE => 'Page with images 3',
+                    PageEntryInterface::CONTENT => '',
+                    PageEntryInterface::CONTENT_HEADING => '',
+                    PageEntryInterface::KEY => 'page.with.images.3',
+                    PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-images-3',
+                    PageEntryInterface::IS_ACTIVE => true,
+                    PageEntryInterface::IS_MAINTAINED => true,
+                    PageEntryInterface::STORES => ['admin'],
+                    PageEntryInterface::MEDIA_DIRECTORY => $this->getChildDirectoryUrl('source/media'),
+                    PageEntryInterface::MEDIA_FILES => [
+                        'sub-directory/file-3.jpg',
+                        'file-1.png',
+                        'not-existing/image.png',
+                    ],
+                ]
+            ]
+        );
 
         $this->getPageEntryListMock->method('get')->willReturn($this->pageEntries);
     }

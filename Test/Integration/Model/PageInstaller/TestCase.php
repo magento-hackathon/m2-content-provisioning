@@ -46,8 +46,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @var GetFirstPageByPageEntry
      */
-    protected $getFisrtPageByPageEntry;
-
+    protected $getFirstPageByPageEntry;
 
     protected function setUp(): void
     {
@@ -66,7 +65,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->storeManager = Bootstrap::getObjectManager()
             ->create(StoreManagerInterface::class);
 
-        $this->getFisrtPageByPageEntry = Bootstrap::getObjectManager()
+        $this->getFirstPageByPageEntry = Bootstrap::getObjectManager()
             ->create(GetFirstPageByPageEntry::class);
     }
 
@@ -92,52 +91,66 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function initEntries()
     {
-        $this->pageEntries[1] = $this->pageEntryInterfaceFactory->create(['data' => [
-            PageEntryInterface::TITLE => 'Test Page 1',
-            PageEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>',
-            PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
-            PageEntryInterface::KEY => 'test.page.1',
-            PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-1',
-            PageEntryInterface::IS_ACTIVE => false,
-            PageEntryInterface::IS_MAINTAINED => true,
-            PageEntryInterface::STORES => ['admin'],
-            PageEntryInterface::META_DESCRIPTION => 'Some seo description',
-            PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
-            PageEntryInterface::META_TITLE => 'Seo title',
-            PageEntryInterface::PAGE_LAYOUT => '3columns',
-            PageEntryInterface::LAYOUT_UPDATE_XML => '',
-            PageEntryInterface::CUSTOM_THEME => 3,
-            PageEntryInterface::CUSTOM_THEME_FROM => '2019-03-29',
-            PageEntryInterface::CUSTOM_THEME_TO => '2019-05-29',
-            PageEntryInterface::CUSTOM_ROOT_TEMPLATE => '3columns',
-        ]]);
+        $this->pageEntries[1] = $this->pageEntryInterfaceFactory->create(
+            [
+                'data' => [
+                    PageEntryInterface::TITLE => 'Test Page 1',
+                    PageEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>',
+                    PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
+                    PageEntryInterface::KEY => 'test.page.1',
+                    PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-1',
+                    PageEntryInterface::IS_ACTIVE => false,
+                    PageEntryInterface::IS_MAINTAINED => true,
+                    PageEntryInterface::STORES => ['admin'],
+                    PageEntryInterface::META_DESCRIPTION => 'Some seo description',
+                    PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
+                    PageEntryInterface::META_TITLE => 'Seo title',
+                    PageEntryInterface::PAGE_LAYOUT => '3columns',
+                    PageEntryInterface::LAYOUT_UPDATE_XML => '',
+                    PageEntryInterface::CUSTOM_THEME => 3,
+                    PageEntryInterface::CUSTOM_THEME_FROM => '2019-03-29',
+                    PageEntryInterface::CUSTOM_THEME_TO => '2019-05-29',
+                    PageEntryInterface::CUSTOM_ROOT_TEMPLATE => '3columns',
+                ]
+            ]
+        );
 
-        $this->pageEntries[2] = $this->pageEntryInterfaceFactory->create(['data' => [
-            PageEntryInterface::TITLE => 'Test Page 2',
-            PageEntryInterface::CONTENT => file_get_contents(__DIR__ . '/../../_files/content/dummy-content.html'),
-            PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
-            PageEntryInterface::KEY => 'test.page.2',
-            PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-2',
-            PageEntryInterface::IS_ACTIVE => true,
-            PageEntryInterface::IS_MAINTAINED => false,
-            PageEntryInterface::STORES => ['default', 'admin'],
-        ]]);
+        $this->pageEntries[2] = $this->pageEntryInterfaceFactory->create(
+            [
+                'data' => [
+                    PageEntryInterface::TITLE => 'Test Page 2',
+                    PageEntryInterface::CONTENT => file_get_contents(
+                        __DIR__ . '/../../_files/content/dummy-content.html'
+                    ),
+                    PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
+                    PageEntryInterface::KEY => 'test.page.2',
+                    PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-2',
+                    PageEntryInterface::IS_ACTIVE => true,
+                    PageEntryInterface::IS_MAINTAINED => false,
+                    PageEntryInterface::STORES => ['default', 'admin'],
+                ]
+            ]
+        );
 
-        $this->pageEntries[3] = $this->pageEntryInterfaceFactory->create(['data' => [
-            PageEntryInterface::TITLE => 'Test Page 3',
-            PageEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>',
-            PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
-            PageEntryInterface::KEY => 'test.page.3',
-            PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-3',
-            PageEntryInterface::IS_ACTIVE => true,
-            PageEntryInterface::IS_MAINTAINED => true,
-            PageEntryInterface::STORES => ['default'],
-            PageEntryInterface::META_DESCRIPTION => 'Some seo description',
-            PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
-            PageEntryInterface::META_TITLE => 'Seo title',
-            PageEntryInterface::PAGE_LAYOUT => '3columns',
-            PageEntryInterface::LAYOUT_UPDATE_XML => '',
-        ]]);
+        $this->pageEntries[3] = $this->pageEntryInterfaceFactory->create(
+            [
+                'data' => [
+                    PageEntryInterface::TITLE => 'Test Page 3',
+                    PageEntryInterface::CONTENT => '<h2>test foobar Aenean commodo ligula eget dolor aenean massa</h2>',
+                    PageEntryInterface::CONTENT_HEADING => 'Some Content Heading',
+                    PageEntryInterface::KEY => 'test.page.3',
+                    PageEntryInterface::IDENTIFIER => 'firegento-content-provisioning-test-3',
+                    PageEntryInterface::IS_ACTIVE => true,
+                    PageEntryInterface::IS_MAINTAINED => true,
+                    PageEntryInterface::STORES => ['default'],
+                    PageEntryInterface::META_DESCRIPTION => 'Some seo description',
+                    PageEntryInterface::META_KEYWORDS => 'Some, seo, keywords',
+                    PageEntryInterface::META_TITLE => 'Seo title',
+                    PageEntryInterface::PAGE_LAYOUT => '3columns',
+                    PageEntryInterface::LAYOUT_UPDATE_XML => '',
+                ]
+            ]
+        );
 
         $this->getPageEntryListMock->method('get')->willReturn($this->pageEntries);
     }
@@ -166,6 +179,6 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getPageByPageEntry(PageEntryInterface $entry): PageInterface
     {
-        return $this->getFisrtPageByPageEntry->execute($entry);
+        return $this->getFirstPageByPageEntry->execute($entry);
     }
 }

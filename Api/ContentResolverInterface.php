@@ -5,6 +5,9 @@ namespace Firegento\ContentProvisioning\Api;
 
 use DOMElement;
 
+/**
+ * @api
+ */
 interface ContentResolverInterface
 {
     /**

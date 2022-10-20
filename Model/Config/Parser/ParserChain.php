@@ -7,6 +7,9 @@ use DOMElement;
 use Firegento\ContentProvisioning\Api\ConfigParserInterface;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * @api
+ */
 class ParserChain implements ConfigParserInterface
 {
     /**
@@ -22,10 +25,12 @@ class ParserChain implements ConfigParserInterface
     {
         foreach ($parser as $parserInstance) {
             if (!($parserInstance instanceof ConfigParserInterface)) {
-                throw new LocalizedException(__(
-                    'Parser needs to be instance of %interface',
-                    ['interface' => ConfigParserInterface::class]
-                ));
+                throw new LocalizedException(
+                    __(
+                        'Parser needs to be instance of %interface',
+                        ['interface' => ConfigParserInterface::class]
+                    )
+                );
             }
         }
 

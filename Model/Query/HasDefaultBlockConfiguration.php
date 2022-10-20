@@ -35,7 +35,7 @@ class HasDefaultBlockConfiguration
      * @param int $entityId
      * @return bool
      */
-    public function get(int $entityId): bool
+    public function execute(int $entityId): bool
     {
         try {
             $block = $this->blockRepository->getById($entityId);
