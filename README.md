@@ -8,6 +8,9 @@ This module was developed during a Magento Hackathon organized by FireGento e.V.
 > to run automated quality checks on our internal infrastructure for this module. Please see https://gitlab.met.tdintern.de/techdivision-public/m2-content-provisioning
 > for details. Please feel free to contact us, if you have questions regarding the repository structure or mirroring.
 
+## Build-Status (`develop` branch)
+[![pipeline status](https://gitlab.met.tdintern.de/techdivision-public/m2-content-provisioning/badges/develop/pipeline.svg)](https://gitlab.met.tdintern.de/techdivision-public/m2-content-provisioning/-/commits/develop)
+
 ## The idea behind this module
 
 It is a common requirement, that some parts of content (like CMS pages or blocks) need be deployed within a release.
