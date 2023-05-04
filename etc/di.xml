@@ -92,6 +92,16 @@
         </arguments>
     </type>
 
+    <type name="Firegento\ContentProvisioning\Model\Console\AddBlockCommand">
+        <arguments>
+            <argument name="applyBlockEntry" xsi:type="object">Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Firegento\ContentProvisioning\Model\Console\AddPageCommand">
+        <arguments>
+            <argument name="applyPageEntry" xsi:type="object">Firegento\ContentProvisioning\Model\Command\ApplyPageEntry\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Firegento\ContentProvisioning\Model\Console\BlockListCommand">
         <arguments>
             <argument name="getAllBlockEntries" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy</argument>
@@ -102,6 +112,19 @@
         <arguments>
             <argument name="getAllContentEntries" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetPageEntryList\Proxy</argument>
             <argument name="getPagesByPageEntry" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Firegento\ContentProvisioning\Model\Console\BlockResetCommand">
+        <arguments>
+            <argument name="getBlockEntryList" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy</argument>
+            <argument name="applyBlockEntry" xsi:type="object">Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry\Proxy</argument>
+            <argument name="applyMediaFiles" xsi:type="object">Firegento\ContentProvisioning\Model\Command\ApplyMediaFiles\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Firegento\ContentProvisioning\Model\Console\BlockListCommand">
+        <arguments>
+            <argument name="getAllBlockEntries" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy</argument>
+            <argument name="getBlocksByBlockEntry" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry\Proxy</argument>
         </arguments>
     </type>
 
