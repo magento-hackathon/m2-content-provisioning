@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2024 TechDivision GmbH
+ * All rights reserved
+ *
+ * This product includes proprietary software developed at TechDivision GmbH, Germany
+ * For more information see https://www.techdivision.com/
+ *
+ * To obtain a valid license for using this software please contact us at
+ * license@techdivision.com
+ *
+ * @copyright  Copyright (c) 2024 TechDivision GmbH (https://www.techdivision.com)
+ * @author     TechDivision Team Zero <zero@techdivision.com>
+ * @link       https://www.techdivision.com/
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="trans_email" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <class>separator-top</class>
+            <label>Store Email Addresses</label>
+            <tab>general</tab>
+            <resource>Magento_Config::trans_email</resource>
+            <group id="ident_content_provisioning" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Content Provisioning</label>
+                <field id="email" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Recipient Email</label>
+                    <comment>Emails here will receive a notification if there are some CMS blocks changed. For more than one email, insert comma to separate.</comment>
+                    <validate>validate-email</validate>
+                    <backend_model>Magento\Config\Model\Config\Backend\Email\Address</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
