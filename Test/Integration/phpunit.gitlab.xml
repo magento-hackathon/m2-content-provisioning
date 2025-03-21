@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-/**
- * Copyright (c) 2022 TechDivision GmbH
- * All rights reserved
- *
- * This product includes proprietary software developed at TechDivision GmbH, Germany
- * For more information see http://www.techdivision.com/
- *
- * To obtain a valid license for using this software please contact us at
- * license@techdivision.com
- *
- * @copyright  Copyright (c) 2022 TechDivision GmbH (http://www.techdivision.com)
- * @author     Vadim Justus <v.justus@techdivision.com>
- * @link       http://www.techdivision.com/
- */
- -->
+ ~ Copyright (c) 2020 TechDivision GmbH
+ ~ All rights reserved
+ ~
+ ~ This product includes proprietary software developed at TechDivision GmbH, Germany
+ ~ For more information see https://www.techdivision.com/
+ ~
+ ~ To obtain a valid license for using this software please contact us at
+ ~ license@techdivision.com
+-->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/9.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/9.1/phpunit.xsd"
          colors="true"
          columns="max"
          beStrictAboutTestsThatDoNotTestAnything="false"
          bootstrap="../../../../../../dev/tests/integration/framework/bootstrap.php"
          stderr="true"
 >
+
     <!-- Test suites definition -->
     <testsuites>
         <testsuite name="Magento Integration Tests">
@@ -42,7 +37,7 @@
         <!-- Semicolon-separated 'glob' patterns, that match global XML configuration files -->
         <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
         <!-- Whether to cleanup the application before running tests or not -->
-        <const name="TESTS_CLEANUP" value="disabled"/>
+        <const name="TESTS_CLEANUP" value="enabled"/>
         <!-- Memory usage and estimated leaks thresholds -->
         <!--<const name="TESTS_MEM_USAGE_LIMIT" value="1024M"/>-->
         <const name="TESTS_MEM_LEAK_LIMIT" value=""/>
@@ -64,9 +59,8 @@
         <!--<const name="MONGODB_CONNECTION_STRING" value="mongodb://localhost:27017"/>-->
         <!--<const name="MONGODB_DATABASE_NAME" value="magento_integration_tests"/>-->
     </php>
-    <!-- Test listeners -->
-    <listeners>
-        <listener class="Magento\TestFramework\Event\PhpUnit"/>
-        <listener class="Magento\TestFramework\ErrorLog\Listener"/>
-    </listeners>
+    <extensions>
+        <bootstrap class="Magento\TestFramework\Event\Subscribers"/>
+        <bootstrap class="TechDivision\PHPUnitPrinter\PrintExtension"/>
+    </extensions>
 </phpunit>
