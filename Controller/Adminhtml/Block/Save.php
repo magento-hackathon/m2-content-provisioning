@@ -67,8 +67,8 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block implements HttpPostAc
         DataPersistorInterface $dataPersistor,
         GetBlockEntryByBlock $getBlockEntryByBlock,
         ApplyBlockEntry $applyBlockEntry,
-        BlockFactory $blockFactory = null,
-        BlockRepositoryInterface $blockRepository = null
+        ?BlockFactory $blockFactory = null,
+        ?BlockRepositoryInterface $blockRepository = null
     ) {
         $this->dataPersistor = $dataPersistor;
         $this->blockFactory = $blockFactory

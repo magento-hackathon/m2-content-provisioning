@@ -186,7 +186,7 @@ bin/magento content-provisioning:page:apply "myKey"
 bin/magento content-provisioning:block:list
 
 # list all changed CMS block entries
-bin/magento content-provisioning:block:list --changed-only all
+bin/magento content-provisioning:block:list --changed-only
 
 # list all configured CMS page entries
 bin/magento content-provisioning:page:list

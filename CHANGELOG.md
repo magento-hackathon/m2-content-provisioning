@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 1.6.0
+
+* *Improvement:* Refactoring code base of module
+
+## 1.5.0
+
+* *Feature:* Detect inconsistencies in the CMS blocks
+
+## 1.4.3
+
+* *Improvement:* Use di proxies for console commands
+
+## 1.4.2
+
+* *Improvement:* Soften dependencies
+
+## 1.4.1
+
+* *Bugfix:* Remove quotes form regexp to restore media provisioning feature
+
 ## 1.4.0
 
 * *Feature:* Introduce reset CLI command to force content import for already given contents manually

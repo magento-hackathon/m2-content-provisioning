@@ -34,7 +34,7 @@ class AddBlockCommand extends Command
     public function __construct(
         GetBlockEntryByKeyFactory $getBlockEntryByKeyFactory,
         ApplyBlockEntry $applyBlockEntry,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->getBlockEntryByKeyFactory = $getBlockEntryByKeyFactory;
@@ -49,7 +49,7 @@ class AddBlockCommand extends Command
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $key = $input->getArgument(self::ARG_BLOCK_KEY);
         $block = $this->getBlockEntryByKeyFactory->create()->get($key);
@@ -59,7 +59,7 @@ class AddBlockCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('content-provisioning:block:apply');
         $this->setDescription('Add a block by key');

@@ -33,7 +33,7 @@ class PageListCommand extends Command
     public function __construct(
         GetPageEntryList $getAllContentEntries,
         GetPagesByPageEntry $getPagesByPageEntry,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->getAllContentEntries = $getAllContentEntries;

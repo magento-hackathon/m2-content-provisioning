@@ -34,7 +34,7 @@ class AddPageCommand extends Command
     public function __construct(
         GetPageEntryByKeyFactory $getPageEntryByKeyFactory,
         ApplyPageEntry $applyPageEntry,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->getPageEntryByKeyFactory = $getPageEntryByKeyFactory;

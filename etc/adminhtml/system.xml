@@ -25,12 +25,21 @@
             <tab>general</tab>
             <resource>Magento_Config::trans_email</resource>
             <group id="ident_content_provisioning" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Content Provisioning</label>
+                <label>Block Change Detector</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable</label>
+                    <comment>Enables the Block Change Detector</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="email" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Recipient Email</label>
                     <comment>Emails here will receive a notification if there are some CMS blocks changed. For more than one email, insert comma to separate.</comment>
                     <validate>validate-email</validate>
                     <backend_model>Magento\Config\Model\Config\Backend\Email\Address</backend_model>
+                </field>
+                <field id="cron_schedule" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Cron Schedule</label>
+                    <comment model="Firegento\ContentProvisioning\Model\Config\CronExpressionComment" />
                 </field>
             </group>
         </section>

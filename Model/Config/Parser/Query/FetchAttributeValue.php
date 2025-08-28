@@ -13,7 +13,7 @@ class FetchAttributeValue
      * @param null|string $defaultValue
      * @return string
      */
-    public function execute(DOMNode $node, string $attributeName, string $defaultValue = '')
+    public function execute(DOMNode $node, string $attributeName, string|null $defaultValue = '')
     {
         $item = $node->attributes->getNamedItem($attributeName);
         return $item ? $item->nodeValue : $defaultValue;
