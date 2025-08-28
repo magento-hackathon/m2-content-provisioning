@@ -2,20 +2,35 @@
 
 declare(strict_types=1);
 
+/**
+ * Copyright (c) 2024 TechDivision GmbH
+ * All rights reserved
+ *
+ * This product includes proprietary software developed at TechDivision GmbH, Germany
+ * For more information see https://www.techdivision.com/
+ *
+ * To obtain a valid license for using this software please contact us at
+ * license@techdivision.com
+ *
+ * @copyright  Copyright (c) 2024 TechDivision GmbH (https://www.techdivision.com)
+ * @author     TechDivision Team Zero <zero@techdivision.com>
+ * @link       https://www.techdivision.com/
+ */
+
 namespace Firegento\ContentProvisioning\Model\Console;
 
-use Firegento\ContentProvisioning\Model\Query\GetBlockEntryByKey;
-use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList as GetBlockEntryList;
-use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry as GetBlocksByBlockEntry;
+use Firegento\ContentProvisioning\Model\DTO\CmsBlockDto;
+use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetChangedBlockIdentifiers;
+use Firegento\ContentProvisioning\Model\Query\GetFilesContentInformation;
+use Firegento\ContentProvisioning\ViewModel\BlockDataProvider;
+use Firegento\ContentProvisioning\ViewModel\ChangedBlockDataProvider;
+use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Filesystem\Io\File as FileSystem;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Magento\Framework\Filesystem\Driver\File;
-use Firegento\ContentProvisioning\Model\Query\GetContentProvisioningFiles;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -30,74 +45,69 @@ class BlockListCommand extends Command
     private GetBlockEntryList $getAllBlockEntries;
 
     /**
-     * @var GetBlocksByBlockEntry
+     * @var GetChangedBlockIdentifiers
      */
-    private GetBlocksByBlockEntry $getBlocksByBlockEntry;
+    private GetChangedBlockIdentifiers $getChangedBlocksIdentifier;
 
     /**
-     * @var File
+     * @var ChangedBlockDataProvider
      */
-    private File $fileDriver;
+    private ChangedBlockDataProvider $changedBlockDataProvider;
 
     /**
-     * @var GetBlockEntryByKey
+     * @var GetFilesContentInformation
      */
-    private GetBlockEntryByKey $getBlockEntryByKey;
+    private GetFilesContentInformation $getFilesContentInformation;
 
     /**
-     * @var FileSystem
+     * @var BlockDataProvider
      */
-    private FileSystem $fileSystem;
-
-    /**
-     * @var GetContentProvisioningFiles
-     */
-    private GetContentProvisioningFiles $getContentProvisioningFiles;
+    private BlockDataProvider $blockDataProvider;
 
     /**
      * @param GetBlockEntryList $getAllBlockEntries
-     * @param GetBlocksByBlockEntry $getBlocksByBlockEntry
-     * @param File $fileDriver
-     * @param GetBlockEntryByKey $getBlockEntryByKey
-     * @param FileSystem $fileSystem
-     * @param GetContentProvisioningFiles $getContentProvisioningFiles
+     * @param GetFilesContentInformation $getFilesContentInformation
+     * @param GetChangedBlockIdentifiers $getChangedBlocksIdentifier
+     * @param ChangedBlockDataProvider $changedBlockDataProvider
+     * @param BlockDataProvider $blockDataProvider
      * @param string|null $name
      */
     public function __construct(
         GetBlockEntryList $getAllBlockEntries,
-        GetBlocksByBlockEntry $getBlocksByBlockEntry,
-        File $fileDriver,
-        GetBlockEntryByKey $getBlockEntryByKey,
-        FileSystem $fileSystem,
-        GetContentProvisioningFiles $getContentProvisioningFiles,
-        string $name = null
+        GetFilesContentInformation $getFilesContentInformation,
+        GetChangedBlockIdentifiers  $getChangedBlocksIdentifier,
+        ChangedBlockDataProvider $changedBlockDataProvider,
+        BlockDataProvider $blockDataProvider,
+        ?string $name = null
     ) {
         $this->getAllBlockEntries = $getAllBlockEntries;
-        $this->getBlocksByBlockEntry = $getBlocksByBlockEntry;
-        $this->fileDriver = $fileDriver;
-        $this->getBlockEntryByKey = $getBlockEntryByKey;
-        $this->fileSystem = $fileSystem;
-        $this->getContentProvisioningFiles = $getContentProvisioningFiles;
+        $this->getFilesContentInformation = $getFilesContentInformation;
+        $this->getChangedBlocksIdentifier = $getChangedBlocksIdentifier;
+        $this->changedBlockDataProvider = $changedBlockDataProvider;
+        $this->blockDataProvider = $blockDataProvider;
         parent::__construct($name);
     }
 
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return void
-     *
-     * @throws \Exception
+     * @return int
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @throws \Exception
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption(self::PARAM_CHANGED_ONLY)) {
-            $entries = $this->getChangedEntries();
+            $changedBlockDto = $this->getChangedCmsBlockEntries();
+            $tableData = $this->changedBlockDataProvider->execute($output, $changedBlockDto);
+            $tableData->render($output);
         } else {
-            $entries = $this->getAllBlockEntries->get();
+            $blockEntries = $this->getAllBlockEntries->get();
+            $tableData = $this->blockDataProvider->execute($output, $blockEntries);
+            $tableData->render($output);
         }
 
-        $this->renderTable($input, $output, $entries);
+        return Command::SUCCESS;
     }
 
     /**
@@ -110,164 +120,19 @@ class BlockListCommand extends Command
         $this->addOption(
             self::PARAM_CHANGED_ONLY,
             null,
-            InputOption::VALUE_OPTIONAL,
-            'Parameter to list (only) changed blocks.',
+            InputOption::VALUE_NONE,
+            'Parameter to list (only) changed blocks.'
         );
         parent::configure();
     }
 
     /**
-     * @return array|null
+     * @return CmsBlockDto[]
      * @throws \Exception
      */
-    public function getChangedEntries(): ?array
+    private function getChangedCmsBlockEntries(): array
     {
-        $files = $this->getContentProvisioningFiles->execute();
-        return $this->getChangedBlocksIdentifier($this->getBlockInformation($files));
-    }
-
-    /**
-     * Render table with CMS block information
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param array $entries
-     * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function renderTable(InputInterface $input, OutputInterface $output, array $entries)
-    {
-        $table = new Table($output);
-        $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
-
-        foreach ($entries as $entry) {
-            $table->addRow(
-                [
-                    $entry['key'],
-                    $entry['identifier'],
-                    (!empty($entry['stores'])) ? (is_array($entry['stores']) ?
-                        implode(', ', $entry['stores']) : $entry['stores']) : "null",
-                    $entry['is_maintained'],
-                    $entry['is_active'],
-                    $entry['title'],
-                    $this->getExistsInDbValue($entry['key']),
-                ]
-            );
-        }
-
-        $table->render($output);
-    }
-
-    /**
-     * Transform array values into a string to be displayed in the email
-     * @param array $entries
-     * @return string
-     */
-    public function renderValuesForEmail(array $entries): string
-    {
-        $entriesList = [];
-        foreach ($entries as $entry) {
-            $entriesList[] = "key: " . $entry['key'];
-            $entriesList[] = "identifier: " . $entry['identifier'];
-        }
-        $separatedEntries = implode(", ", $entriesList);
-        return $separatedEntries;
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    private function getExistsInDbValue(string $key): string
-    {
-        $entry = $this->getBlockEntryByKey->get($key);
-        try {
-            $ids = [];
-            foreach ($this->getBlocksByBlockEntry->execute($entry) as $page) {
-                $ids[] = $page->getId();
-            }
-
-            if (empty($ids)) {
-                return 'no';
-            }
-
-            return 'yes (' . implode(', ', $ids) . ')';
-        } catch (LocalizedException $noSuchEntityException) {
-            return 'ERROR: ' . $noSuchEntityException->getMessage();
-        }
-    }
-
-    /**
-     * Return array with changed blocks identifier
-     * @param array $filesPath
-     * @return array|null
-     */
-    public function getChangedBlocksIdentifier(array $filesPath): ?array
-    {
-        $changedBlocks = [];
-        foreach ($filesPath as $file) {
-            try {
-                // Get Block content from code
-                $filePath = $this->resolvePath($file['content']);
-                $codeFileContent = $this->fileDriver->fileGetContents($filePath);
-            } catch (LocalizedException $e) {
-                return 'ERROR: ' . $e->getMessage();
-            }
-            // Get Block content from database
-            $dbBlockContent = $this->getBlockEntryByKey->get($file['key'])->getContent();
-
-            if ($codeFileContent !== $dbBlockContent) {
-                $changedBlocks[] = $file;
-            }
-        }
-        return $changedBlocks;
-    }
-
-    /**
-     * Return array with block information from content_provisioning file
-     * @param array $files
-     * @return array
-     * @throws \Exception
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    public function getBlockInformation(array $files): array
-    {
-        $results = [];
-        foreach ($files as $fileName => $fileContent) {
-            try {
-                $xml = new \SimpleXMLElement($fileContent);
-
-                foreach ($xml->block as $block) {
-                    $stores = (string)(isset($block->stores->store) && $block->stores->store->attributes() ?
-                        $block->stores->store->attributes()->code : null);
-                    $results[] = [
-                        'identifier' => (string)$block['identifier'],
-                        'key' => (string)$block['key'],
-                        'content' => (string)$block->content,
-                        'stores' => $stores,
-                        'is_active' => (string)$block['active'] ? 'yes' : 'no',
-                        'is_maintained' => (string)$block['maintained'] ? 'yes' : 'no',
-                        'title' => $block->title
-                    ];
-                }
-            } catch (LocalizedException $e) {
-                error_log($e->getMessage());
-            }
-        }
-        return $results;
-    }
-
-    /**
-     * Transform given file path in PHP readble path
-     * @param string $filePath
-     * @return string
-     */
-    public function resolvePath(string $filePath): string
-    {
-        $pathInfo = $this->fileSystem->getPathInfo($filePath);
-        $resolvedDirName = str_replace(['::', "_"], '/', $pathInfo['dirname']);
-        $fullPath= $resolvedDirName . "/" . $pathInfo['basename'];
-        $readblePath = $this->fileDriver->getRealPath("src/app/code/" . $fullPath);
-
-        return $readblePath;
+        $files = $this->getFilesContentInformation->execute();
+        return $this->getChangedBlocksIdentifier->execute($files);
     }
 }

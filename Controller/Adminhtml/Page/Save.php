@@ -81,8 +81,8 @@ class Save extends Action implements HttpPostActionInterface
         DataPersistorInterface $dataPersistor,
         GetPageEntryByPage $getPageEntryByPage,
         ApplyPageEntry $applyPageEntry,
-        PageFactory $pageFactory = null,
-        PageRepositoryInterface $pageRepository = null
+        ?PageFactory $pageFactory = null,
+        ?PageRepositoryInterface $pageRepository = null
     ) {
         $this->dataProcessor = $dataProcessor;
         $this->dataPersistor = $dataPersistor;
