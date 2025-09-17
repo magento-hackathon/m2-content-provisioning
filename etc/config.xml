@@ -5,15 +5,12 @@
  * All rights reserved
  *
  * This product includes proprietary software developed at TechDivision GmbH, Germany
- * For more information see http://www.techdivision.com/
+ * For more information see https://www.techdivision.com/
  *
  * To obtain a valid license for using this software please contact us at
  * license@techdivision.com
- */
-
-/**
- * @copyright  Copyright (c) 2025 TechDivision GmbH <info@techdivision.com> - TechDivision GmbH
  *
+ * @copyright  Copyright (c) 2025 TechDivision GmbH <info@techdivision.com> - TechDivision GmbH
  * @link       https://www.techdivision.com/
  * @author     Team Zero <zero@techdivision.com>
  */
@@ -24,7 +21,8 @@
         <trans_email>
             <ident_content_provisioning>
                 <enabled>0</enabled>
-                <cron_schedule>0 0 * * *</cron_schedule>
+                <email_frequency>monthly</email_frequency>
+                <cron_schedule>0 7 * * *</cron_schedule>
             </ident_content_provisioning>
         </trans_email>
     </default>

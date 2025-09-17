@@ -20,135 +20,157 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Cron;
 
 use Firegento\ContentProvisioning\Model\DTO\CmsBlockDto;
-use Firegento\ContentProvisioning\Model\Query\GetChangedBlockIdentifiers;
-use Firegento\ContentProvisioning\Model\Query\GetFilesContentInformation;
-use Magento\Framework\Mail\EmailMessageInterfaceFactory;
-use Magento\Framework\Mail\EmailMessageInterface;
-use Magento\Framework\Mail\MimePartInterfaceFactory;
-use Magento\Framework\Mail\TransportInterfaceFactory;
-use Magento\Framework\Mail\TransportInterface;
+use Firegento\ContentProvisioning\Model\Config\Source\EmailFrequency;
+use Firegento\ContentProvisioning\Service\EmailService;
+use Firegento\ContentProvisioning\Service\BlockQueryService;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Mail\MimePartInterface;
-use Magento\Framework\Mail\MimeMessageFactory;
-use Magento\Framework\Mail\AddressFactory;
+use Magento\Framework\App\CacheInterface;
+use Magento\Framework\Escaper;
 
 class InconsistenciesInCmsBlock
 {
-    public const EMAIL_SUBJECT = "Inconsistencies in CMS block";
+    public const EMAIL_SUBJECT = 'CMS block inconsistency report';
+    public const CONFIG_PATH_ENABLED = 'trans_email/ident_content_provisioning/enabled';
+    public const CONFIG_PATH_SENDER_EMAIL = 'trans_email/ident_general/email';
+    public const CONFIG_PATH_RECIPIENT_EMAIL = 'trans_email/ident_content_provisioning/email';
+    public const CONFIG_PATH_EMAIL_FREQUENCY = 'trans_email/ident_content_provisioning/email_frequency';
+    public const CACHE_KEY_LAST_EMAIL_SENT = 'content_provisioning_last_email_sent';
 
-    public const SENDER_EMAIL = 'trans_email/ident_general/email';
-
-    public const RECIPIENT_EMAIL = 'trans_email/ident_content_provisioning/email';
-
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private LoggerInterface $logger;
 
-    /**
-     * @var TransportInterfaceFactory
-     */
-    private TransportInterfaceFactory $mailTransportFactory;
-
-    /**
-     * @var ScopeConfigInterface
-     */
+    /** @var ScopeConfigInterface */
     private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var GetChangedBlockIdentifiers
-     */
-    private GetChangedBlockIdentifiers $getChangedBlockIdentifier;
+    /** @var EmailService */
+    private EmailService $emailService;
 
-    /**
-     * @var GetFilesContentInformation
-     */
-    private GetFilesContentInformation $getFilesContentInformation;
+    /** @var BlockQueryService */
+    private BlockQueryService $blockQueryService;
 
-    /**
-     * @var EmailMessageInterfaceFactory
-     */
-    private EmailMessageInterfaceFactory $messageFactory;
+    /** @var CacheInterface */
+    private CacheInterface $cache;
 
-    /**
-     * @var MimePartInterfaceFactory
-     */
-    private MimePartInterfaceFactory $mimePartFactory;
-
-    /**
-     * @var AddressFactory
-     */
-    private AddressFactory $addressFactory;
-
-    /**
-     * @var MimeMessageFactory
-     */
-    private MimeMessageFactory $mimeMessageFactory;
+    /** @var Escaper */
+    private Escaper $escaper;
 
     /**
      * @param LoggerInterface $logger
-     * @param TransportInterfaceFactory $mailTransportFactory
-     * @param EmailMessageInterfaceFactory $messageFactory
      * @param ScopeConfigInterface $scopeConfig
-     * @param GetFilesContentInformation $getFilesContentInformation
-     * @param GetChangedBlockIdentifiers $getChangedBlockIdentifier
-     * @param MimePartInterfaceFactory $mimePartFactory
-     * @param MimeMessageFactory $mimeMessageFactory
-     * @param AddressFactory $addressFactory
+     * @param EmailService $emailService
+     * @param BlockQueryService $blockQueryService
+     * @param CacheInterface $cache
+     * @param Escaper $escaper
      */
     public function __construct(
         LoggerInterface $logger,
-        TransportInterfaceFactory $mailTransportFactory,
-        EmailMessageInterfaceFactory $messageFactory,
         ScopeConfigInterface $scopeConfig,
-        GetFilesContentInformation $getFilesContentInformation,
-        GetChangedBlockIdentifiers $getChangedBlockIdentifier,
-        MimePartInterfaceFactory $mimePartFactory,
-        MimeMessageFactory $mimeMessageFactory,
-        AddressFactory $addressFactory
+        EmailService $emailService,
+        BlockQueryService $blockQueryService,
+        CacheInterface $cache,
+        Escaper $escaper
     ) {
         $this->logger = $logger;
-        $this->mailTransportFactory = $mailTransportFactory;
-        $this->messageFactory =$messageFactory;
         $this->scopeConfig = $scopeConfig;
-        $this->getFilesContentInformation = $getFilesContentInformation;
-        $this->getChangedBlockIdentifier = $getChangedBlockIdentifier;
-        $this->mimePartFactory = $mimePartFactory;
-        $this->mimeMessageFactory = $mimeMessageFactory;
-        $this->addressFactory = $addressFactory;
+        $this->emailService = $emailService;
+        $this->blockQueryService = $blockQueryService;
+        $this->cache = $cache;
+        $this->escaper = $escaper;
     }
 
     /**
-     * call sendEmail function or write to system.log
-     *
+     * Checks for changed block identifiers and sends an email if changes are detected.
      * @return void
-     * @throws \Exception
      */
     public function execute(): void
     {
-        $filesContentInformation = $this->getFilesContentInformation->execute();
-        $changedBlocksIdentifier = $this->getChangedBlockIdentifier->execute($filesContentInformation);
+        if (!$this->canSendEmail()) {
+            return;
+        }
+
+        $filesContentInformation = $this->blockQueryService->getFilesContentInformation();
+        $changedBlocksIdentifier = $this->blockQueryService->getChangedBlockIdentifiers($filesContentInformation);
+
         if ($changedBlocksIdentifier) {
             $emailMessage = $this->getValuesForEmail($changedBlocksIdentifier);
             $this->sendEmail($emailMessage);
+            $this->updateLastEmailSentTimestamp();
         } else {
-            $this->logger->info("No changed blocks found.");
+            $this->logger->info('No changed blocks found.');
         }
     }
 
     /**
-     * Transform array values into a string to be displayed in the email
+     * Transform array values into an HTML string to be displayed in the email
      * @param CmsBlockDto[] $entries
      * @return string
      */
     private function getValuesForEmail(array $entries): string
     {
-        $entriesList = [];
+        // Get the shop URL to identify which system the email comes from
+        $shopUrl = $this->scopeConfig->getValue('web/secure/base_url') ?:
+                   $this->scopeConfig->getValue('web/unsecuresecure/base_url') ?:
+                   '#UnknownShopUrl';
+
+        $emailContent = '<html><body>';
+        $emailContent .= '<p>Hello,<br>';
+        $emailContent .= 'This is an automated report from <a href="' .
+                         $this->escaper->escapeHtml($shopUrl) . '">' .
+                         $this->escaper->escapeHtml($shopUrl) . '</a>.</p>';
+        $emailContent .= '<p>The following CMS blocks have differing content between code & DB:</p>';
+
+        $emailContent .= '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">';
+        $emailContent .= '<thead>';
+        $emailContent .= '<tr style="background-color: #f0f0f0;">';
+        $emailContent .= '<th style="text-align: left; padding: 8px;">Key</th>';
+        $emailContent .= '<th style="text-align: left; padding: 8px;">Identifier</th>';
+        $emailContent .= '<th style="text-align: left; padding: 8px;">Stores</th>';
+        $emailContent .= '<th style="text-align: left; padding: 8px;">Maintained</th>';
+        $emailContent .= '<th style="text-align: left; padding: 8px;">Active</th>';
+        $emailContent .= '<th style="text-align: left; padding: 8px;">Title</th>';
+        $emailContent .= '<th style="text-align: left; padding: 8px;">Block ID(s) in DB</th>';
+        $emailContent .= '</tr>';
+        $emailContent .= '</thead>';
+        $emailContent .= '<tbody>';
+
         foreach ($entries as $entry) {
-            $entriesList[] = "key: " . $entry->getKey() . ", identifier: " . $entry->getIdentifier();
+            $storeCodes = $entry->getStoreCodes();
+            $dbBlockIds = $this->blockQueryService->getDbBlockIds($entry->getKey());
+            $emailContent .= '<tr>';
+            $emailContent .= '<td style="padding: 8px;">' . $this->escaper->escapeHtml($entry->getKey()) . '</td>';
+            $emailContent .= '<td style="padding: 8px;">' .
+                $this->escaper->escapeHtml($entry->getIdentifier()) . '</td>';
+            $emailContent .= '<td style="padding: 8px;">' .
+                             $this->escaper->escapeHtml(implode(', ', $storeCodes)) . '</td>';
+            $emailContent .= '<td style="padding: 8px;">' .
+                             $this->escaper->escapeHtml($entry->isMaintained() ? 'yes' : 'no') . '</td>';
+            $emailContent .= '<td style="padding: 8px;">' .
+                             $this->escaper->escapeHtml($entry->isActive() ? 'yes' : 'no') . '</td>';
+            $emailContent .= '<td style="padding: 8px;">' . $this->escaper->escapeHtml($entry->getTitle()) . '</td>';
+            $emailContent .= '<td style="padding: 8px;">' .
+                             $this->escaper->escapeHtml(implode(',', $dbBlockIds)) . '</td>';
+            $emailContent .= '</tr>';
         }
-        return implode(PHP_EOL, $entriesList);
+
+        $emailContent .= '</tbody>';
+        $emailContent .= '</table>';
+
+        // Add closing formula with recommendation
+        $emailContent .= '<br>';
+        $emailContent .= '<p>Recommendation:<br>';
+        $emailContent .= 'The code should probably be adjusted to match the state in the database ';
+        $emailContent .= 'so that all systems have consistent content.</p>';
+
+        // Add friendly farewell
+        $emailContent .= '<br>';
+        $emailContent .= 'Best regards,<br>';
+        $emailContent .= 'Your <a href="https://github.com/magento-hackathon/m2-content-provisioning">' .
+                         'firegento/magento2-content-provisioning</a>!';
+
+        $emailContent .= '</body></html>';
+
+        return $emailContent;
     }
 
     /**
@@ -157,62 +179,72 @@ class InconsistenciesInCmsBlock
      */
     private function sendEmail(string $messageText): void
     {
-        if ($this->hasRecipientEmail()) {
-            try {
-                $mimePart = $this->mimePartFactory->create(
-                    [
-                        'content' => $messageText,
-                        'type' => 'text/plain',
-                        'charset' => 'utf-8'
-                    ]
-                );
+        // Get shop name and create dynamic subject
+        $shopName = $this->scopeConfig->getValue('general/store_information/name') ?: 'Shop';
+        $subject = $shopName . ': ' . self::EMAIL_SUBJECT;
 
-                $message = $this->mimeMessageFactory->create(
-                    [
-                        'parts' => [$mimePart]
-                    ]
-                );
-
-                $from = $this->addressFactory->create(
-                    [
-                        'email' => $this->scopeConfig->getValue(self::SENDER_EMAIL),
-                        'name' => ''
-                    ]
-                );
-
-                $to = $this->addressFactory->create(
-                    [
-                        'email' => $this->scopeConfig->getValue(self::RECIPIENT_EMAIL),
-                        'name' => ''
-                    ]
-                );
-
-                $data = $this->messageFactory->create(
-                    [
-                        'subject' => self::EMAIL_SUBJECT,
-                        'from' => [$from],
-                        'to' => [$to],
-                        'body' => $message
-                    ]
-                );
-
-                /** @var TransportInterface $transport */
-                $transport = $this->mailTransportFactory->create(['message' => $data]);
-                $transport->sendMessage();
-            } catch (\Exception $e) {
-                $this->logger->error($e->getMessage());
-            }
-        } else {
-            $this->logger->error("Email not sent! No recipient email found.");
-        }
+        $this->emailService->sendEmail(
+            $messageText,
+            $subject,
+            self::CONFIG_PATH_SENDER_EMAIL,
+            self::CONFIG_PATH_RECIPIENT_EMAIL
+        );
     }
 
     /**
-     * Check if there is any email saved in the admin panel
+     * Check if an email can be sent based on the configured frequency
      * @return bool
      */
-    private function hasRecipientEmail(): bool
+    private function canSendEmail(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::RECIPIENT_EMAIL) ? true : false;
+        $enabled = $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ENABLED);
+
+        if (!$enabled) {
+            return false;
+        }
+
+        $lastEmailSent = $this->cache->load(self::CACHE_KEY_LAST_EMAIL_SENT);
+
+        if (!$lastEmailSent) {
+            return true; // No previous email sent, allow sending
+        }
+
+        $lastEmailTimestamp = (int)$lastEmailSent;
+        $nextAllowedSendTime = $this->getNextAllowedSendTime($lastEmailTimestamp);
+
+        return time() >= $nextAllowedSendTime;
+    }
+
+    /**
+     * Update the timestamp of the last sent email in cache
+     * @return void
+     */
+    private function updateLastEmailSentTimestamp(): void
+    {
+        $this->cache->save(
+            (string)time(),
+            self::CACHE_KEY_LAST_EMAIL_SENT,
+            [],
+            null // No expiration, we want to keep this indefinitely
+        );
+    }
+
+    /**
+     * Get the next allowed send time based on the configured frequency
+     * @param int $lastEmailTimestamp
+     * @return int
+     */
+    private function getNextAllowedSendTime(int $lastEmailTimestamp): int
+    {
+        $frequency = $this->scopeConfig->getValue(self::CONFIG_PATH_EMAIL_FREQUENCY);
+
+        return match ($frequency) {
+            EmailFrequency::DAILY => strtotime('+1 day', $lastEmailTimestamp),
+            EmailFrequency::WEEKLY => strtotime('+1 week', $lastEmailTimestamp),
+            EmailFrequency::MONTHLY => strtotime('+1 month', $lastEmailTimestamp),
+            EmailFrequency::QUARTERLY => strtotime('+3 months', $lastEmailTimestamp),
+            EmailFrequency::YEARLY => strtotime('+1 year', $lastEmailTimestamp),
+            default => strtotime('+1 month', $lastEmailTimestamp),
+        };
     }
 }
