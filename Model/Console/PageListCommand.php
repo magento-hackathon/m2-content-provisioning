@@ -43,11 +43,11 @@ class PageListCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return void
+     * @return int
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table($output);
         $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
@@ -67,13 +67,15 @@ class PageListCommand extends Command
             );
         }
 
-        $table->render($output);
+        $table->render();
+
+        return Command::SUCCESS;
     }
 
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('content-provisioning:page:list');
         $this->setDescription('List all configured CMS page entries');

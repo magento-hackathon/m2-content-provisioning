@@ -100,11 +100,11 @@ class BlockListCommand extends Command
         if ($input->getOption(self::PARAM_CHANGED_ONLY)) {
             $changedBlockDto = $this->getChangedCmsBlockEntries();
             $tableData = $this->changedBlockDataProvider->execute($output, $changedBlockDto);
-            $tableData->render($output);
+            $tableData->render();
         } else {
             $blockEntries = $this->getAllBlockEntries->get();
             $tableData = $this->blockDataProvider->execute($output, $blockEntries);
-            $tableData->render($output);
+            $tableData->render();
         }
 
         return Command::SUCCESS;
@@ -113,7 +113,7 @@ class BlockListCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('content-provisioning:block:list');
         $this->setDescription('List all configured CMS block entries');

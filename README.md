@@ -11,6 +11,17 @@ This module was developed during a Magento Hackathon organized by FireGento e.V.
 #### Build-Status (`develop` branch)
 [![pipeline status](https://gitlab.met.tdintern.de/techdivision-public/m2-content-provisioning/badges/develop/pipeline.svg)](https://gitlab.met.tdintern.de/techdivision-public/m2-content-provisioning/-/commits/develop)
 
+## Compatibility
+
+| Requirement | Version |
+|-------------|---------|
+| Magento     | >= 2.4.9 |
+| PHP         | ^8.4 |
+
+Older Magento/PHP combinations may still work thanks to the loose `magento/module-*` version constraints in
+`composer.json`, but they are no longer actively tested. See [CHANGELOG.md](CHANGELOG.md) for details on which
+PHP versions were supported by earlier releases of this module.
+
 ## The idea behind this module
 
 It is a common requirement, that some parts of content (like CMS pages or blocks) need be deployed within a release.
