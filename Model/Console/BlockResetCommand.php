@@ -19,7 +19,6 @@ use Firegento\ContentProvisioning\Exception\CommandInputException;
 use Firegento\ContentProvisioning\Model\Command\ApplyBlockEntry;
 use Firegento\ContentProvisioning\Model\Command\ApplyMediaFiles;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
-use Magento\Framework\Console\Cli;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -93,7 +92,7 @@ class BlockResetCommand extends Command
             [$search, $type] = $this->parseParams($input);
         } catch (CommandInputException $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>' . "\n");
-            return Cli::RETURN_FAILURE;
+            return Command::FAILURE;
         }
 
         $blockEntries = $this->getBlockEntries($search, $type);
@@ -101,7 +100,7 @@ class BlockResetCommand extends Command
 
         if (empty($blockEntries)) {
             $output->writeln('<error>block entry not found for ' . $type . ' "' . $search . '"</error>' . "\n");
-            return Cli::RETURN_FAILURE;
+            return Command::FAILURE;
         }
 
         try {
@@ -112,13 +111,13 @@ class BlockResetCommand extends Command
             }
         } catch (Exception $exception) {
             $output->writeln('<error>' . $exception->getMessage() . '</error>' . "\n");
-            return Cli::RETURN_FAILURE;
+            return Command::FAILURE;
         }
 
         $pluralS = ($updateCount > 1) ? 's' : '';
         $output->writeln('<info>' . $updateCount . ' block' . $pluralS . ' successfully updated</info>');
 
-        return Cli::RETURN_SUCCESS;
+        return Command::SUCCESS;
     }
 
     /**

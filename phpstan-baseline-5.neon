@@ -1,0 +1,81 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Class Magento\\\\Cms\\\\Model\\\\BlockFactory not found\\.$#"
+			count: 1
+			path: Controller/Adminhtml/Block/Save.php
+
+		-
+			message: "#^Parameter \\#1 \\$model of method Firegento\\\\ContentProvisioning\\\\Controller\\\\Adminhtml\\\\Block\\\\Save\\:\\:processBlockReturn\\(\\) expects Magento\\\\Cms\\\\Model\\\\Block, Magento\\\\Cms\\\\Api\\\\Data\\\\BlockInterface given\\.$#"
+			count: 1
+			path: Controller/Adminhtml/Block/Save.php
+
+		-
+			message: "#^Parameter \\#2 \\$alternativeText of method Magento\\\\Framework\\\\Message\\\\ManagerInterface\\:\\:addExceptionMessage\\(\\) expects string\\|null, Magento\\\\Framework\\\\Phrase given\\.$#"
+			count: 1
+			path: Controller/Adminhtml/Block/Save.php
+
+		-
+			message: "#^Class Magento\\\\Cms\\\\Model\\\\PageFactory not found\\.$#"
+			count: 1
+			path: Controller/Adminhtml/Page/Save.php
+
+		-
+			message: "#^Parameter \\#1 \\$exception of method Magento\\\\Framework\\\\Message\\\\ManagerInterface\\:\\:addExceptionMessage\\(\\) expects Exception, Throwable given\\.$#"
+			count: 1
+			path: Controller/Adminhtml/Page/Save.php
+
+		-
+			message: "#^Parameter \\#2 \\$alternativeText of method Magento\\\\Framework\\\\Message\\\\ManagerInterface\\:\\:addExceptionMessage\\(\\) expects string\\|null, Magento\\\\Framework\\\\Phrase given\\.$#"
+			count: 1
+			path: Controller/Adminhtml/Page/Save.php
+
+		-
+			message: "#^Variable \\$page in PHPDoc tag @var does not match assigned variable \\$block\\.$#"
+			count: 1
+			path: Model/Command/ApplyBlockEntry.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
+			count: 1
+			path: Model/Command/ApplyMediaFiles.php
+
+		-
+			message: "#^Call to an undefined method Magento\\\\Cms\\\\Api\\\\Data\\\\PageInterface\\:\\:addData\\(\\)\\.$#"
+			count: 1
+			path: Model/Command/ApplyPageEntry.php
+
+		-
+			message: "#^Parameter \\#2 \\$blockEntries of method Firegento\\\\ContentProvisioning\\\\ViewModel\\\\BlockDataProvider\\:\\:execute\\(\\) expects array\\<Firegento\\\\ContentProvisioning\\\\Model\\\\BlockEntry\\>, array\\<Firegento\\\\ContentProvisioning\\\\Api\\\\Data\\\\BlockEntryInterface\\> given\\.$#"
+			count: 1
+			path: Model/Console/BlockListCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$entry of method Firegento\\\\ContentProvisioning\\\\Model\\\\Console\\\\PageListCommand\\:\\:getExistsInDbValue\\(\\) expects Firegento\\\\ContentProvisioning\\\\Api\\\\Data\\\\PageEntryInterface, Firegento\\\\ContentProvisioning\\\\Api\\\\Data\\\\EntryInterface given\\.$#"
+			count: 1
+			path: Model/Console/PageListCommand.php
+
+		-
+			message: "#^Method Firegento\\\\ContentProvisioning\\\\Model\\\\Query\\\\GetDbBlockIds\\:\\:execute\\(\\) should return array\\<string\\> but returns array\\<int\\<0, max\\>, int\\|null\\>\\.$#"
+			count: 1
+			path: Model/Query/GetDbBlockIds.php
+
+		-
+			message: "#^Parameter \\#1 \\$blockId of method Magento\\\\Cms\\\\Api\\\\BlockRepositoryInterface\\:\\:getById\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: Model/Query/HasDefaultBlockConfiguration.php
+
+		-
+			message: "#^Parameter \\#1 \\$blockId of method Magento\\\\Cms\\\\Api\\\\BlockRepositoryInterface\\:\\:getById\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: Model/Query/IsBlockMaintained.php
+
+		-
+			message: "#^Method Firegento\\\\ContentProvisioning\\\\Model\\\\ResourceModel\\\\GetCmsBlockByIdentifier\\:\\:execute\\(\\) should return array\\<Magento\\\\Cms\\\\Model\\\\Block\\> but returns array\\<string\\>\\.$#"
+			count: 1
+			path: Model/ResourceModel/GetCmsBlockByIdentifier.php
+
+		-
+			message: "#^Cannot access offset 'store_code' on int\\.$#"
+			count: 1
+			path: Model/ResourceModel/GetDbCmsBlockContent.php

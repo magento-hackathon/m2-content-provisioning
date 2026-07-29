@@ -1,0 +1,23 @@
+# call ../../bin/phpstan analyse . -c phpstan.neon
+includes:
+    # Zeile mit jeweiligen Baselevel auskommentieren (#), damit man die Meldungen direkt als phpstan Ausgabe sieht
+    - phpstan-baseline-5.neon
+parameters:
+    phpVersion: 80400
+    level: 5
+    excludePaths:
+        analyseAndScan:
+            - Test
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+            # Magento 2 defines https://martens.me/programming/phpstan-static-code-analyzer-for-magento-2.html
+            - '#Call to an undefined method [a-zA-Z0-9\\_]+::(get|set|unset|has|is)[A-Z]#'
+            - '#Variable \$block might not be defined.#'
+            - '#Variable \$this might not be defined.#'
+            - '#Call to an undefined method [a-zA-Z0-9\\_]+::(load)#'
+            - '#SimpleXMLElement does not accept string#'
+            - '#callback of method Magento\\Framework\\Data\\Collection+::(walk)#'
+            - '#[a-zA-Z0-9\\_]*has unknown class [a-zA-Z0-9\\_]*Factory as its type#'
+            - '#[a-zA-Z0-9\\_]*has invalid type [a-zA-Z0-9\\_]*Factory#'
+            - '#[a-zA-Z0-9\\_]*(on|of) an unknown class [a-zA-Z0-9\\_]*Factory#'
+            - '#[a-zA-Z0-9\\_]*contains unknown class [a-zA-Z0-9\\_]*Factory#'

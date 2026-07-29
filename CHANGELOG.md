@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 1.7.0
+
+* *Compatibility:* Add Magento 2.4.9 / PHP 8.4 compatibility
+  * Remove PHP 8.1 / 8.2 / 8.3 support, require PHP ^8.4
+  * Bump `magento/framework` requirement to `~103.0.9`
+  * Fix fatal error in `content-provisioning:block:apply`, `content-provisioning:page:apply` and
+    `content-provisioning:page:list` CLI commands: `execute()` did not declare the `: int` return type
+    required by `symfony/console` 7.x (bundled with Magento 2.4.9), which caused a fatal
+    `Declaration ... must be compatible with Command::execute(): int` error on class load
+  * Add `: void` return type to all `configure()` overrides in `Model/Console/*Command.php` for consistency
+  * Fix `Symfony\Component\Console\Helper\Table::render()` calls in `BlockListCommand` and `PageListCommand`:
+    the method no longer accepts an `OutputInterface` argument in `symfony/console` 7.x
+  * Fix incorrect `@var` docblocks in `AddBlockCommand`/`AddPageCommand` (properties were documented as the
+    plain query class instead of their `*Factory` counterpart, which is what is actually injected/stored)
+  * Remove `xdebug.max_nesting_level` ini setting from `Test/Integration/phpunit.gitlab.xml` and
+    `phpunit9.gitlab.xml`
+  * Add PHPStan (level 5, phpVersion 80400) static analysis configuration with a baseline for pre-existing
+    findings
+  * Add `AGENTS.md`
+
 ## 1.6.0
 
 * *Improvement:* Refactoring code base of module

@@ -4,9 +4,7 @@ declare(strict_types=1);
 namespace Firegento\ContentProvisioning\Model\Console;
 
 use Firegento\ContentProvisioning\Model\Command\ApplyPageEntry;
-use Firegento\ContentProvisioning\Model\Query\GetPageEntryByKey;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryByKeyFactory;
-use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +16,7 @@ class AddPageCommand extends Command
     public const ARG_PAGE_KEY = 'key';
 
     /**
-     * @var GetPageEntryByKey
+     * @var GetPageEntryByKeyFactory
      */
     private $getPageEntryByKeyFactory;
 
@@ -56,13 +54,13 @@ class AddPageCommand extends Command
         $page = $this->getPageEntryByKeyFactory->create()->get($key);
         $this->applyPageEntry->execute($page);
 
-        return Cli::RETURN_SUCCESS;
+        return Command::SUCCESS;
     }
 
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('content-provisioning:page:apply');
         $this->setDescription('Add a page by key');

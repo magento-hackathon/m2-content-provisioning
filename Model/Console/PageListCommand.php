@@ -7,7 +7,6 @@ use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryList as GetPageEntryList;
 use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry as GetPagesByPageEntry;
-use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -68,15 +67,15 @@ class PageListCommand extends Command
             );
         }
 
-        $table->render($output);
+        $table->render();
 
-        return Cli::RETURN_SUCCESS;
+        return Command::SUCCESS;
     }
 
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('content-provisioning:page:list');
         $this->setDescription('List all configured CMS page entries');

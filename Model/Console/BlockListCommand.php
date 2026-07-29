@@ -25,7 +25,6 @@ use Firegento\ContentProvisioning\Model\Query\GetChangedBlockIdentifiers;
 use Firegento\ContentProvisioning\Model\Query\GetFilesContentInformation;
 use Firegento\ContentProvisioning\ViewModel\BlockDataProvider;
 use Firegento\ContentProvisioning\ViewModel\ChangedBlockDataProvider;
-use Magento\Framework\Console\Cli;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -100,20 +99,20 @@ class BlockListCommand extends Command
         if ($input->getOption(self::PARAM_CHANGED_ONLY)) {
             $changedBlockDto = $this->getChangedCmsBlockEntries();
             $tableData = $this->changedBlockDataProvider->execute($output, $changedBlockDto);
-            $tableData->render($output);
+            $tableData->render();
         } else {
             $blockEntries = $this->getAllBlockEntries->get();
             $tableData = $this->blockDataProvider->execute($output, $blockEntries);
-            $tableData->render($output);
+            $tableData->render();
         }
 
-        return Cli::RETURN_SUCCESS;
+        return Command::SUCCESS;
     }
 
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('content-provisioning:block:list');
         $this->setDescription('List all configured CMS block entries');
