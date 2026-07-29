@@ -1,3 +1,7 @@
 /.idea
 /Test/*/phpunit.local.*
+<<<<<<< HEAD
 /Test/*/phpunit.dev.*
+=======
+
+>>>>>>> origin/1.0
