@@ -1,0 +1,4 @@
+services:
+  php:
+    version: 8.4
+

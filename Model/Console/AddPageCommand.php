@@ -6,6 +6,7 @@ namespace Firegento\ContentProvisioning\Model\Console;
 use Firegento\ContentProvisioning\Model\Command\ApplyPageEntry;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryByKey;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryByKeyFactory;
+use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,7 +35,7 @@ class AddPageCommand extends Command
     public function __construct(
         GetPageEntryByKeyFactory $getPageEntryByKeyFactory,
         ApplyPageEntry $applyPageEntry,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->getPageEntryByKeyFactory = $getPageEntryByKeyFactory;
@@ -44,16 +45,18 @@ class AddPageCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return void
+     * @return int
      * @throws LocalizedException
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $key = $input->getArgument(self::ARG_PAGE_KEY);
         $page = $this->getPageEntryByKeyFactory->create()->get($key);
         $this->applyPageEntry->execute($page);
+
+        return Cli::RETURN_SUCCESS;
     }
 
     /**

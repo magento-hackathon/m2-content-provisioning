@@ -7,6 +7,7 @@ use Firegento\ContentProvisioning\Api\Data\EntryInterface;
 use Firegento\ContentProvisioning\Api\Data\PageEntryInterface;
 use Firegento\ContentProvisioning\Model\Query\GetPageEntryList as GetPageEntryList;
 use Firegento\ContentProvisioning\Model\Query\GetPagesByPageEntry as GetPagesByPageEntry;
+use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -33,7 +34,7 @@ class PageListCommand extends Command
     public function __construct(
         GetPageEntryList $getAllContentEntries,
         GetPagesByPageEntry $getPagesByPageEntry,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->getAllContentEntries = $getAllContentEntries;
@@ -43,11 +44,11 @@ class PageListCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return void
+     * @return int
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table($output);
         $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
@@ -68,6 +69,8 @@ class PageListCommand extends Command
         }
 
         $table->render($output);
+
+        return Cli::RETURN_SUCCESS;
     }
 
     /**

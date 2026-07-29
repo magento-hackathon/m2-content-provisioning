@@ -6,6 +6,7 @@ namespace Firegento\ContentProvisioning\Model\Console;
 use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
 use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList as GetBlockEntryList;
 use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry as GetBlocksByBlockEntry;
+use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -32,7 +33,7 @@ class BlockListCommand extends Command
     public function __construct(
         GetBlockEntryList $getAllBlockEntries,
         GetBlocksByBlockEntry $getBlocksByBlockEntry,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
         $this->getAllBlockEntries = $getAllBlockEntries;
@@ -42,11 +43,11 @@ class BlockListCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return void
+     * @return int
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table($output);
         $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
@@ -66,6 +67,8 @@ class BlockListCommand extends Command
         }
 
         $table->render($output);
+
+        return Cli::RETURN_SUCCESS;
     }
 
     /**
