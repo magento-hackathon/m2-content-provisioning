@@ -104,7 +104,10 @@
     <type name="Firegento\ContentProvisioning\Model\Console\BlockListCommand">
         <arguments>
             <argument name="getAllBlockEntries" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetBlockEntryList\Proxy</argument>
-            <argument name="getBlocksByBlockEntry" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry\Proxy</argument>
+            <argument name="getFilesContentInformation" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetFilesContentInformation\Proxy</argument>
+            <argument name="getChangedBlocksIdentifier" xsi:type="object">Firegento\ContentProvisioning\Model\Query\GetChangedBlockIdentifiers\Proxy</argument>
+            <argument name="changedBlockDataProvider" xsi:type="object">Firegento\ContentProvisioning\ViewModel\ChangedBlockDataProvider\Proxy</argument>
+            <argument name="blockDataProvider" xsi:type="object">Firegento\ContentProvisioning\ViewModel\BlockDataProvider\Proxy</argument>
         </arguments>
     </type>
     <type name="Firegento\ContentProvisioning\Model\Console\BlockResetCommand">

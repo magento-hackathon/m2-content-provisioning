@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright (c) 2025 TechDivision GmbH
+ * All rights reserved
+ *
+ * This product includes proprietary software developed at TechDivision GmbH, Germany
+ * For more information see https://www.techdivision.com/
+ *
+ * To obtain a valid license for using this software please contact us at
+ * license@techdivision.com
+ *
+ * @copyright  Copyright (c) 2025 TechDivision GmbH (https://www.techdivision.com)
+ * @link       https://www.techdivision.com/
+ * @author     TechDivision Team Zero <zero@techdivision.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job instance="Firegento\ContentProvisioning\Cron\InconsistenciesInCmsBlock" method="execute" name="cms_block_inconsistencies_detector">
+            <config_path>trans_email/ident_content_provisioning/cron_schedule</config_path>
+        </job>
+    </group>
+</config>

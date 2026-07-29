@@ -1,72 +1,111 @@
 <?php
+
 declare(strict_types=1);
+
+/**
+ * Copyright (c) 2024 TechDivision GmbH
+ * All rights reserved
+ *
+ * This product includes proprietary software developed at TechDivision GmbH, Germany
+ * For more information see https://www.techdivision.com/
+ *
+ * To obtain a valid license for using this software please contact us at
+ * license@techdivision.com
+ *
+ * @copyright  Copyright (c) 2024 TechDivision GmbH (https://www.techdivision.com)
+ * @author     TechDivision Team Zero <zero@techdivision.com>
+ * @link       https://www.techdivision.com/
+ */
 
 namespace Firegento\ContentProvisioning\Model\Console;
 
-use Firegento\ContentProvisioning\Api\Data\BlockEntryInterface;
-use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList as GetBlockEntryList;
-use Firegento\ContentProvisioning\Model\Query\GetBlocksByBlockEntry as GetBlocksByBlockEntry;
+use Firegento\ContentProvisioning\Model\DTO\CmsBlockDto;
+use Firegento\ContentProvisioning\Model\Query\GetBlockEntryList;
+use Firegento\ContentProvisioning\Model\Query\GetChangedBlockIdentifiers;
+use Firegento\ContentProvisioning\Model\Query\GetFilesContentInformation;
+use Firegento\ContentProvisioning\ViewModel\BlockDataProvider;
+use Firegento\ContentProvisioning\ViewModel\ChangedBlockDataProvider;
 use Magento\Framework\Console\Cli;
-use Magento\Framework\Exception\LocalizedException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class BlockListCommand extends Command
 {
+    public const PARAM_CHANGED_ONLY = 'changed-only';
+
     /**
      * @var GetBlockEntryList
      */
-    private $getAllBlockEntries;
+    private GetBlockEntryList $getAllBlockEntries;
 
     /**
-     * @var GetBlocksByBlockEntry
+     * @var GetChangedBlockIdentifiers
      */
-    private $getBlocksByBlockEntry;
+    private GetChangedBlockIdentifiers $getChangedBlocksIdentifier;
+
+    /**
+     * @var ChangedBlockDataProvider
+     */
+    private ChangedBlockDataProvider $changedBlockDataProvider;
+
+    /**
+     * @var GetFilesContentInformation
+     */
+    private GetFilesContentInformation $getFilesContentInformation;
+
+    /**
+     * @var BlockDataProvider
+     */
+    private BlockDataProvider $blockDataProvider;
 
     /**
      * @param GetBlockEntryList $getAllBlockEntries
-     * @param GetBlocksByBlockEntry $getBlocksByBlockEntry
+     * @param GetFilesContentInformation $getFilesContentInformation
+     * @param GetChangedBlockIdentifiers $getChangedBlocksIdentifier
+     * @param ChangedBlockDataProvider $changedBlockDataProvider
+     * @param BlockDataProvider $blockDataProvider
      * @param string|null $name
      */
     public function __construct(
         GetBlockEntryList $getAllBlockEntries,
-        GetBlocksByBlockEntry $getBlocksByBlockEntry,
+        GetFilesContentInformation $getFilesContentInformation,
+        GetChangedBlockIdentifiers $getChangedBlocksIdentifier,
+        ChangedBlockDataProvider $changedBlockDataProvider,
+        BlockDataProvider $blockDataProvider,
         ?string $name = null
     ) {
-        parent::__construct($name);
         $this->getAllBlockEntries = $getAllBlockEntries;
-        $this->getBlocksByBlockEntry = $getBlocksByBlockEntry;
+        $this->getFilesContentInformation = $getFilesContentInformation;
+        $this->getChangedBlocksIdentifier = $getChangedBlocksIdentifier;
+        $this->changedBlockDataProvider = $changedBlockDataProvider;
+        $this->blockDataProvider = $blockDataProvider;
+        parent::__construct($name);
     }
 
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
+     * @throws \Exception
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $table = new Table($output);
-        $table->setHeaders(['Key', 'Identifier', 'Stores', 'Maintained', 'Active', 'Title', 'in DB (IDs)']);
-
-        foreach ($this->getAllBlockEntries->get() as $entry) {
-            $table->addRow(
-                [
-                    $entry->getKey(),
-                    $entry->getIdentifier(),
-                    implode(', ', $entry->getStores()),
-                    $entry->isMaintained() ? 'yes' : 'no',
-                    $entry->isActive() ? 'yes' : 'no',
-                    $entry->getTitle(),
-                    $this->getExistsInDbValue($entry),
-                ]
-            );
+        if ($input->getOption(self::PARAM_CHANGED_ONLY)) {
+            $changedBlockDto = $this->getChangedCmsBlockEntries();
+            $tableData = $this->changedBlockDataProvider->execute($output, $changedBlockDto);
+            $tableData->render($output);
+        } else {
+            $blockEntries = $this->getAllBlockEntries->get();
+            $tableData = $this->blockDataProvider->execute($output, $blockEntries);
+            $tableData->render($output);
         }
-
-        $table->render($output);
 
         return Cli::RETURN_SUCCESS;
     }
@@ -78,28 +117,22 @@ class BlockListCommand extends Command
     {
         $this->setName('content-provisioning:block:list');
         $this->setDescription('List all configured CMS block entries');
+        $this->addOption(
+            self::PARAM_CHANGED_ONLY,
+            null,
+            InputOption::VALUE_NONE,
+            'Parameter to list (only) changed blocks.'
+        );
         parent::configure();
     }
 
     /**
-     * @param BlockEntryInterface $entry
-     * @return string
+     * @return CmsBlockDto[]
+     * @throws \Exception
      */
-    private function getExistsInDbValue(BlockEntryInterface $entry): string
+    private function getChangedCmsBlockEntries(): array
     {
-        try {
-            $ids = [];
-            foreach ($this->getBlocksByBlockEntry->execute($entry) as $page) {
-                $ids[] = $page->getId();
-            }
-
-            if (empty($ids)) {
-                return 'no';
-            }
-
-            return 'yes (' . implode(', ', $ids) . ')';
-        } catch (LocalizedException $noSuchEntityException) {
-            return 'ERROR: ' . $noSuchEntityException->getMessage();
-        }
+        $files = $this->getFilesContentInformation->execute();
+        return $this->getChangedBlocksIdentifier->execute($files);
     }
 }

@@ -62,7 +62,7 @@ class AddBlockCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('content-provisioning:block:apply');
         $this->setDescription('Add a block by key');

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) 2025 TechDivision GmbH <info@techdivision.com> - TechDivision GmbH
+ * All rights reserved
+ *
+ * This product includes proprietary software developed at TechDivision GmbH, Germany
+ * For more information see https://www.techdivision.com/
+ *
+ * To obtain a valid license for using this software please contact us at
+ * license@techdivision.com
+ *
+ * @copyright  Copyright (c) 2025 TechDivision GmbH <info@techdivision.com> - TechDivision GmbH
+ * @link       https://www.techdivision.com/
+ * @author     Team Zero <zero@techdivision.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <trans_email>
+            <ident_content_provisioning>
+                <enabled>0</enabled>
+                <email_frequency>monthly</email_frequency>
+                <cron_schedule>0 7 * * *</cron_schedule>
+            </ident_content_provisioning>
+        </trans_email>
+    </default>
+</config>
